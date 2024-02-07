@@ -29,7 +29,7 @@ public class Flat {
     private boolean isAvailable;
 
     @Column(name = "rent")
-    private BigDecimal rent;
+    private double rent;
 
     @ManyToOne
     @JoinColumn(name = "building_id", referencedColumnName = "id", insertable = false, updatable = false)
@@ -46,7 +46,7 @@ public class Flat {
 
 	public Flat(@Min(value = 1, message = "Area must be greater than or equal to 1") int area,
 			@Min(value = 1, message = "Floor must be greater than or equal to 1") int floor, String type,
-			boolean isAvailable, BigDecimal rent) {
+			boolean isAvailable, double rent) {
 		super();
 		this.area = area;
 		this.floor = floor;
@@ -95,11 +95,11 @@ public class Flat {
 		this.isAvailable = isAvailable;
 	}
 
-	public BigDecimal getRent() {
+	public double getRent() {
 		return rent;
 	}
 
-	public void setRent(BigDecimal rent) {
+	public void setRent(double rent) {
 		this.rent = rent;
 	}
 

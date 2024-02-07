@@ -4,9 +4,12 @@ package com.app.services;
 import com.app.dao.BuildingRepository;
 import com.app.dao.UserRepository;
 import com.app.dto.BuildingDTO;
+import com.app.dto.UserDTO;
 import com.app.pojos.Building;
 import com.app.pojos.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -39,5 +42,18 @@ public class BuildingServiceImpl implements BuildingService {
     	buildingRepository.save(newBuilding);
         return buildingDTO;
     }
+
+	@Override
+	public List<BuildingDTO> getAllBuilding() {
+		List<Building> buildings=buildingRepository.findAll();
+		List<BuildingDTO> buildingDTO=new ArrayList<>();
+		for(Building b:buildings) {
+			buildingDTO.add(modelMapper.map(b, BuildingDTO.class));
+		}
+		return buildingDTO;
+	}
+    
+    
+    
 }
 
