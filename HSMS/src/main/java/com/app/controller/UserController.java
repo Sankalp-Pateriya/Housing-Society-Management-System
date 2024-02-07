@@ -1,39 +1,46 @@
 package com.app.controller;
 
-import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.dto.UserAuthDto;
-import com.app.dto.UserDto;
-import com.app.entities.User;
-import com.app.service.UserService;
+import com.app.dto.UserDTO;
+import com.app.exception.NotFoundException;
+import com.app.pojos.User;
+import com.app.services.UserServiceImpl;
 
 @RestController
-@RequestMapping("/")
-@Validated
+@RequestMapping("/users")
 public class UserController {
-	
+
 	@Autowired
-	private UserService userService ;
-	
-	@PostMapping("signUp")
-	public ResponseEntity<?> createNewUser(@Valid @RequestBody User newUser) {
-		System.out.println(newUser);
-		return ResponseEntity.status(HttpStatus.CREATED).body(userService.createNewUser(newUser));
+	private UserServiceImpl userService;
+
+	@PostMapping
+	public ResponseEntity<?> createUser(@RequestBody UserDTO userDto) {
+		userService.createUser(userDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
 	}
 
-	@PostMapping("signIn")
-	public ResponseEntity<?> authorizeUser(@Valid @RequestBody UserAuthDto userAuthDto) {
-		System.out.println(userAuthDto);
-		return ResponseEntity.status(HttpStatus.OK).body(userService.authorizeUser(userAuthDto));
-	} 
+	@GetMapping
+	public ResponseEntity<List<UserDTO>> getAllUsers() {
+		List<UserDTO> userDTOs = userService.getAllUsers();
+
+		return new ResponseEntity<>(userDTOs, HttpStatus.OK);
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+
+		return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, userDTO));
+	}
+
 }

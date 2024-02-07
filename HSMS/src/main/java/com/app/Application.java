@@ -15,18 +15,11 @@ public class Application {
 	}
 
 	@Bean // equivalent to <bean id ..../> in xml file
-	public ModelMapper modelMapper() {
-		System.out.println("in model mapper bean creation");
+	public ModelMapper mapper() {
 		ModelMapper modelMapper = new ModelMapper();
-		modelMapper.getConfiguration()
-		.setMatchingStrategy(MatchingStrategies.STRICT) // only MATCHING prop names n data types
-																						// between src n dest will be
-																						// transferred , during the
-																						// mapping
-				.setPropertyCondition(Conditions.isNotNull());// only non null properties will be transferred from src
-																// --> dest , during the mapping
-		return modelMapper;//configured model mapper instance reted to SC
-
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT)
+				.setPropertyCondition(Conditions.isNotNull());
+		return modelMapper;
 	}
 
 }

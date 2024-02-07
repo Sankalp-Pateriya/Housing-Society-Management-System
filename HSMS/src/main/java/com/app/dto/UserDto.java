@@ -1,119 +1,74 @@
 package com.app.dto;
 
-public class UserDto {
+import com.app.pojos.Role;
 
-	
-	private Long UserId;
-	
-	private String name;
-	
-	private long contactNumber;
-	
-	private String emailID;
-	
-	private String role;
-	
-	private String password;
+public class UserDTO  {
 
-	
+   
+    private String name;
+    private String email;
+    private String password;
+    private Role role;
+    
+    
 
-	public Long getUserId() {
-		return UserId;
+    public UserDTO() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
+	public UserDTO( String name,  String email, String password, Role role) {
+        
+        this.name = name;
+        
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 
-
-	public void setUserId(Long userId) {
-		UserId = userId;
-	}
-
-
-
+	
 	public String getName() {
 		return name;
 	}
-
-
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-
-
-	public long getContactNumber() {
-		return contactNumber;
+	
+	public String getEmail() {
+		return email;
 	}
 
-
-
-	public void setContactNumber(long contactNumber) {
-		this.contactNumber = contactNumber;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-
-
-
-	public String getEmailID() {
-		return emailID;
-	}
-
-
-
-	public void setEmailID(String emailID) {
-		this.emailID = emailID;
-	}
-
-
-
-	public String getRole() {
-		return role;
-	}
-
-
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-
 
 	public String getPassword() {
 		return password;
 	}
 
-
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
+	public Role getRole() {
+		return role;
+	}
 
-
-	public UserDto(Long userId, String name, long contactNumber, String emailID, String role, String password) {
-		super();
-		UserId = userId;
-		this.name = name;
-		this.contactNumber = contactNumber;
-		this.emailID = emailID;
+	public void setRole(Role role) {
 		this.role = role;
-		this.password = password;
 	}
-
-
-
-	public UserDto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-
 
 	@Override
 	public String toString() {
-		return "UserDto [UserId=" + UserId + ", name=" + name + ", contactNumber=" + contactNumber + ", emailID="
-				+ emailID + ", role=" + role + ", password=" + password + "]";
+		return "UserDTO [name=" + name + ", email=" + email + ", password=" + password + ", role=" + role + "]";
 	}
+
+	
+
 	
 	
 	
+
 }
