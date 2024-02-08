@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: whitesmoke;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color:aqua;
+            color: black;
+            padding: 2px;
+            border: 2px solid black;
+        }
+        .container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        input[type="text"], input[type="password"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid black;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: white;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: black;
+        }
+        input[type="button"]{
+            background-color: black;
+            color: white;
+            width: 80%;
+            margin-left: 10%;
+            padding: 10px;
+        }
+        .signup-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .signup-link a {
+            color: black;
+            text-decoration: none;
+        }
+        .profile-img {
+            width: 40px; 
+            height: auto; 
+            margin-right: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2 style="text-align: left;">HOUSING SOCIETY MANAGEMENT SYSTEM</h2>
+        <a href="#" style="color: black; float: right; margin-top: -50px;"><img src="profile_icon.svg" class="profile-img" alt="Profile"></a>
+    </div>
+
+    <div class="container">
+        <h2>LOGIN</h2>
+        <div id="error-message" style="color: red; text-align: center; display: none;"></div>
+        <input type="text" id="email" placeholder="Email ID" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <input type="button" value="Login" onclick="login()">
+        <div class="signup-link">
+            Not a User? <a href="create_new_account.html">Sign up</a> 
+        </div>
+    </div>
+
+    <script>
+        function login() {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            //Basic Check : if the entered details are empty
+            if (email.trim() === '' || password.trim() === '') {
+                document.getElementById("error-message").innerText = "Please enter both email and password.";
+                document.getElementById("error-message").style.display = "block";
+                return;
+            }
+
+            //After successful login
+            console.log("Email:", email);
+            console.log("Password:", password);
+
+            // Redirect user to signup.html page
+            window.location.href = "success_login.html";
+        }
+    </script>
+</body>
+</html>
