@@ -28,6 +28,11 @@
   color: #61dafb;
 }
 
+.section{
+  padding-top: 60px;
+  min-height: 600px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
