@@ -1,4 +1,6 @@
-import { useState } from "react";
+
+
+import React, { useState } from "react";
 import { signUp } from "../services/user-service";
 import { toast } from "react-toastify";
 import {
@@ -23,6 +25,7 @@ const Signup = () => {
     password: "",
     user_contact: "",
     about: "",
+    role: "User", // Default role
   });
 
   const [error, setError] = useState({
@@ -32,8 +35,8 @@ const Signup = () => {
 
   // handle change
   const handleChange = (event, property) => {
-    //dynamic setting the values
-    setData({ ...data, [property]: event.target.value });
+    let actualValue = event.target.value;
+    setData({ ...data, [property]: actualValue });
   };
 
   //reseting the form
@@ -44,6 +47,7 @@ const Signup = () => {
       password: "",
       user_contact: "",
       about: "",
+      role: "User", // Reset role to default
     });
   };
 
@@ -51,32 +55,18 @@ const Signup = () => {
   const submitForm = (event) => {
     event.preventDefault();
 
-    // if(error.isError){
-    //   toast.error("Form data is invalid , correct all details then submit. ");
-    //   setError({...error,isError:false})
-    //   return;
-    // }
-
     console.log(data);
-    //data validate
 
-    //call server api for sending data
+    // Call the backend API for user registration
     signUp(data)
       .then((resp) => {
         console.log(resp);
-        console.log("success log");
         toast.success("User is registered successfully !! user id " + resp.id);
-        setData({
-          name: "",
-          email: "",
-          password: "",
-          about: "",
-        });
+        // Reset the form after successful registration
+        resetData();
       })
       .catch((error) => {
         console.log(error);
-        console.log("Error log");
-        //handle errors in proper way
         setError({
           errors: error,
           isError: true,
@@ -88,8 +78,6 @@ const Signup = () => {
     <div>
       <Container>
         <Row className="mt-4">
-          {/* { JSON.stringify(data) } */}
-
           <Col sm={{ size: 6, offset: 3 }}>
             <Card color="dark" inverse>
               <CardHeader>
@@ -97,8 +85,6 @@ const Signup = () => {
               </CardHeader>
 
               <CardBody>
-                {/* creating form */}
-
                 <Form onSubmit={submitForm}>
                   {/* Name field */}
                   <FormGroup>
@@ -109,11 +95,8 @@ const Signup = () => {
                       id="name"
                       onChange={(e) => handleChange(e, "name")}
                       value={data.name}
-                      invalid={
-                        error.errors?.response?.data?.name ? true : false
-                      }
+                      invalid={error.errors?.response?.data?.name ? true : false}
                     />
-
                     <FormFeedback>
                       {error.errors?.response?.data?.name}
                     </FormFeedback>
@@ -128,11 +111,8 @@ const Signup = () => {
                       id="email"
                       onChange={(e) => handleChange(e, "email")}
                       value={data.email}
-                      invalid={
-                        error.errors?.response?.data?.email ? true : false
-                      }
+                      invalid={error.errors?.response?.data?.email ? true : false}
                     />
-
                     <FormFeedback>
                       {error.errors?.response?.data?.email}
                     </FormFeedback>
@@ -147,11 +127,8 @@ const Signup = () => {
                       id="password"
                       onChange={(e) => handleChange(e, "password")}
                       value={data.password}
-                      invalid={
-                        error.errors?.response?.data?.password ? true : false
-                      }
+                      invalid={error.errors?.response?.data?.password ? true : false}
                     />
-
                     <FormFeedback>
                       {error.errors?.response?.data?.password}
                     </FormFeedback>
@@ -166,11 +143,8 @@ const Signup = () => {
                       id="user_contact"
                       onChange={(e) => handleChange(e, "user_contact")}
                       value={data.phone}
-                      invalid={
-                        error.errors?.response?.data?.user_contact ? true : false
-                      }
+                      invalid={error.errors?.response?.data?.user_contact ? true : false}
                     />
-
                     <FormFeedback>
                       {error.errors?.response?.data?.phone}
                     </FormFeedback>
@@ -186,28 +160,31 @@ const Signup = () => {
                       style={{ height: "250px" }}
                       onChange={(e) => handleChange(e, "about")}
                       value={data.about}
-                      invalid={
-                        error.errors?.response?.data?.about ? true : false
-                      }
+                      invalid={error.errors?.response?.data?.about ? true : false}
                     />
-
                     <FormFeedback>
                       {error.errors?.response?.data?.about}
                     </FormFeedback>
                   </FormGroup>
 
-                  <Container className="text-center">
-                    <Button outline color="light">
-                      Register
-                    </Button>
-                    <Button
-                      onClick={resetData}
-                      color="secondary"
-                      type="reset"
-                      className="ms-2"
+                  {/* Role field */}
+                  <FormGroup>
+                    <Label for="role">Select Role</Label>
+                    <Input
+                      type="select"
+                      name="role"
+                      id="role"
+                      value={data.role}
+                      onChange={(e) => handleChange(e, "role")}
                     >
-                      Reset
-                    </Button>
+                      <option value="User">User</option>
+                      <option value="Secretary">Secretary</option>
+                    </Input>
+                  </FormGroup>
+
+                  <Container className="text-center">
+                    <Button outline color="light">Register</Button>
+                    <Button onClick={resetData} color="secondary" type="reset" className="ms-2">Reset</Button>
                   </Container>
                 </Form>
               </CardBody>
