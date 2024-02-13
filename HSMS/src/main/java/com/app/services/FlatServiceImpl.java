@@ -1,5 +1,8 @@
 package com.app.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +39,13 @@ public class FlatServiceImpl implements FlatService {
 	flatRepository.save(flat);
 	return flatdto;
 	
+	}
+
+	@Override
+	public List<FlatDTO> getAllFlats() {
+		List<Flat> flats = flatRepository.findAll();
+		List<FlatDTO> flatDTOs = flats.stream().map((e)->modelMapper.map(e, FlatDTO.class)).collect(Collectors.toList());
+		return flatDTOs;
 	}
 	
 
