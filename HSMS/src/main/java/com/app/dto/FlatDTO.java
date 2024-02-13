@@ -11,17 +11,15 @@ public class FlatDTO {
 	private boolean isAvailable;
 
 	private double rent;
-	
+
 	private Long buildingId;
-	
+
 	private Long userId;
 
 	public FlatDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	
 
 	public FlatDTO(int area, int floor, String type, boolean isAvailable, double rent, Long buildingId, Long userId) {
 		super();
@@ -34,31 +32,21 @@ public class FlatDTO {
 		this.userId = userId;
 	}
 
-
-
 	public Long getBuildingId() {
 		return buildingId;
 	}
-
-
 
 	public void setBuildingId(Long buildingId) {
 		this.buildingId = buildingId;
 	}
 
-
-
 	public Long getUserId() {
 		return userId;
 	}
 
-
-
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-
-
 
 	public int getArea() {
 		return area;
@@ -100,17 +88,14 @@ public class FlatDTO {
 		this.rent = rent;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "FlatDTO [area=" + area + ", floor=" + floor + ", type=" + type + ", isAvailable=" + isAvailable
 				+ ", rent=" + rent + ", buildingId=" + buildingId + ", userId=" + userId + "]";
 	}
 
-	
-	
-	
-	
-	
+	public void setRent(Double rent) {
+		this.rent = rent;
+	}
+
 }
