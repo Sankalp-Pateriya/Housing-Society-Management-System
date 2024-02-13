@@ -1,9 +1,14 @@
 package com.app.pojos;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
-import java.math.BigDecimal;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.Min;
 
 @Entity
 @Table(name = "flats")
@@ -19,7 +24,7 @@ public class Flat {
     private int area;
 
     @Column(name = "floor")
-    @Min(value = 1, message = "Floor must be greater than or equal to 1")
+    @Min(value = 0, message = "Floor must be greater than or equal to 0")
     private int floor;
 
     @Column(name = "type")
@@ -29,14 +34,14 @@ public class Flat {
     private boolean isAvailable;
 
     @Column(name = "rent")
-    private BigDecimal rent;
-
+    private double rent;
+    
     @ManyToOne
-    @JoinColumn(name = "building_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "building_id", referencedColumnName = "id")
     private Building building;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
 	public Flat() {
@@ -46,7 +51,7 @@ public class Flat {
 
 	public Flat(@Min(value = 1, message = "Area must be greater than or equal to 1") int area,
 			@Min(value = 1, message = "Floor must be greater than or equal to 1") int floor, String type,
-			boolean isAvailable, BigDecimal rent) {
+			boolean isAvailable, double rent) {
 		super();
 		this.area = area;
 		this.floor = floor;
@@ -95,11 +100,11 @@ public class Flat {
 		this.isAvailable = isAvailable;
 	}
 
-	public BigDecimal getRent() {
+	public double getRent() {
 		return rent;
 	}
 
-	public void setRent(BigDecimal rent) {
+	public void setRent(double rent) {
 		this.rent = rent;
 	}
 
@@ -122,7 +127,7 @@ public class Flat {
 	@Override
 	public String toString() {
 		return "Flat [id=" + id + ", area=" + area + ", floor=" + floor + ", type=" + type + ", isAvailable="
-				+ isAvailable + ", rent=" + rent + ", building=" + building + ", user=" + user + "]";
+				+ isAvailable + ", rent=" + rent + ", buildingId=" + building.getId() + ", user iD=" + user.getId() + "]";
 	}
 
     // Constructors, getters, setters, and equals()/hashCode()

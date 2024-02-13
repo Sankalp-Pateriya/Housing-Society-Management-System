@@ -1,14 +1,16 @@
 package com.app.services;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.app.dto.SignupRequest;
 import com.app.dto.UserDTO;
 import com.app.pojos.User;
 
 public interface UserService {
-	UserDTO createUser(UserDTO userDto);
+	UserDTO createUser(SignupRequest signupRequest);
 	List<UserDTO> getAllUsers();
-	Optional<User> getUserById(Long id);
-	User updateUser(long id,UserDTO userDTO);
+	User getUserById(Long id);
+	UserDTO updateUser(long id,UserDTO userDTO);
+	String deleteUser(Long id);
+	
 }

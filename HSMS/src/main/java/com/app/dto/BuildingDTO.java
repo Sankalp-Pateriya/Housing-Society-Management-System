@@ -1,61 +1,105 @@
 package com.app.dto;
 
-
 public class BuildingDTO {
 
-    private String address;
-    private String name;
-    private int numberOfFlats;
-    private Long userId;
+	private String name;
+	private int numberOfFlats;
+	private Long userId;
+	String Line_1;
 
-    public BuildingDTO() {
-    }
+	String Line_2;
 
-    public BuildingDTO(String address, String name, int numberOfFlats, Long userId) {
-        this.address = address;
-        this.name = name;
-        this.numberOfFlats = numberOfFlats;
-        this.userId = userId;
-    }
+	String City;
 
-    // Getters and setters
-    public String getAddress() {
-        return address;
-    }
+	int PINCode;
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	String State;
 
-    public String getName() {
-        return name;
-    }
+	public BuildingDTO() {
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public BuildingDTO(String name, int numberOfFlats, Long userId, String line_1, String line_2, String city,
+			int pINCode, String state) {
+		super();
 
-    public int getNumberOfFlats() {
-        return numberOfFlats;
-    }
+		this.name = name;
+		this.numberOfFlats = numberOfFlats;
+		this.userId = userId;
+		Line_1 = line_1;
+		Line_2 = line_2;
+		City = city;
+		PINCode = pINCode;
+		State = state;
+	}
 
-    public void setNumberOfFlats(int numberOfFlats) {
-        this.numberOfFlats = numberOfFlats;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Long getUserId() {
-        return userId;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+	public int getNumberOfFlats() {
+		return numberOfFlats;
+	}
+
+	public void setNumberOfFlats(int numberOfFlats) {
+		this.numberOfFlats = numberOfFlats;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public String getLine_1() {
+		return Line_1;
+	}
+
+	public void setLine_1(String line_1) {
+		Line_1 = line_1;
+	}
+
+	public String getLine_2() {
+		return Line_2;
+	}
+
+	public void setLine_2(String line_2) {
+		Line_2 = line_2;
+	}
+
+	public String getCity() {
+		return City;
+	}
+
+	public void setCity(String city) {
+		City = city;
+	}
+
+	public int getPINCode() {
+		return PINCode;
+	}
+
+	public void setPINCode(int pINCode) {
+		PINCode = pINCode;
+	}
+
+	public String getState() {
+		return State;
+	}
+
+	public void setState(String state) {
+		State = state;
+	}
 
 	@Override
 	public String toString() {
-		return "BuildingDTO [address=" + address + ", name=" + name + ", numberOfFlats=" + numberOfFlats + ", userId="
-				+ userId + "]";
+		return "BuildingDTO [ name=" + name + ", numberOfFlats=" + numberOfFlats + ", userId=" + userId + ", Line_1="
+				+ Line_1 + ", Line_2=" + Line_2 + ", City=" + City + ", PINCode=" + PINCode + ", State=" + State + "]";
 	}
-    
-    
+
 }
