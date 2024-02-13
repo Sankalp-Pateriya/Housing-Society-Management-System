@@ -37,6 +37,15 @@ public class UserController {
 		return new ResponseEntity<>(userDTOs, HttpStatus.OK);
 	}
 
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getUserById(@PathVariable Long id) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(userService.getUserById(id));			
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not found!!");	
+		}
+	}
+
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
 

@@ -37,8 +37,10 @@ public class UserServiceImpl {
     	return userDTOs;
     }
     
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public User getUserById(Long id) {
+    	
+    	User user = userRepository.findById(id).get();
+        return user;
     }
 
     public UserDTO updateUser(long id,UserDTO userDTO) {
