@@ -3,12 +3,13 @@ package com.app.services;
 import java.util.List;
 
 import com.app.dto.BuildingDTO;
+import com.app.dto.FlatDTO;
 import com.app.pojos.Building;
 
 
 public interface BuildingService {
 	BuildingDTO addBuilding(BuildingDTO buildingDTO);
-
+	List<FlatDTO> searchFlats(String element, String type, int highArea, int lowArea,int highRent,int lowRent);
 	List<BuildingDTO> getAllBuilding();
 }
 

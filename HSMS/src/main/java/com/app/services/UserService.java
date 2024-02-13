@@ -3,6 +3,7 @@ package com.app.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.app.dto.FlatDTO;
 import com.app.dto.UserDTO;
 import com.app.pojos.User;
 

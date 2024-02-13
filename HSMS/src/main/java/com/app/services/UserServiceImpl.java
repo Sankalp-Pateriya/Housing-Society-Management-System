@@ -3,14 +3,21 @@ package com.app.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.app.dao.BuildingRepository;
+import com.app.dao.FlatRepository;
 import com.app.dao.UserRepository;
+import com.app.dto.FlatComponentDTO;
+import com.app.dto.FlatDTO;
 import com.app.dto.UserDTO;
 import com.app.exception.NotFoundException;
+import com.app.pojos.Building;
+import com.app.pojos.Flat;
 import com.app.pojos.User;
 
 @Service
@@ -18,6 +25,13 @@ public class UserServiceImpl {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    BuildingRepository buildingRepository;
+    
+    @Autowired
+    FlatRepository flatRepository;
+    
     
     @Autowired
     private ModelMapper modelMapper;
