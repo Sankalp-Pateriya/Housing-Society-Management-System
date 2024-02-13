@@ -1,28 +1,38 @@
+import React from 'react';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css"
-import Header from './layouts/Header';
-import Footer from './layouts/Footer';
-import { Routes, Route } from 'react-router-dom';
-import About from './pages/About';
-import Signup from './pages/Signup';
-import Home from './pages/Home';
-import 'react-toastify/dist/ReactToastify.css';
-import Login from './pages/Login';
+import { Routes, Route, Link } from 'react-router-dom';
+import Header from './layouts/Header.jsx';
+import Footer from './layouts/Footer.jsx';
+import About from './pages/About.jsx';
+import Signup from './pages/Signup.jsx';
+import Home from './pages/Home.jsx';
+import Login from './pages/Login.jsx';
+import AddBuilding from './component/addbuilding.jsx'; // Corrected import path
+import AddFlat from './component/addflat.jsx'; // Corrected import path
+import AddUser from './component/adduser.jsx'; // Corrected import path
 
 function App() {
   return (
     <>
       <div className="App container-fluid p-0 m-0">
         <Header />
-       <div className='section'>
-         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
-       </div>
-       
+        <div className='section'>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/add-building" element={<AddBuilding />} />
+            <Route path="/add-flat" element={<AddFlat />} />
+            <Route path="/add-user" element={<AddUser />} />
+          </Routes>
+          {/* To Create links or buttons to navigate to different pages */}
+          {/* <Link to="/add-building">Add Building</Link>
+          <Link to="/add-flat">Add Flat</Link>
+          <Link to="/add-user">Add User</Link> */}
+        </div>
+
         <Footer />
       </div>
     </>
