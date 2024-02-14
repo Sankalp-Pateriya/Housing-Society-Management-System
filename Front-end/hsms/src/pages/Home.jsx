@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios'; // Import axios for making HTTP requests
 import '../assets/Home.scss';
 import house from '../images/house.png';
 import banner from '../images/ds.jpg';
@@ -23,25 +24,28 @@ function Home() {
         setSearchQuery(e.target.value);
     };
 
-    const handleSearchSubmit = (e) => {
+    const handleSearchSubmit = async (e) => {
         e.preventDefault();
-        // Filter propertyData based on searchQuery
-        const results = propertyData.filter(property =>
-            property.area.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            property.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            property.pincode.includes(searchQuery)
-        );
-        setSearchResults(results);
-
-        // Add the search query to recent searches
-        setRecentSearches(prevSearches => [searchQuery, ...prevSearches.slice(0, 2)]);
-
-        // Show "No results matched" message if no results found
-        setShowNoResults(results.length === 0);
-        // Reset showMore state
-        setShowMore(false);
+        try {
+            // Make a GET request to the Spring Boot backend endpoint
+            const response = await axios.get(`http://localhost:8080/home`, {
+                params: {
+                    searchElement: searchQuery
+                }
+            });
+            // Handle response data
+            setSearchResults(response.data);
+            // Add the search query to recent searches
+            setRecentSearches(prevSearches => [searchQuery, ...prevSearches.slice(0, 2)]);
+            // Show "No results matched" message if no results found
+            setShowNoResults(response.data.length === 0);
+            // Reset showMore state
+            setShowMore(false);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
-
+    
     const handleClearRecentSearches = () => {
         setRecentSearches([]);
         // Hide "No results matched" message when clearing recent searches
