@@ -1,5 +1,7 @@
 package com.app.controller;
 
+import static org.springframework.http.ResponseEntity.status;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.SigninRequest;
 import com.app.dto.SigninResponse;
-import com.app.dto.SignupRequest;
 import com.app.dto.UserDTO;
 import com.app.jwt_utils.JwtUtils;
 import com.app.services.UserService;
@@ -43,10 +44,10 @@ public class UserController {
 	private JwtUtils utils;
 
 	@PostMapping
-	public ResponseEntity<?> createUser(@RequestBody SignupRequest signupRequest) {
-		System.out.println(signupRequest);
-		userService.createUser(signupRequest);
-		return ResponseEntity.status(HttpStatus.CREATED).body(signupRequest);
+	public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
+		System.out.println(userDTO);
+		userService.createUser(userDTO);
+		return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
 	}
 	
 //	@PostMapping("/login")
@@ -80,5 +81,10 @@ public class UserController {
 		String jwtToken = utils.generateJwtToken(principal);
 		return ResponseEntity.ok(new SigninResponse(jwtToken, "User authentication success!!!"));
 	}
+	
+	@GetMapping("/logged-in-user")
+    public ResponseEntity<?> getLoggedInUser(){
+        return status(200).body(userService.getLoggedInUser());
+    }
 
 }

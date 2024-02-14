@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -41,14 +42,17 @@ public class SecurityConfig {
 						).permitAll() // for incoming req ending with /products/view :
 																								// no authentication n
 																								// authorization needed
-		//.antMatchers("/products/purchase").hasRole("CUSTOMER")// only customer can purchase the products
-		//.antMatchers("/products/add").hasRole("ADMIN") // only admin can add the products
+		.antMatchers("/products/purchase").hasRole("CUSTOMER")// only customer can purchase the products
+		.antMatchers("/products/add").hasRole("ADMIN") // only admin can add the products
 		.anyRequest().authenticated() // all remaining end points accessible only to authenticated users
 		.and().sessionManagement() // configure HttpSession management
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // DO NOT use HttpSession for storing any sec
 																		// info
 		.and().
-		addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+		addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+		.logout()
+		.logoutUrl("/api/v1/auth/logout")
+		.logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
 		return http.build();
 	}
 

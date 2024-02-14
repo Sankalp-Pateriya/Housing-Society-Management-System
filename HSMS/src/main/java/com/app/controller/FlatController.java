@@ -21,8 +21,15 @@ public class FlatController {
 	
 	@PostMapping
 	public ResponseEntity<?> addFlat(@RequestBody FlatDTO flatDto){
-		FlatDTO flatdto=flatService.addFlat(flatDto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(flatdto);
+		try {
+			FlatDTO newFlatDto=flatService.addFlat(flatDto);
+			if(newFlatDto==null) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Only a designated Secretary can Add a flat!!");
+			}
+			return ResponseEntity.status(HttpStatus.CREATED).body(newFlatDto);			
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());			
+		}
 	}
 	
 	@GetMapping

@@ -2,6 +2,7 @@ package com.app.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -38,12 +39,17 @@ public class BuildingServiceImpl implements BuildingService {
 
 	@Override
 	public BuildingDTO addBuilding(BuildingDTO buildingDTO) {
-		
-		User user = userRespository.findById(buildingDTO.getUserId()).get();
-		
+
+		Optional<User> userById = userRespository.findById(buildingDTO.getUserId());
+//    	System.out.println("0");
+		User user = userById.get();
+		if (user != null) {
+			if (!user.getRole().toString().equals("ADMIN")) {
+				return null;
+			}
+		}
 		Building newBuilding = modelMapper.map(buildingDTO, Building.class);
 		newBuilding.setUser(user);
-		
 		System.out.println("NewBuilding:" + newBuilding);
 		System.out.println("Owner:" + newBuilding.getUser());
 		buildingRepository.save(newBuilding);
@@ -109,7 +115,7 @@ public class BuildingServiceImpl implements BuildingService {
 			System.out.println(" 1 " + flatDTOs);
 			System.out.println();
 		}
-		if ( !type.equalsIgnoreCase("any")) {
+		if (!type.equalsIgnoreCase("any")) {
 			if (!type.toLowerCase().equals("any")) {
 				flatDTOs = flatDTOs.stream().filter((e) -> {
 					return e.getType().toUpperCase().equals(type.toUpperCase());

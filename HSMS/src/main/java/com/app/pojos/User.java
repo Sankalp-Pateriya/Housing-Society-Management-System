@@ -1,13 +1,21 @@
 package com.app.pojos;
 
-import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -30,16 +38,15 @@ public class User {
 	@Column(length = 300, nullable = false)
 	private String password;
 
-	@Column(name = "contact")
-	@Digits(integer = 10, fraction = 0, message = "Contact number must be of 10 digits")
-	private Long contact;
+	@Column(length = 10, nullable = false)
+	private long contact;
 
 	@Column(name = "role")
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
-	@OneToOne(mappedBy = "user", cascade = CascadeType.DETACH)
-	private Building building;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.DETACH)
+	private Set<Building> buildings;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.DETACH)
 	private Set<Flat> flats = new HashSet<>();
@@ -52,23 +59,13 @@ public class User {
 	public User(
 			@NotBlank(message = "Name is required") @Size(max = 50, message = "Name must be less than 50 characters") String name,
 			@NotBlank(message = "Email is required") @Email(message = "Email must be valid") String email,
-			String password,
-			@Digits(integer = 10, fraction = 0, message = "Contact number must be of 10 digits") Long contact,
-			Role role) {
+			String password, long contact, Role role) {
 		super();
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.contact = contact;
 		this.role = role;
-	}
-
-	public Long getContact() {
-		return contact;
-	}
-
-	public void setContact(Long contact) {
-		this.contact = contact;
 	}
 
 	public Long getId() {
@@ -111,20 +108,28 @@ public class User {
 		this.role = role;
 	}
 
-	public Building getBuilding() {
-		return building;
+	public Set<Building> getBuilding() {
+		return buildings;
 	}
 
 	public void setBuilding(Building building) {
-		this.building = building;
+		this.buildings.add(building);
 	}
 
 	public Set<Flat> getFlats() {
 		return flats;
 	}
 
-	public void setFlats(Set<Flat> flats) {
-		this.flats = flats;
+	public void setFlats(Flat flat) {
+		flats.add(flat);
+	}
+
+	public long getContact() {
+		return contact;
+	}
+
+	public void setContact(long contact) {
+		this.contact = contact;
 	}
 
 	@Override

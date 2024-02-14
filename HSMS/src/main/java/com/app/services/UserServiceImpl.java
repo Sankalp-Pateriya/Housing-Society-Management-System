@@ -7,13 +7,15 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import org.springframework.util.StringUtils;
 
 import com.app.dao.UserRepository;
-import com.app.dto.SignupRequest;
+
 import com.app.dto.UserDTO;
 import com.app.exception.NotFoundException;
 import com.app.pojos.Role;
@@ -35,12 +37,12 @@ public class UserServiceImpl implements UserService{
 
     
     
-    public UserDTO createUser(SignupRequest signupRequest) {
-    	User user= modelMapper.map(signupRequest, User.class);
-    	user.setPassword(encoder.encode(signupRequest.getPassword()));
-    	user.setRole(Role.valueOf(signupRequest.getRole().toUpperCase())); 
+    public UserDTO createUser(UserDTO userDTO) {
+    	User user= modelMapper.map(userDTO, User.class);
+    	user.setPassword(encoder.encode(userDTO.getPassword()));
+    	user.setRole(Role.valueOf(userDTO.getRole().toUpperCase())); 
     	userRepository.save(user);  
-    	UserDTO userDTO=modelMapper.map(signupRequest, UserDTO.class);
+    	
     	
     	return userDTO;
     }
@@ -79,6 +81,25 @@ public class UserServiceImpl implements UserService{
 		userRepository.deleteById(id);
 		return "User deleted Successfully";
 	}
+	
+	
+	public User getLoggedInUser() {
+        // Get the authentication object from the security context
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            // Extract the username from the UserDetails
+            String username = userDetails.getUsername();
+            
+            // Find the user by username (assuming username is email in your case)
+            if (StringUtils.hasText(username)) {
+                return userRepository.findByEmail(username).orElse(null);
+            }
+        }
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        return null; // No logged-in user found
+    }
 
     // Other methods for updating, deleting, and retrieving users
 }
