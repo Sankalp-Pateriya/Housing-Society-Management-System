@@ -36,7 +36,7 @@ public class HomeController {
 	}
 */
 	
-	@GetMapping("/diff")
+	@GetMapping
 	public ResponseEntity<?> searchFlats(@RequestParam(required = false, defaultValue = "") String searchElement,
 			@RequestParam(required = false, defaultValue = "100000000") int highArea,
 			@RequestParam(required = false, defaultValue = "0") int lowArea,
@@ -51,7 +51,7 @@ public class HomeController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
 		}
 	}
-
+/*
 	@GetMapping
 	public ResponseEntity<?> getAllFlats() {
 		List<FlatDTO> flatList = flatService.getAllFlats();
@@ -62,4 +62,5 @@ public class HomeController {
 		}
 		
 	}
+	*/
 }
