@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>new_user</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: whitesmoke;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color:aqua;
+            color: black;
+            padding: 2px;
+            border: 2px solid black;
+        }
+        .profile-img{
+            width: 40px;
+            height: auto; 
+            margin-right: 10px;
+        }
+        .container {
+            width: 30%;
+            margin: auto;
+            text-align: left;
+            margin-top: 50px;
+        }
+        input[type="text"], input[type="password"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+<head>
+
+<body>
+
+    <div class="header">
+        <h2 style="text-align: left;">HOUSING SOCIETY MANAGEMENT SYSTEM</h2>
+        <a href="#" style="color: black; float: right; margin-top: -50px;"><img src="profile_icon.svg" class="profile-img" alt="Profile"></a>
+    </div>
+
+    <div class="container">
+        <h2>Create new Account</h2>
+        <p><a href="login.html">Already Registered? Login</a></p>
+        <form action="#">
+            <label for="name">NAME</label><br>
+            <input type="text" id="name" name="name" placeholder="Enter your name"><br>
+
+            <label for="email">EMAIL</label><br>
+            <input type="text" id="email" name="email" placeholder="Enter your email"><br>
+
+            <label for="password">PASSWORD</label><br>
+            <input type="password" id="password" name="password" placeholder="Enter your password"><br>
+
+            <label for="dob">DATE OF BIRTH</label><br>
+            <!-- Separate input fields for day, month, and year -->
+            <input type="text" id="dob-day" name="dob-day" placeholder="Date" style="width: 30%; margin-right: 10px;">
+            <input type="text" id="dob-month" name="dob-month" placeholder="Month" style="width: 30%; margin-right: 10px;">
+            <input type="text" id="dob-year" name="dob-year" placeholder="Year" style="width: 30%;">
+            <br><br>
+
+            <input type="submit" value="Sign Up">
+        </form>
+    </div>
+
+</body>
+</html>
