@@ -1,5 +1,7 @@
 package com.app.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.FlatDTO;
-import com.app.pojos.Flat;
+import com.app.services.BuildingService;
 import com.app.services.FlatService;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -23,6 +25,9 @@ public class FlatController {
 	
 	@Autowired
 	private FlatService flatService;
+	
+	@Autowired
+	private BuildingService buildingService;
 	
 	@PostMapping
 	public ResponseEntity<?> addFlat(@RequestBody FlatDTO flatDto){
@@ -70,6 +75,15 @@ public class FlatController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
 		}
 	}
+	
+//api to get all  buildingIDs
+    
+    @GetMapping("/buildingIDs")
+    public ResponseEntity<?> getAllBuildingId()
+    {
+    	List<Long> buildingId = buildingService.getAllBuildingIds();
+    	return new ResponseEntity<>(buildingId,HttpStatus.OK);
+    }
 	
 
 }

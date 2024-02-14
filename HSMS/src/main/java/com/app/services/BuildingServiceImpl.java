@@ -1,15 +1,5 @@
 package com.app.services;
 
-import com.app.dao.BuildingRepository;
-import com.app.dao.FlatRepository;
-import com.app.dao.UserRepository;
-import com.app.dto.BuildingDTO;
-import com.app.dto.FlatDTO;
-import com.app.dto.UserDTO;
-import com.app.pojos.Building;
-import com.app.pojos.Flat;
-import com.app.pojos.User;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,10 +7,17 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.app.dao.BuildingRepository;
+import com.app.dao.FlatRepository;
+import com.app.dao.UserRepository;
+import com.app.dto.BuildingDTO;
+import com.app.dto.FlatDTO;
+import com.app.pojos.Building;
+import com.app.pojos.Flat;
+import com.app.pojos.User;
 
 @Transactional
 @Service
@@ -164,6 +161,25 @@ public class BuildingServiceImpl implements BuildingService {
 		System.out.println(flatDTOs);
 		System.out.println();
 		return flatDTOs;
+	}
+
+	@Override
+	public List<Long> getAllBuildingIds() 
+	{
+		// TODO Auto-generated method stub
+		Long id;
+		List<Long> ids = new ArrayList<Long>();
+		List<Building> buildings = buildingRepository.findAll();
+		
+		for (Building building : buildings) 
+		{
+			id = building.getId();
+			System.out.println("ID values :"+id);
+			ids.add(id);
+			
+		}
+		
+		return ids;
 	}
 
 }
