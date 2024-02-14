@@ -46,14 +46,18 @@ public class BuildingController {
 			return ResponseEntity.status(HttpStatus.CREATED).body(building);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error Ocurred!");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error Ocurred!"+e.getMessage());
 		}
 	}
 
 	@GetMapping
 	public ResponseEntity<?> getAllBuilding() {
-		List<BuildingDTO> buildingDTO = buildingService.getAllBuilding();
-		return ResponseEntity.status(HttpStatus.OK).body(buildingDTO);
+		try {
+			List<BuildingDTO> buildingDTO = buildingService.getAllBuilding();
+			return ResponseEntity.status(HttpStatus.OK).body(buildingDTO);			
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error Occurred" + e.getMessage());
+		}
 	}
 
 }

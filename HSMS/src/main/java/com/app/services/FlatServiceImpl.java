@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +54,7 @@ public class FlatServiceImpl implements FlatService {
 	@Override
 	public List<FlatDTO> getAllFlats() {
 		List<Flat> flats = flatRepository.findAll();
-		List<FlatDTO> flatDTOs = flats.stream().map((e)->modelMapper.map(e, FlatDTO.class)).collect(Collectors.toList());
+		List<FlatDTO> flatDTOs = flats.stream().filter((e)->e.isAvailable()).map((e)->modelMapper.map(e, FlatDTO.class)).collect(Collectors.toList());
 		return flatDTOs;
 	}
 
@@ -62,9 +64,29 @@ public class FlatServiceImpl implements FlatService {
 		Flat flat = findById.get();
 		if(flat!=null) {
 			FlatDTO flatDTO = modelMapper.map(flat,FlatDTO.class);
+			Building building = flat.getBuilding();
+			flatDTO.setBuildingId(building.getId());
+			User user = flat.getUser();
+			flatDTO.setUserId(user.getId());
 			return flatDTO;
 		}
 		return null;
+	}
+
+	@Override
+	public FlatDTO bookFlat(Long id) {
+		Optional<Flat> findById = flatRepository.findById(id);
+		Flat flat = findById.get();
+		if(flat.isAvailable()) {
+			flat.setAvailable(false);
+			flatRepository.save(flat);
+			FlatDTO flatDTO = modelMapper.map(flat, FlatDTO.class);
+			flatDTO.setBuildingId(flat.getBuilding().getId());
+			flatDTO.setUserId(flat.getUser().getId());
+			return flatDTO;
+		}else {
+			return null;
+		}
 	}
 	
 

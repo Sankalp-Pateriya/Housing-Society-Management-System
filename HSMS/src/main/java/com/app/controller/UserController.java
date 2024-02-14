@@ -26,15 +26,23 @@ public class UserController {
 
 	@PostMapping
 	public ResponseEntity<?> createUser(@RequestBody UserDTO userDto) {
-		userService.createUser(userDto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
+		try {
+			userService.createUser(userDto);
+			return ResponseEntity.status(HttpStatus.CREATED).body(userDto);			
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(""+e.getMessage());			
+		}
 	}
 
 	@GetMapping
-	public ResponseEntity<List<UserDTO>> getAllUsers() {
-		List<UserDTO> userDTOs = userService.getAllUsers();
-
-		return new ResponseEntity<>(userDTOs, HttpStatus.OK);
+	public ResponseEntity<?> getAllUsers() {
+		try{
+			List<UserDTO> userDTOs = userService.getAllUsers();
+			return new ResponseEntity<>(userDTOs, HttpStatus.OK);			
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(""+e.getMessage());
+		}
+		
 	}
 
 	@GetMapping("/{id}")
@@ -48,8 +56,11 @@ public class UserController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-
-		return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, userDTO));
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, userDTO));			
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(""+e.getMessage());
+		}
 	}
 
 }
