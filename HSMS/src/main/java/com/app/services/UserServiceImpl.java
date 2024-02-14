@@ -2,7 +2,6 @@ package com.app.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -51,10 +50,11 @@ public class UserServiceImpl {
     	return userDTOs;
     }
     
-    public User getUserById(Long id) {
+    public UserDTO getUserById(Long id) {
     	
     	User user = userRepository.findById(id).get();
-        return user;
+    	UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+        return userDTO;
     }
 
     public UserDTO updateUser(long id,UserDTO userDTO) {
