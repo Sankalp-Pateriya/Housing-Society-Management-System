@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.app.dao.BuildingRepository;
 import com.app.dao.FlatRepository;
@@ -20,6 +21,7 @@ import com.app.pojos.Flat;
 import com.app.pojos.User;
 
 @Service
+@Transactional
 public class UserServiceImpl {
 
     @Autowired
@@ -35,10 +37,11 @@ public class UserServiceImpl {
     @Autowired
     private ModelMapper modelMapper;
 
-    public UserDTO createUser(UserDTO userDto) {
-    	User user= modelMapper.map(userDto, User.class);
+    public UserDTO createUser(UserDTO userDTO) {
+    	User user= modelMapper.map(userDTO, User.class);
+    	
     	userRepository.save(user);        
-    	return userDto;
+    	return userDTO;
     }
 
     public List<UserDTO> getAllUsers() {

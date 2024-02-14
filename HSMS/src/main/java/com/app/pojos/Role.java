@@ -2,5 +2,6 @@ package com.app.pojos;
 
 public enum Role {
     USER,
-    SECRETARY
+    SECRETARY,
+    ADMIN
 }

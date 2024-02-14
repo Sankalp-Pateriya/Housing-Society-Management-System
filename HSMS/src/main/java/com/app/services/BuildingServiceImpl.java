@@ -1,6 +1,5 @@
 package com.app.services;
 
-
 import com.app.dao.BuildingRepository;
 import com.app.dao.FlatRepository;
 import com.app.dao.UserRepository;
@@ -18,48 +17,72 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Service
 public class BuildingServiceImpl implements BuildingService {
 
-    private final BuildingRepository buildingRepository;
-    
-    private final ModelMapper modelMapper;
-    
-    @Autowired
-    public UserRepository userRespository;
-    
-    @Autowired
-	FlatRepository flatRepository;
-    
-    @Autowired
-    public BuildingServiceImpl(BuildingRepository buildingRepository) {
-        this.buildingRepository = buildingRepository;
-        this.modelMapper = new ModelMapper();
-    }
+	private final BuildingRepository buildingRepository;
 
-    @Override
-    public BuildingDTO addBuilding(BuildingDTO buildingDTO) {
-    	Optional<User> user=userRespository.findById(buildingDTO.getUserId());
-    	Building newBuilding=modelMapper.map(buildingDTO, Building.class);
-    	newBuilding.setUser(user.get());
-    	System.out.println("NewBuilding:"+newBuilding);
-    	System.out.println("Owner:"+newBuilding.getUser());
-    	buildingRepository.save(newBuilding);
-        return buildingDTO;
-    }
+	private final ModelMapper modelMapper;
+
+	@Autowired
+	public UserRepository userRespository;
+
+	@Autowired
+	FlatRepository flatRepository;
+
+	@Autowired
+	public BuildingServiceImpl(BuildingRepository buildingRepository) {
+		this.buildingRepository = buildingRepository;
+		this.modelMapper = new ModelMapper();
+	}
+
+	@Override
+	public BuildingDTO addBuilding(BuildingDTO buildingDTO) {
+
+		Optional<User> userById = userRespository.findById(buildingDTO.getUserId());
+//    	System.out.println("0");
+		User user = userById.get();
+		if (user != null) {
+			if (!user.getRole().toString().equals("ADMIN")) {
+				return null;
+			}
+		}
+		Building newBuilding = modelMapper.map(buildingDTO, Building.class);
+		newBuilding.setUser(user);
+		System.out.println("NewBuilding:" + newBuilding);
+		System.out.println("Owner:" + newBuilding.getUser());
+		buildingRepository.save(newBuilding);
+		return buildingDTO;
+	}
+	/*
+	 * @Override public BuildingDTO addBuilding(BuildingDTO buildingDTO) {
+	 * Optional<User> userById =userRespository.findById(buildingDTO.getUserId());
+	 * // System.out.println("0"); User user = userById.get(); if(user!=null) {
+	 * if(!user.getRole().toString().equals("ADMIN")) { return null; } }
+	 * 
+	 * // System.out.println("1"); Building newBuilding=modelMapper.map(buildingDTO,
+	 * Building.class); newBuilding.setUser(user);
+	 * System.out.println("NewBuilding:"+newBuilding);
+	 * System.out.println("Owner:"+newBuilding.getUser());
+	 * buildingRepository.save(newBuilding); return buildingDTO; }
+	 */
 
 	@Override
 	public List<BuildingDTO> getAllBuilding() {
-		List<Building> buildings=buildingRepository.findAll();
-		List<BuildingDTO> buildingDTO=new ArrayList<>();
-		for(Building b:buildings) {
+		List<Building> buildings = buildingRepository.findAll();
+		List<BuildingDTO> buildingDTO = new ArrayList<>();
+		for (Building b : buildings) {
 			buildingDTO.add(modelMapper.map(b, BuildingDTO.class));
 		}
 		return buildingDTO;
 	}
-    
+
 	public List<FlatDTO> searchFlats(String element, String type, int highArea, int lowArea, int highRent,
 			int lowRent) {
 		System.out.println();
@@ -109,7 +132,7 @@ public class BuildingServiceImpl implements BuildingService {
 			System.out.println(" 1 " + flatDTOs);
 			System.out.println();
 		}
-		if ( !type.equalsIgnoreCase("any")) {
+		if (!type.equalsIgnoreCase("any")) {
 			if (!type.toLowerCase().equals("any")) {
 				flatDTOs = flatDTOs.stream().filter((e) -> {
 					return e.getType().toUpperCase().equals(type.toUpperCase());
@@ -141,7 +164,5 @@ public class BuildingServiceImpl implements BuildingService {
 		System.out.println();
 		return flatDTOs;
 	}
-    
-    
-}
 
+}

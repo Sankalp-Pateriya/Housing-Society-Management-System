@@ -29,7 +29,6 @@ public class Building {
 	@NotBlank(message = "Name is required")
 	@Size(max = 50, message = "Name must be less than 50 characters")
 	private String name;
-	
 
 	@Column(name = "number_of_flats")
 	@Min(value = 1, message = "Number of flats must be greater than or equal to 1")
@@ -64,7 +63,7 @@ public class Building {
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
-	@OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "building", cascade = CascadeType.DETACH)
 	private Set<Flat> flats = new HashSet<>();
 
 	public Building() {
@@ -92,6 +91,25 @@ public class Building {
 		this.state = state;
 		this.user = user;
 		this.flats = flats;
+	}
+
+	public Building(Long id,
+			@NotBlank(message = "Name is required") @Size(max = 50, message = "Name must be less than 50 characters") String name,
+			@Min(value = 1, message = "Number of flats must be greater than or equal to 1") int numberOfFlats,
+			@NotBlank(message = "required") @Size(max = 50, message = "must be less than 50 characters") String line_1,
+			@NotBlank(message = "required") @Size(max = 50, message = "must be less than 50 characters") String line_2,
+			@NotBlank(message = "required") @Size(max = 50, message = "must be less than 50 characters") String city,
+			@NotBlank(message = "required") @Size(max = 6, min = 6, message = "must be 6 digits") String pinCode,
+			@NotBlank(message = "required") @Size(max = 50, message = "must be less than 50 characters") String state) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.numberOfFlats = numberOfFlats;
+		this.line_1 = line_1;
+		this.line_2 = line_2;
+		this.city = city;
+		this.pinCode = pinCode;
+		this.state = state;
 	}
 
 	public Long getId() {
@@ -181,7 +199,7 @@ public class Building {
 	@Override
 	public String toString() {
 		return "Building [id=" + id + ", name=" + name + ", numberOfFlats=" + numberOfFlats + ", line_1=" + line_1
-				+ ", line_2=" + line_2 + ", city=" + city + ", pinCode=" + pinCode + ", state=" + state + 	"]";
+				+ ", line_2=" + line_2 + ", city=" + city + ", pinCode=" + pinCode + ", state=" + state + "]";
 	}
 
 }

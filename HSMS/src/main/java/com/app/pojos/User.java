@@ -34,8 +34,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "user",cascade = CascadeType.DETACH)
-    private Building building;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.DETACH)
+    private Set<Building> buildings;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.DETACH)
     private Set<Flat> flats = new HashSet<>();
@@ -98,12 +98,12 @@ public class User {
 		this.role = role;
 	}
 
-	public Building getBuilding() {
-		return building;
+	public Set<Building> getBuilding() {
+		return buildings;
 	}
 
 	public void setBuilding(Building building) {
-		this.building = building;
+		this.buildings.add(building);
 	}
 
 	public Set<Flat> getFlats() {

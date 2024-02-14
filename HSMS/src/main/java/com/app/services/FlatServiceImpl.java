@@ -1,6 +1,7 @@
 package com.app.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -12,7 +13,9 @@ import com.app.dao.BuildingRepository;
 import com.app.dao.FlatRepository;
 import com.app.dao.UserRepository;
 import com.app.dto.FlatDTO;
+import com.app.pojos.Building;
 import com.app.pojos.Flat;
+import com.app.pojos.User;
 
 @Service
 @Transactional
@@ -31,6 +34,11 @@ public class FlatServiceImpl implements FlatService {
 	private UserRepository userRepository;
 
 	public FlatDTO addFlat(FlatDTO flatdto) {
+	Optional<User> userById = userRepository.findById(flatdto.getUserId());
+	User user = userById.get();
+	if(!user.getRole().toString().equals("SECRETARY")) {
+		return null;
+	}
 	Flat flat=modelMapper.map(flatdto, Flat.class);
 	flat.setBuilding(buildingRepository.findById(flatdto.getBuildingId()).get());
 	flat.setUser(userRepository.findById(flatdto.getUserId()).get());
@@ -46,6 +54,17 @@ public class FlatServiceImpl implements FlatService {
 		List<Flat> flats = flatRepository.findAll();
 		List<FlatDTO> flatDTOs = flats.stream().map((e)->modelMapper.map(e, FlatDTO.class)).collect(Collectors.toList());
 		return flatDTOs;
+	}
+
+	@Override
+	public FlatDTO getSingleFlats(Long id) {
+		Optional<Flat> findById = flatRepository.findById(id);
+		Flat flat = findById.get();
+		if(flat!=null) {
+			FlatDTO flatDTO = modelMapper.map(flat,FlatDTO.class);
+			return flatDTO;
+		}
+		return null;
 	}
 	
 
