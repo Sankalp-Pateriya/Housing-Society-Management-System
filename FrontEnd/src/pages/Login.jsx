@@ -15,19 +15,22 @@ import {
 } from "reactstrap";
 import { doLogin } from "./auth";
 import { useNavigate } from "react-router-dom";
-import userContext from "./context/userContext";
-import { useContext } from "react";
+
+
 import axios from "axios"; // Import Axios
 
 const Login = () => {
-  const userContxtData = useContext(userContext);
-
+  
   const navigate = useNavigate();
 
   const [loginDetail, setLoginDetail] = useState({
     username: "",
     password: "",
   });
+
+  const handleClick = () => {
+    navigate(`/`);
+  };
 
   const handleChange = (event, field) => {
     let actualValue = event.target.value;
@@ -47,49 +50,46 @@ const Login = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     console.log(loginDetail);
-    //validation
-    if (
-      loginDetail.email.trim() === "" ||
-      loginDetail.password.trim() === ""
-    ) {
+    // validation
+    if (loginDetail.email.trim() === "" || loginDetail.password.trim() === "") {
       toast.error("Username or Password is required !!");
-      
       return;
     }
 
-    //submit the data to server to generate token
+    // submit the data to server to generate token
     axios
-      .post("http://localhost:8080/users/signIn", loginDetail) // Replace "http://your-api-url/login" with your actual login endpoint
+      .post("http://localhost:8080/users/signIn", loginDetail)
       .then((response) => {
         const data = response.data;
         console.log(data);
 
         localStorage.setItem("userData", JSON.stringify(data.user));
-
-        //save the data to localstorage
+        if (data.role === "ADMIN") {
+          localStorage.setItem("auth", "admin");
+          
+        } else {
+          localStorage.setItem("auth", "1");
+        }
+        localStorage.setItem("name",data.name);
+        //localStorage.setItem("auth", "1");
+        // save the data to localstorage
         doLogin(data, () => {
           console.log("login detail is saved to localstorage");
-          //redirect to user dashboard page
-          userContxtData.setUser({
-            data: data.user,
-            login: true,
-          });
-          navigate("/user/dashboard");
+          
+          toast.success("Login Success");
+          handleClick(); // Navigate to home upon successful login
+          window.location.reload();
         });
-
-
-        
-        toast.success("Login Success");
       })
       .catch((error) => {
         console.error(error);
-        if (error.response && (error.response.status === 400 || error.response.status === 404)) {
+        if (error.response && (error.response.status === 500 || error.response.status === 404)) {
           toast.error(error.response.data.message);
         } else {
-          toast.error("Something went wrong on server !!");
+          toast.error("Something went wrong on the server !!");
         }
       });
-      handleReset();
+    handleReset();
   };
 
   return (
@@ -110,7 +110,6 @@ const Login = () => {
               <CardBody>
                 <Form onSubmit={handleFormSubmit}>
                   {/* Email field */}
-
                   <FormGroup>
                     <Label for="email">Enter Email</Label>
                     <Input
@@ -122,8 +121,7 @@ const Login = () => {
                     />
                   </FormGroup>
 
-                  {/* password field */}
-
+                  {/* Password field */}
                   <FormGroup>
                     <Label for="password">Enter password</Label>
                     <Input
@@ -136,10 +134,12 @@ const Login = () => {
                   </FormGroup>
 
                   <Container className="text-center">
-                    <Button onClick={handleFormSubmit}
+                    <Button
+                      onClick={handleFormSubmit}
                       className="ms-2"
                       outline
-                      color="secondary">
+                      color="secondary"
+                    >
                       Login
                     </Button>
                     <Button

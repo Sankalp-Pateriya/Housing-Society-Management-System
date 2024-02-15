@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+
 import axios from 'axios';
 import '../assets/Home.scss';
-import house from '../images/house.png';
-import banner from '../images/ds.jpg';
+
 import BuildingCard from '../component/BuildingCard'; // Import BuildingCard component
-import Buildingcard from '../component/Buildingcard.css'
+
 
 
 
 function Home() {
     const [buildings, setBuildings] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-
+    
     useEffect(() => {
         fetchBuildings();
     }, []);
@@ -29,6 +28,8 @@ function Home() {
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
     };
+
+    
 
     const filteredBuildings = buildings.filter(building => {
         return building.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -55,19 +56,7 @@ function Home() {
                         <BuildingCard key={building.id} building={building} />
                     ))}
                 </div>
-
-                {/* Banner */}
-                {/* <div className='banner-section'>
-                    <img src={banner} alt="Banner" />
-                </div> */}
-
-                {/* Link to View Property Page */}
-                {/* <Link to='/viewproperty'>
-                    <img src={house} alt="House" width="40%" height="40%" />
-                </Link> */}
-
-                {/* Display Current Time */}<br/><br/><br/><br/><br/><br/>
-                <h1 className='col-md-6 offset-md-3'>{new Date().toLocaleTimeString()}</h1>
+   
             </div>
         </div>
     );
