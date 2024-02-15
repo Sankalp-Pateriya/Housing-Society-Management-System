@@ -1,0 +1,181 @@
+// new css
+.view-pg {
+  border: 2px solid #ccc;
+  margin-top: 40px;
+  margin-left: 27%;
+  box-shadow: 10px 10px 3px rgba(195, 190, 190, 0.3);
+  background-image: radial-gradient(circle, #FBFFB1, antiquewhite);
+  border-radius: 20px;
+
+  .pg-name {
+    margin: 0 10px;
+    border-bottom: 2px solid #ccc;
+    text-align: center;
+  }
+
+  .pg-details {
+    border-bottom: 2px solid #ccc;
+    margin: 15px;
+    font-size: larger;
+    width: 800px;
+    height: 50px;
+    font-weight: 600;
+  }
+
+  .pg-description {
+    display: flex;
+
+    .photo-gallery {
+      width: 300px;
+      padding: 10px;
+      margin-right: 30px;
+    }
+
+
+    .row {
+      margin-top: 7%;
+    }
+
+    .amenities {
+      border: 2px solid #ccc;
+      width: 47%;
+      border-radius: 5px;
+      margin-right: 5px;
+      margin-left: 5px;
+      margin-bottom: 10px;
+      box-shadow: 5px 5px 3px rgba(195, 190, 190, 0.3);
+      text-align: left;
+      font-weight: 600;
+      padding: 12px;
+    }
+
+  }
+
+  .pg-owner-details {
+    margin-top: 10px;
+  }
+}
+
+// new css
+.view-pg {
+  border: 1px solid #ccc;
+
+  .pg-name {
+    margin: 0 20px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+  }
+
+  .pg-details {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 15px;
+    margin: 10px;
+
+  }
+
+  .pg-discrption {
+    display: flex;
+  }
+
+  .photo-gallry {
+    width: 300px;
+    padding: 10px;
+  }
+
+
+
+}
+
+
+// pratik css
+body {
+  background: #f7f7f7 !important;
+}
+
+.shadow-defaultCardShadow {
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.15) !important;
+}
+
+.pg-name {
+  padding: 10px;
+  background: #ebebeb;
+
+  h2 {
+    font-size: 14px;
+
+  }
+
+  h4 {
+    font-size: 13px;
+  }
+}
+
+.pg-details-section {
+  background: #fff;
+  border-top: 1px solid #f1f1f1;
+}
+
+.pg-amount {
+  background: #fff;
+  padding: 12px;
+}
+
+.font-semi-bold {
+  font-weight: 600;
+}
+
+.fontsme {
+  font-size: 14px;
+}
+
+.dpname {
+  font-size: 13px;
+}
+
+.photo-section {
+  flex: 2.1 1 0%;
+}
+
+.dis-img {
+  flex: 3 1 0%;
+  display: flex;
+  border: 1px solid #ccc;
+  margin-left: 15px;
+}
+
+.border-3 {
+  border-width: 3px !important;
+}
+
+.bg-left {
+  background-image: url('https://assets.nobroker.in/nb-new/public/List-Page/listpage_sprite_2.png');
+  background-position: -17px -591px;
+}
+
+.pl-3p {
+  padding-left: 30px !important;
+}
+
+.flex-1 {
+  -webkit-box-flex: 1 !important;
+  -ms-flex: 1 1 0% !important;
+  flex: 1 1 !important;
+}
+
+.photo-section img {
+  width: 290px;
+  height: 250px;
+}
+
+.discrption-flow {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+}
+.dis-img-section{
+  display: flex;
+}
+.filter-container{
+  background-color: #fff;
+  margin-right: 14px;
+  }

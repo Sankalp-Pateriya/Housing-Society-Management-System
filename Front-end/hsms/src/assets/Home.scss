@@ -1,0 +1,121 @@
+
+.homepage {
+    height: auto;
+    background-size: cover;
+}
+
+.search-box {
+    margin: 20px auto;
+    max-width: 500px;
+    display: flex;
+}
+
+.search-box input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-box button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+.search-results {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .search-result-tile {
+    margin: 10px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    width: 200px;
+    text-align: center;
+  }
+  
+  .search-result-tile:hover {
+    transform: translateY(-5px);
+  }
+  
+  .search-result-content {
+    text-align: center;
+  }
+  
+  .search-result-content h3 {
+    margin: 0;
+    font-size: 20px;
+  }
+  
+  .search-result-content p {
+    margin: 5px 0;
+    color: #666;
+  }
+  
+  
+.container {
+    max-width: 1200px;
+}
+
+.banner-section {
+    img {
+        width: 100%;
+    }
+}
+
+.u-section-2 {
+    width: 1035px;
+    margin: -175px auto 0 calc(((100% - 1140px) / 2) + 53px);
+
+    .u-layout-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        min-height: 100%;
+        max-width: 100%;
+    }
+
+    .u-layout-cell,
+    .u-group.u-opacity {
+        //background-color: transparent !important;
+        opacity: 1;
+    }
+
+    .u-valign-middle,
+    .u-valign-top,
+    .u-valign-bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 21px;
+        padding: 22px;
+    }
+
+    .u-layout-row>.u-size-20 {
+        flex: 0 0 33.33333333%;
+        max-width: 31.333333%;
+        margin-right: 11px;
+    }
+
+    .u-container-style {
+        color: #ffffff;
+        background-color: #81b6bb;
+    }
+}
+
+.finding-property {
+    background: #f0f4f7;
+    padding-top: 115px;
+    margin-top: 3%;
+
+    h1 {
+        margin-bottom: 50px;
+    }
+}
