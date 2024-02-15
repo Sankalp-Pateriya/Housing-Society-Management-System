@@ -80,10 +80,16 @@ public class UserDTO  {
 		this.role = role;
 	}
 
+
+
+
 	@Override
 	public String toString() {
-		return "UserDTO [name=" + name + ", email=" + email + ", password=" + password + ", role=" + role + "]";
+		return "UserDTO [name=" + name + ", email=" + email + ", password=" + password + ", contact=" + contact
+				+ ", role=" + role + "]";
 	}
+
+	
 
 	
 
