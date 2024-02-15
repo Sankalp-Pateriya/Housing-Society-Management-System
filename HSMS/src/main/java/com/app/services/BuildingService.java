@@ -3,6 +3,7 @@ package com.app.services;
 import java.util.List;
 
 import com.app.dto.BuildingDTO;
+import com.app.dto.BuildingNameAndIdDTO;
 import com.app.dto.FlatDTO;
 
 
@@ -10,6 +11,7 @@ public interface BuildingService {
 	BuildingDTO addBuilding(BuildingDTO buildingDTO);
 	List<FlatDTO> searchFlats(String element, String type, int highArea, int lowArea,int highRent,int lowRent);
 	List<BuildingDTO> getAllBuilding();
-	List<Long> getAllBuildingIds();
+	
+	List<BuildingNameAndIdDTO> getAllBuildingDtls();
 }
 

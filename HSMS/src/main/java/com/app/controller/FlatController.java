@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.BuildingNameAndIdDTO;
 import com.app.dto.FlatDTO;
 import com.app.services.BuildingService;
 import com.app.services.FlatService;
@@ -86,14 +87,14 @@ public class FlatController {
 				
 			}
 	
-//api to get all  buildingIDs
-    
-    @GetMapping("/buildingIDs")
-    public ResponseEntity<?> getAllBuildingId()
-    {
-    	List<Long> buildingId = buildingService.getAllBuildingIds();
-    	return new ResponseEntity<>(buildingId,HttpStatus.OK);
-    }
+			//api to get all  buildingIDs and names
+		    
+		    @GetMapping
+		    public ResponseEntity<?> getAllBuildingDtls()
+		    {
+		    	List<BuildingNameAndIdDTO> buildingDtls = buildingService.getAllBuildingDtls();
+		    	return new ResponseEntity<>(buildingDtls,HttpStatus.OK);
+		    }
 	
 
 }

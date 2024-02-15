@@ -14,6 +14,7 @@ import com.app.dao.BuildingRepository;
 import com.app.dao.FlatRepository;
 import com.app.dao.UserRepository;
 import com.app.dto.BuildingDTO;
+import com.app.dto.BuildingNameAndIdDTO;
 import com.app.dto.FlatDTO;
 import com.app.pojos.Building;
 import com.app.pojos.Flat;
@@ -164,22 +165,23 @@ public class BuildingServiceImpl implements BuildingService {
 	}
 
 	@Override
-	public List<Long> getAllBuildingIds() 
+	public List<BuildingNameAndIdDTO> getAllBuildingDtls()
 	{
-		// TODO Auto-generated method stub
-		Long id;
-		List<Long> ids = new ArrayList<Long>();
 		List<Building> buildings = buildingRepository.findAll();
+		List<BuildingNameAndIdDTO> nameAndId = new ArrayList<BuildingNameAndIdDTO>();
 		
-		for (Building building : buildings) 
-		{
-			id = building.getId();
-			System.out.println("ID values :"+id);
-			ids.add(id);
-			
-		}
-		
-		return ids;
+				for (Building building : buildings)
+				{
+					nameAndId.add(modelMapper.map(building, BuildingNameAndIdDTO.class));
+				}
+				
+				for (BuildingNameAndIdDTO buildingNameAndIdDTO : nameAndId) 
+				{
+					System.out.println("name and ID of building"+buildingNameAndIdDTO);
+				}
+		return nameAndId;
 	}
+
+
 
 }
