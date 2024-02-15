@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer from react-toastify
+import axios from "axios"; // Import Axios
 import {
   Label,
   Card,
@@ -21,7 +22,6 @@ import { useContext } from "react";
 
 const Login = () => {
   const userContxtData = useContext(userContext);
-
   const navigate = useNavigate();
 
   const [loginDetail, setLoginDetail] = useState({
@@ -49,24 +49,25 @@ const Login = () => {
     console.log(loginDetail);
     //validation
     if (
-      loginDetail.username.trim() == "" ||
-      loginDetail.password.trim() == ""
+      loginDetail.username.trim() === "" ||
+      loginDetail.password.trim() === ""
     ) {
-      toast.error("Username or Password  is required !!");
+      toast.error("Username or Password is required !!");
       return;
     }
 
     //submit the data to server to generate token
-    loginUser(loginDetail)
-      .then((data) => {
-        console.log(data);
+    axios
+      .post("http://localhost:8080/login", loginDetail) // Adjust the URL to match your backend endpoint
+      .then((response) => {
+        console.log(response.data);
 
-        //save the data to localstorage
-        doLogin(data, () => {
-          console.log("login detail is saved to localstorage");
-          //redirect to user dashboard page
+        // Save the data to localStorage
+        doLogin(response.data, () => {
+          console.log("Login detail is saved to localStorage");
+          // Redirect to user dashboard page
           userContxtData.setUser({
-            data: data.user,
+            data: response.data.user,
             login: true,
           });
           navigate("/user/dashboard");
@@ -75,11 +76,11 @@ const Login = () => {
         toast.success("Login Success");
       })
       .catch((error) => {
-        console.log(error);
-        if (error.response.status == 400 || error.response.status == 404) {
+        console.error("Login error:", error);
+        if (error.response && (error.response.status === 400 || error.response.status === 404)) {
           toast.error(error.response.data.message);
         } else {
-          toast.error("Something went wrong  on sever !!");
+          toast.error("Something went wrong on server!!");
         }
       });
   };
@@ -102,7 +103,6 @@ const Login = () => {
               <CardBody>
                 <Form onSubmit={handleFormSubmit}>
                   {/* Email field */}
-
                   <FormGroup>
                     <Label for="email">Enter Email</Label>
                     <Input
@@ -114,7 +114,6 @@ const Login = () => {
                   </FormGroup>
 
                   {/* password field */}
-
                   <FormGroup>
                     <Label for="password">Enter password</Label>
                     <Input
@@ -126,7 +125,7 @@ const Login = () => {
                   </FormGroup>
 
                   <Container className="text-center">
-                    <Button color="light" outline>
+                    <Button color="light" outline type="submit">
                       Login
                     </Button>
                     <Button
@@ -144,6 +143,8 @@ const Login = () => {
           </Col>
         </Row>
       </Container>
+      {/* ToastContainer for displaying notifications */}
+      <ToastContainer position="bottom-left" autoClose={3000} />
     </div>
   );
 };
