@@ -1,0 +1,8 @@
+.building-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 50px; /* Adjust the value as needed */
+  }
+
+  
