@@ -29,7 +29,7 @@ public class FlatController {
 	@Autowired
 	private BuildingService buildingService;
 	
-	@PostMapping
+	@PostMapping("/addFlat")
 	public ResponseEntity<?> addFlat(@RequestBody FlatDTO flatDto){
 		try {
 			FlatDTO newFlatDto=flatService.addFlat(flatDto);
