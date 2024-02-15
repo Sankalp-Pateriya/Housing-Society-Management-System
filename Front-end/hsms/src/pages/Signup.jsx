@@ -1,8 +1,7 @@
-
-
 import React, { useState } from "react";
-import { signUp } from "../services/user-service";
-import { toast } from "react-toastify";
+import axios from "axios"; // Import axios
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import {
   Button,
   Card,
@@ -52,27 +51,25 @@ const Signup = () => {
   };
 
   //submit the form
-  const submitForm = (event) => {
-    event.preventDefault();
+const submitForm = (event) => {
+  event.preventDefault();
 
-    console.log(data);
-
-    // Call the backend API for user registration
-    signUp(data)
-      .then((resp) => {
-        console.log(resp);
-        toast.success("User is registered successfully !! user id " + resp.id);
-        // Reset the form after successful registration
-        resetData();
-      })
-      .catch((error) => {
-        console.log(error);
-        setError({
-          errors: error,
-          isError: true,
-        });
+  // Call the backend API for user registration
+  axios.post("http://localhost:8080/users", data) // Adjust the URL to match your backend endpoint
+    .then((resp) => {
+      toast.success("User is registered successfully !! user id " + resp.data.id);
+      // Reset the form after successful registration
+      resetData();
+    })
+    .catch((error) => {
+      toast.error("Failed to register user: " + error.message);
+      setError({
+        errors: error,
+        isError: true,
       });
-  };
+    });
+};
+
 
   return (
     <div>
@@ -135,7 +132,7 @@ const Signup = () => {
                   </FormGroup>
 
                   {/* contact field */}
-                  <FormGroup>
+                  {/* <FormGroup>
                     <Label for="user_contact">Enter phone</Label>
                     <Input
                       type="number"
@@ -148,10 +145,10 @@ const Signup = () => {
                     <FormFeedback>
                       {error.errors?.response?.data?.phone}
                     </FormFeedback>
-                  </FormGroup>
+                  </FormGroup> */}
 
                   {/* about field */}
-                  <FormGroup>
+                  {/* <FormGroup>
                     <Label for="about">Write something about yourself</Label>
                     <Input
                       type="textarea"
@@ -165,7 +162,7 @@ const Signup = () => {
                     <FormFeedback>
                       {error.errors?.response?.data?.about}
                     </FormFeedback>
-                  </FormGroup>
+                  </FormGroup> */}
 
                   {/* Role field */}
                   <FormGroup>
@@ -183,7 +180,7 @@ const Signup = () => {
                   </FormGroup>
 
                   <Container className="text-center">
-                    <Button outline color="light">Register</Button>
+                    <Button outline color="light" type="submit">Register</Button>
                     <Button onClick={resetData} color="secondary" type="reset" className="ms-2">Reset</Button>
                   </Container>
                 </Form>
@@ -192,6 +189,7 @@ const Signup = () => {
           </Col>
         </Row>
       </Container>
+      <ToastContainer position="bottom-left" autoClose={3000} />
     </div>
   );
 };
