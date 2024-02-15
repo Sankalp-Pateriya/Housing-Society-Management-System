@@ -33,6 +33,9 @@ public class User {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
+    
+    @Column(length = 10, nullable = false)
+	private long contact;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.DETACH)
     private Set<Building> buildings;
@@ -40,23 +43,39 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.DETACH)
     private Set<Flat> flats = new HashSet<>();
 
-	public User() {
-		super();
-		// TODO Auto-generated constructor stub
+	public long getContact() {
+		return contact;
 	}
+
+
 
 	public User(
 			@NotBlank(message = "Name is required") @Size(max = 50, message = "Name must be less than 50 characters") String name,
 			@NotBlank(message = "Email is required") @Email(message = "Email must be valid") String email,
 			@NotBlank(message = "Password is required") @Size(min = 8, max = 20, message = "Password must be between 8 and 20 characters") String password,
-			Role role) {
+			Role role, long contact) {
 		super();
-		
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.role = role;
+		this.contact = contact;
 	}
+
+
+
+	public void setContact(long contact) {
+		this.contact = contact;
+	}
+
+
+
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	
 
 	public Long getId() {
 		return id;
@@ -120,10 +139,7 @@ public class User {
 		this.flats = flats;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + "]";
-	}
+	
 
     // Constructors, getters, setters, and equals()/hashCode()
     

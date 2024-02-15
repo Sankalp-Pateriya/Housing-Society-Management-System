@@ -1,5 +1,6 @@
 package com.app.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,9 +52,20 @@ public class FlatServiceImpl implements FlatService {
 
 	@Override
 	public List<FlatDTO> getAllFlats() {
-		List<Flat> flats = flatRepository.findAll();
-		List<FlatDTO> flatDTOs = flats.stream().filter((e)->e.isAvailable()).map((e)->modelMapper.map(e, FlatDTO.class)).collect(Collectors.toList());
-		return flatDTOs;
+		List<Flat> allFlats = flatRepository.findAll();
+		List<FlatDTO> allFlatsDto = new ArrayList<FlatDTO>();
+		for (Flat flat : allFlats)
+		{
+			FlatDTO flatDto = modelMapper.map(flat, FlatDTO.class);
+			User u = userRepository.findById(flat.getUser().getId()).get();
+			flatDto.setUserId(u.getId());
+			Building b = buildingRepository.findById(flat.getBuilding().getId()).get();
+			flatDto.setBuildingId(b.getId());
+			allFlatsDto.add(flatDto);
+			System.out.println("allFaltsDto"+allFlatsDto);
+		}
+		
+		return allFlatsDto;
 	}
 
 	@Override

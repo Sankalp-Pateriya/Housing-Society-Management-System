@@ -76,6 +76,16 @@ public class FlatController {
 		}
 	}
 	
+	
+	//api to get all flats
+			@GetMapping("/allFlats")
+			public ResponseEntity<?> allFlats()
+			{
+				List<FlatDTO> allFlats = flatService.getAllFlats();
+				return new ResponseEntity<>(allFlats,HttpStatus.OK);
+				
+			}
+	
 //api to get all  buildingIDs
     
     @GetMapping("/buildingIDs")

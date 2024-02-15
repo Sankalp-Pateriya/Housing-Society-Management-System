@@ -8,6 +8,7 @@ public class UserDTO  {
     private String name;
     private String email;
     private String password;
+    private Long contact;
     private Role role;
     
     
@@ -17,16 +18,35 @@ public class UserDTO  {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserDTO( String name,  String email, String password, Role role) {
-        
-        this.name = name;
-        
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
+
 
 	
+	public UserDTO(String name, String email, String password, Long contact, Role role) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.contact = contact;
+		this.role = role;
+	}
+
+
+
+
+	public Long getContact() {
+		return contact;
+	}
+
+
+
+
+	public void setContact(Long contact) {
+		this.contact = contact;
+	}
+
+
+
+
 	public String getName() {
 		return name;
 	}
