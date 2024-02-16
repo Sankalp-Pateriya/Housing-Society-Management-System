@@ -37,11 +37,11 @@ public class Flat {
     private double rent;
 
     @ManyToOne
-    @JoinColumn(name = "building_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "building_id", referencedColumnName = "id")
     private Building building;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
 	public Flat() {

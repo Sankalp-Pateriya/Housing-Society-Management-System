@@ -52,8 +52,8 @@ public class BuildingController {
 	@GetMapping
 	public ResponseEntity<?> getAllBuilding() {
 		try {
-			List<BuildingIdDTO> buildingDTO = buildingService.getAllBuilding();
-			return ResponseEntity.status(HttpStatus.OK).body(buildingDTO);			
+			List<BuildingIdDTO> buildingIdDTOs = buildingService.getAllBuilding();
+			return ResponseEntity.status(HttpStatus.OK).body(buildingIdDTOs);			
 		}catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error Occurred" + e.getMessage());
 		}

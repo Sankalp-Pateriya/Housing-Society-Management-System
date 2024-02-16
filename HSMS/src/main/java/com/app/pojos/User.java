@@ -36,7 +36,7 @@ public class User {
 	private long contact;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.DETACH)
-    private Set<Building> buildings;
+    private Set<Building> buildings = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.DETACH)
     private Set<Flat> flats = new HashSet<>();

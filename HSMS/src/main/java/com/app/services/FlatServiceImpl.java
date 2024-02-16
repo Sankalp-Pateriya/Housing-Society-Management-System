@@ -42,10 +42,15 @@ public class FlatServiceImpl implements FlatService {
 		return null;
 	}
 	Flat flat=modelMapper.map(flatdto, Flat.class);
-	flat.setBuilding(buildingRepository.findById(flatdto.getBuildingId()).get());
-	flat.setUser(userRepository.findById(flatdto.getUserId()).get());
-	System.out.println("Flat Building:"+flat.getBuilding());
-	System.out.println("Flat OWner:"+flat.getUser());
+	User u = userRepository.findById(flatdto.getUserId()).get();
+	flat.setUser(u);
+	Building building = buildingRepository.findById(flatdto.getBuildingId()).get();
+	flat.setBuilding(building);
+
+//	flat.setBuilding(buildingRepository.findById(flatdto.getBuildingId()).get());
+//	flat.setUser(userRepository.findById(flatdto.getUserId()).get());
+//	System.out.println("Flat Building:"+flat.getBuilding());
+//	System.out.println("Flat OWner:"+flat.getUser());
 	flatRepository.save(flat);
 	return flatdto;
 	
