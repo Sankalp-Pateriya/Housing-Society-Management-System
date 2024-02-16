@@ -16,6 +16,7 @@ import ViewBuilding from './pages/ViewBuilding.jsx';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Contact from './pages/Contact'; // Import Contact component
 import Terms from './pages/Terms'; // Import Terms component
+import Sitemap from './pages/Sitemap.jsx';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<Terms />} /> {/* New route for Terms page */}
             <Route path="/contact" element={<Contact />} /> {/* New route for Contact page */}
+            <Route path="/sitemap" element={<Sitemap />} /> {/* New route for Contact page */}
           </Routes>
         </div>
         <Footer />
