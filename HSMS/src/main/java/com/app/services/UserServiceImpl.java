@@ -2,34 +2,27 @@ package com.app.services;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.transaction.Transactional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import com.app.dao.UserRepository;
-import com.app.dto.SignupRequest;
-import com.app.dto.UserDTO;
-import com.app.exception.NotFoundException;
-import com.app.pojos.Role;
 import com.app.dao.BuildingRepository;
 import com.app.dao.FlatRepository;
 import com.app.dao.UserRepository;
 import com.app.dto.FlatComponentDTO;
 import com.app.dto.FlatDTO;
+import com.app.dto.SigninRequest;
 import com.app.dto.UserDTO;
 import com.app.exception.NotFoundException;
+import com.app.exception.ResourceNotFoundException;
 import com.app.pojos.Building;
 import com.app.pojos.Flat;
+import com.app.pojos.Role;
 import com.app.pojos.User;
-
 
 @Service
 @Transactional
@@ -44,28 +37,24 @@ public class UserServiceImpl implements UserService{
     @Autowired
     FlatRepository flatRepository;
     
+    @Autowired
+	private PasswordEncoder encoder;
+    
     
     @Autowired
     private ModelMapper modelMapper;
-    
-    @Autowired
-	private PasswordEncoder encoder;
 
-    
-    
-    public UserDTO createUser(SignupRequest signupRequest) {
-    	User user= modelMapper.map(signupRequest, User.class);
-    	user.setPassword(encoder.encode(signupRequest.getPassword()));
-    	user.setRole(Role.valueOf(signupRequest.getRole().toUpperCase())); 
-    	userRepository.save(user);  
-    	UserDTO userDTO=modelMapper.map(signupRequest, UserDTO.class);
-    	
-    	return userDTO;
-    }
-    
-    
-    
+   @Override
+	public UserDTO createUser(UserDTO userDTO) {
+		User user = modelMapper.map(userDTO, User.class);
+		user.setPassword(encoder.encode(userDTO.getPassword()));
+		user.setRole(Role.valueOf(userDTO.getRole().toUpperCase()));
+		userRepository.save(user);
 
+		return userDTO;
+	}
+    
+    @Override
     public List<UserDTO> getAllUsers() {
     	List<User> users=userRepository.findAll();
     	 List<UserDTO> userDTOs=new ArrayList<>();
@@ -75,6 +64,7 @@ public class UserServiceImpl implements UserService{
     	return userDTOs;
     }
     
+    @Override
     public UserDTO getUserById(Long id) {
     	
     	User user = userRepository.findById(id).get();
@@ -82,6 +72,7 @@ public class UserServiceImpl implements UserService{
         return userDTO;
     }
 
+    @Override
     public UserDTO updateUser(long id,UserDTO userDTO) {
     	User user= userRepository.findById(id).orElseThrow(()->new NotFoundException("Invalid Id"));
     	user= modelMapper.map(userDTO, User.class);
@@ -91,7 +82,7 @@ public class UserServiceImpl implements UserService{
         return userDTO;
     }
 
-
+    @Override
 	public List<FlatDTO> searchFlats(String element, String type, int highArea, int lowArea, int highRent,
 			int lowRent) {
 		System.out.println();
@@ -180,6 +171,18 @@ public class UserServiceImpl implements UserService{
 		System.out.println(flatDTOs);
 		System.out.println();
 		return flatDTOs;
+	}
+    
+    
+    @Override
+	public UserDTO signInUser(SigninRequest signinRequest) {
+		User user = userRepository.findByEmail(signinRequest.getEmail())
+				.orElseThrow(() -> new ResourceNotFoundException("No User with email found!!"));
+
+		if (encoder.matches(signinRequest.getPassword(), user.getPassword())) {
+			return modelMapper.map(user, UserDTO.class);
+		}
+		return null;
 	}
     // Other methods for updating, deleting, and retrieving users
 }

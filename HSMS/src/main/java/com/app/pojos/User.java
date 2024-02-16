@@ -1,10 +1,8 @@
 package com.app.pojos;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,22 +11,22 @@ import java.util.Set;
 @Table(name = "users")
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "name")
-	@NotBlank(message = "Name is required")
-	@Size(max = 50, message = "Name must be less than 50 characters")
-	private String name;
+    @Column(name = "name")
+    @NotBlank(message = "Name is required")
+    @Size(max = 50, message = "Name must be less than 50 characters")
+    private String name;
 
-	@Column(name = "email", unique = true)
-	@NotBlank(message = "Email is required")
-	@Email(message = "Email must be valid")
-	private String email;
+    @Column(name = "email", unique = true)
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email must be valid")
+    private String email;
 
-	@Column(length = 300, nullable = false)
-	private String password;
+    @Column(length = 300, nullable = false)
+    private String password;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
@@ -40,11 +38,8 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.DETACH)
     private Set<Building> buildings;
 
-	@OneToOne(mappedBy = "user", cascade = CascadeType.DETACH)
-	private Building building;
-
-	@OneToMany(mappedBy = "user", cascade = CascadeType.DETACH)
-	private Set<Flat> flats = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.DETACH)
+    private Set<Flat> flats = new HashSet<>();
 
 	public long getContact() {
 		return contact;
@@ -55,7 +50,7 @@ public class User {
 	public User(
 			@NotBlank(message = "Name is required") @Size(max = 50, message = "Name must be less than 50 characters") String name,
 			@NotBlank(message = "Email is required") @Email(message = "Email must be valid") String email,
-			@NotBlank(message = "Password is required") @Size(min = 8, max = 20, message = "Password must be between 8 and 20 characters") String password,
+			String password,
 			Role role, long contact) {
 		super();
 		this.name = name;
@@ -79,14 +74,6 @@ public class User {
 	}
 
 	
-
-	public Long getContact() {
-		return contact;
-	}
-
-	public void setContact(Long contact) {
-		this.contact = contact;
-	}
 
 	public Long getId() {
 		return id;
@@ -152,6 +139,8 @@ public class User {
 
 	
 
-	// Constructors, getters, setters, and equals()/hashCode()
-
+    // Constructors, getters, setters, and equals()/hashCode()
+    
+    
+    
 }

@@ -1,19 +1,15 @@
 package com.app.dto;
 
-public class UserDTO {
+import com.app.pojos.Role;
 
-	private String name;
-	private String email;
-	private String password;
-	private Long contact;
-	private String role;
+public class UserDTO  {
 
    
     private String name;
     private String email;
     private String password;
     private Long contact;
-    private Role role;
+    private String role;
     
     
 
@@ -25,7 +21,7 @@ public class UserDTO {
 
 
 	
-	public UserDTO(String name, String email, String password, Long contact, Role role) {
+	public UserDTO(String name, String email, String password, Long contact, String role) {
 		super();
 		this.name = name;
 		this.email = email;
@@ -59,6 +55,7 @@ public class UserDTO {
 		this.name = name;
 	}
 
+	
 	public String getEmail() {
 		return email;
 	}
@@ -74,8 +71,6 @@ public class UserDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	
 
 	public String getRole() {
 		return role;

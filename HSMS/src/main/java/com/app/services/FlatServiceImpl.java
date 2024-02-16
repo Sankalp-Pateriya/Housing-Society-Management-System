@@ -21,7 +21,6 @@ import com.app.pojos.User;
 @Service
 @Transactional
 public class FlatServiceImpl implements FlatService {
-
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -34,7 +33,6 @@ public class FlatServiceImpl implements FlatService {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
 
 	public FlatDTO addFlat(FlatDTO flatdto) {
 	Optional<User> userById = userRepository.findById(flatdto.getUserId());
@@ -43,12 +41,9 @@ public class FlatServiceImpl implements FlatService {
 		return null;
 	}
 	Flat flat=modelMapper.map(flatdto, Flat.class);
-	Long bid = flatdto.getBuildingId();
 	flat.setBuilding(buildingRepository.findById(flatdto.getBuildingId()).get());
 	flat.setUser(userRepository.findById(flatdto.getUserId()).get());
-	Building building = buildingRepository.findById(bid).get();
-	System.out.println(building);
-	
+	System.out.println("Flat Building:"+flat.getBuilding());
 	System.out.println("Flat OWner:"+flat.getUser());
 	flatRepository.save(flat);
 	return flatdto;
@@ -104,13 +99,5 @@ public class FlatServiceImpl implements FlatService {
 		}
 	}
 	
-
-	@Override
-	public List<FlatDTO> getAllFlats() {
-		List<Flat> flats = flatRepository.findAll();
-		List<FlatDTO> flatDTOs = flats.stream().map((e)->modelMapper.map(e, FlatDTO.class)).collect(Collectors.toList());
-		return flatDTOs;
-	}
-
 
 }

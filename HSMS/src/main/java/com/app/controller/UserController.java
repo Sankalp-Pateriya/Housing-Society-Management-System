@@ -1,6 +1,5 @@
 package com.app.controller;
 
-import javax.validation.Valid;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,25 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.SigninRequest;
-import com.app.dto.SigninResponse;
-import com.app.dto.SignupRequest;
 import com.app.dto.UserDTO;
 import com.app.services.UserServiceImpl;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
 	@Autowired
-	UserService userService;
-	
-	@Autowired
-	private AuthenticationManager mgr;
-	
-	@Autowired
-	private JwtUtils utils;
+	private UserServiceImpl userService;
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> createUser(@RequestBody UserDTO userDto) {
@@ -45,12 +35,6 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(""+e.getMessage());			
 		}
 	}
-	
-//	@PostMapping("/login")
-//    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
-//        return status(200).body(userService.login(loginRequest));
-//    }
-	
 
 	@GetMapping
 	public ResponseEntity<?> getAllUsers() {
@@ -81,20 +65,14 @@ public class UserController {
 		}
 	}
 	
-	@DeleteMapping
-	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-		return ResponseEntity.status(HttpStatus.OK).body(userService.deleteUser(id));
-	}
-	
-	@PostMapping("/signin")
-	public ResponseEntity<?> signIn(@RequestBody @Valid SigninRequest request) {
-		System.out.println("in sign in " + request);
-		// invoke autheticate(...) of Authenticate for auth
-		Authentication principal = mgr
-				.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-		// generate JWTS
-		String jwtToken = utils.generateJwtToken(principal);
-		return ResponseEntity.ok(new SigninResponse(jwtToken, "User authentication success!!!"));
+	@PostMapping("/signIn")
+	public ResponseEntity<?> signinUser(@RequestBody SigninRequest signinRequest) {
+		System.out.println(signinRequest);
+		UserDTO userdto = userService.signInUser(signinRequest);
+		if (userdto != null)
+			return ResponseEntity.status(HttpStatus.CREATED).body(userdto);
+		else
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userdto);
 	}
 
 }

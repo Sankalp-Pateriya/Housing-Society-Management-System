@@ -22,7 +22,6 @@ import com.app.pojos.User;
 
 @Transactional
 @Service
-@Transactional
 public class BuildingServiceImpl implements BuildingService {
 
 	private final BuildingRepository buildingRepository;

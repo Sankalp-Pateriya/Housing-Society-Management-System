@@ -24,7 +24,7 @@ public class Flat {
     private int area;
 
     @Column(name = "floor")
-    @Min(value = 0, message = "Floor must be greater than or equal to 0")
+    @Min(value = 1, message = "Floor must be greater than or equal to 1")
     private int floor;
 
     @Column(name = "type")
@@ -35,13 +35,13 @@ public class Flat {
 
     @Column(name = "rent")
     private double rent;
-    
+
     @ManyToOne
-    @JoinColumn(name = "building_id", referencedColumnName = "id")
+    @JoinColumn(name = "building_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Building building;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
 
 	public Flat() {
