@@ -1,35 +1,36 @@
-import '../assets/layout.scss'
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import '../assets/layout.scss';
 
 function Footer() {
   return (
     <div className="margin-t">
-     <div class="footer">
-        <p class="footer-center">
-                Copyright © 2023 Housing-Society-Management-System
+      <div className="footer">
+        <p className="footer-center">
+          Copyright © 2023 Housing-Society-Management-System
         </p>
-        <div class="footer-center di-sm-pb-10 di-md-pb-20">
-            <p class="footerlink-outer">
-                <a class="footerlinks" title="home">Home</a>
-            </p>
-            <p class="footerlink-outer">
-                <a class="footerlinks" title="contact">Contact</a>
-            </p>
-            <p class="footerlink-outer">
-                <a class="footerlinks" title="contact">About</a>
-            </p>
-            <p class="footerlink-outer">
-                <a class="footerlinks" title="terms">Terms</a>
-            </p>
-            <p class="footerlink-outer">
-                <a class="footerlinks" title="privacy policy">Privacy Policy</a>
-            </p>
-            <p class="footerlink-outer">
-                <a class="footerlinks" title="sitemap">Sitemap</a>
-            </p>
+        <div className="footer-center di-sm-pb-10 di-md-pb-20">
+          {/* Use Link component from react-router-dom for navigation */}
+          <p className="footerlink-outer">
+            <Link to="/" className="footerlinks" title="home">Home</Link>
+          </p>
+          <p className="footerlink-outer">
+            <Link to="/contact" className="footerlinks" title="contact">Contact</Link>
+          </p>
+          <p className="footerlink-outer">
+            <Link to="/about" className="footerlinks" title="about">About</Link>
+          </p>
+          <p className="footerlink-outer">
+            <Link to="/terms" className="footerlinks" title="terms">Terms</Link>
+          </p>
+          <p className="footerlink-outer">
+            <Link to="/privacy-policy" className="footerlinks" title="privacy policy">Privacy Policy</Link>
+          </p>
+          <p className="footerlink-outer">
+            <Link to="/sitemap" className="footerlinks" title="sitemap">Sitemap</Link>
+          </p>
         </div>
-        <div class="clearfix">
-        </div>
-    </div>
+        <div className="clearfix"></div>
+      </div>
     </div>
   );
 }
