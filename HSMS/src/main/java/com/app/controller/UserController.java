@@ -1,15 +1,12 @@
 package com.app.controller;
 
 import javax.validation.Valid;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,10 +19,7 @@ import com.app.dto.SigninRequest;
 import com.app.dto.SigninResponse;
 import com.app.dto.SignupRequest;
 import com.app.dto.UserDTO;
-import com.app.jwt_utils.JwtUtils;
-import com.app.services.UserService;
-
-
+import com.app.services.UserServiceImpl;
 
 
 @RestController
@@ -42,11 +36,14 @@ public class UserController {
 	@Autowired
 	private JwtUtils utils;
 
-	@PostMapping
-	public ResponseEntity<?> createUser(@RequestBody SignupRequest signupRequest) {
-		System.out.println(signupRequest);
-		userService.createUser(signupRequest);
-		return ResponseEntity.status(HttpStatus.CREATED).body(signupRequest);
+	@PostMapping("/signup")
+	public ResponseEntity<?> createUser(@RequestBody UserDTO userDto) {
+		try {
+			userService.createUser(userDto);
+			return ResponseEntity.status(HttpStatus.CREATED).body(userDto);			
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(""+e.getMessage());			
+		}
 	}
 	
 //	@PostMapping("/login")
@@ -57,12 +54,31 @@ public class UserController {
 
 	@GetMapping
 	public ResponseEntity<?> getAllUsers() {
-		return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers());
+		try{
+			List<UserDTO> userDTOs = userService.getAllUsers();
+			return new ResponseEntity<>(userDTOs, HttpStatus.OK);			
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(""+e.getMessage());
+		}
+		
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getUserById(@PathVariable Long id) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(userService.getUserById(id));			
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not found!!");	
+		}
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-		return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, userDTO));
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, userDTO));			
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(""+e.getMessage());
+		}
 	}
 	
 	@DeleteMapping

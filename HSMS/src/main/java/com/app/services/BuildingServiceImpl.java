@@ -2,62 +2,85 @@ package com.app.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.app.dao.BuildingRepository;
 import com.app.dao.FlatRepository;
 import com.app.dao.UserRepository;
 import com.app.dto.BuildingDTO;
+import com.app.dto.BuildingNameAndIdDTO;
 import com.app.dto.FlatDTO;
-import com.app.exception.NotFoundException;
 import com.app.pojos.Building;
 import com.app.pojos.Flat;
 import com.app.pojos.User;
 
+@Transactional
 @Service
 @Transactional
 public class BuildingServiceImpl implements BuildingService {
 
+	private final BuildingRepository buildingRepository;
+
+	private final ModelMapper modelMapper;
+
 	@Autowired
-	BuildingRepository buildingRepository;
+	public UserRepository userRespository;
 
 	@Autowired
 	FlatRepository flatRepository;
 
 	@Autowired
-	ModelMapper modelMapper;
-
-	@Autowired
-	public UserRepository userRespository;
+	public BuildingServiceImpl(BuildingRepository buildingRepository) {
+		this.buildingRepository = buildingRepository;
+		this.modelMapper = new ModelMapper();
+	}
 
 	@Override
 	public BuildingDTO addBuilding(BuildingDTO buildingDTO) {
-		
-		User user = userRespository.findById(buildingDTO.getUserId()).get();
-		
+
+		Optional<User> userById = userRespository.findById(buildingDTO.getUserId());
+//    	System.out.println("0");
+		User user = userById.get();
+		if (user != null) {
+			if (!user.getRole().toString().equals("ADMIN")) {
+				return null;
+			}
+		}
 		Building newBuilding = modelMapper.map(buildingDTO, Building.class);
 		newBuilding.setUser(user);
-		
 		System.out.println("NewBuilding:" + newBuilding);
 		System.out.println("Owner:" + newBuilding.getUser());
 		buildingRepository.save(newBuilding);
 		return buildingDTO;
 	}
+	/*
+	 * @Override public BuildingDTO addBuilding(BuildingDTO buildingDTO) {
+	 * Optional<User> userById =userRespository.findById(buildingDTO.getUserId());
+	 * // System.out.println("0"); User user = userById.get(); if(user!=null) {
+	 * if(!user.getRole().toString().equals("ADMIN")) { return null; } }
+	 * 
+	 * // System.out.println("1"); Building newBuilding=modelMapper.map(buildingDTO,
+	 * Building.class); newBuilding.setUser(user);
+	 * System.out.println("NewBuilding:"+newBuilding);
+	 * System.out.println("Owner:"+newBuilding.getUser());
+	 * buildingRepository.save(newBuilding); return buildingDTO; }
+	 */
 
 	@Override
 	public List<BuildingDTO> getAllBuilding() {
 		List<Building> buildings = buildingRepository.findAll();
-		List<BuildingDTO> buildingDTO = new ArrayList<>();
+		List<BuildingDTO> buildingDTOs = new ArrayList<>();
 		for (Building b : buildings) {
-			buildingDTO.add(modelMapper.map(b, BuildingDTO.class));
+			buildingDTOs.add(modelMapper.map(b, BuildingDTO.class));
+			buildingDTOs.forEach((e)->e.setUserId(b.getUser().getId()));
 		}
-		return buildingDTO;
+		return buildingDTOs;
 	}
 
 	public List<FlatDTO> searchFlats(String element, String type, int highArea, int lowArea, int highRent,
@@ -109,7 +132,7 @@ public class BuildingServiceImpl implements BuildingService {
 			System.out.println(" 1 " + flatDTOs);
 			System.out.println();
 		}
-		if ( !type.equalsIgnoreCase("any")) {
+		if (!type.equalsIgnoreCase("any")) {
 			if (!type.toLowerCase().equals("any")) {
 				flatDTOs = flatDTOs.stream().filter((e) -> {
 					return e.getType().toUpperCase().equals(type.toUpperCase());
@@ -143,11 +166,23 @@ public class BuildingServiceImpl implements BuildingService {
 	}
 
 	@Override
-	public String deleteBuilding(Long buildingId) {
-		Building building = buildingRepository.findById(buildingId)
-				.orElseThrow(() -> new NotFoundException("No such Building Id exists!"));
-		buildingRepository.deleteById(buildingId);
-		return "Building Deleted Successfully!";
+	public List<BuildingNameAndIdDTO> getAllBuildingDtls()
+	{
+		List<Building> buildings = buildingRepository.findAll();
+		List<BuildingNameAndIdDTO> nameAndId = new ArrayList<BuildingNameAndIdDTO>();
+		
+				for (Building building : buildings)
+				{
+					nameAndId.add(modelMapper.map(building, BuildingNameAndIdDTO.class));
+				}
+				
+				for (BuildingNameAndIdDTO buildingNameAndIdDTO : nameAndId) 
+				{
+					System.out.println("name and ID of building"+buildingNameAndIdDTO);
+				}
+		return nameAndId;
 	}
+
+
 
 }

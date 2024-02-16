@@ -30,13 +30,15 @@ public class User {
 	@Column(length = 300, nullable = false)
 	private String password;
 
-	@Column(name = "contact")
-	@Digits(integer = 10, fraction = 0, message = "Contact number must be of 10 digits")
-	private Long contact;
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    
+    @Column(length = 10, nullable = false)
+	private long contact;
 
-	@Column(name = "role")
-	@Enumerated(EnumType.STRING)
-	private Role role;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.DETACH)
+    private Set<Building> buildings;
 
 	@OneToOne(mappedBy = "user", cascade = CascadeType.DETACH)
 	private Building building;
@@ -44,24 +46,39 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.DETACH)
 	private Set<Flat> flats = new HashSet<>();
 
+	public long getContact() {
+		return contact;
+	}
+
+
+
+	public User(
+			@NotBlank(message = "Name is required") @Size(max = 50, message = "Name must be less than 50 characters") String name,
+			@NotBlank(message = "Email is required") @Email(message = "Email must be valid") String email,
+			@NotBlank(message = "Password is required") @Size(min = 8, max = 20, message = "Password must be between 8 and 20 characters") String password,
+			Role role, long contact) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+		this.contact = contact;
+	}
+
+
+
+	public void setContact(long contact) {
+		this.contact = contact;
+	}
+
+
+
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(
-			@NotBlank(message = "Name is required") @Size(max = 50, message = "Name must be less than 50 characters") String name,
-			@NotBlank(message = "Email is required") @Email(message = "Email must be valid") String email,
-			String password,
-			@Digits(integer = 10, fraction = 0, message = "Contact number must be of 10 digits") Long contact,
-			Role role) {
-		super();
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.contact = contact;
-		this.role = role;
-	}
+	
 
 	public Long getContact() {
 		return contact;
@@ -111,12 +128,18 @@ public class User {
 		this.role = role;
 	}
 
-	public Building getBuilding() {
-		return building;
+	public Set<Building> getBuilding() {
+		return buildings;
 	}
 
-	public void setBuilding(Building building) {
-		this.building = building;
+	
+
+	public Set<Building> getBuildings() {
+		return buildings;
+	}
+
+	public void setBuildings(Set<Building> buildings) {
+		this.buildings = buildings;
 	}
 
 	public Set<Flat> getFlats() {
@@ -127,11 +150,7 @@ public class User {
 		this.flats = flats;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", contact=" + contact + ", role=" + role
-				+ "]";
-	}
+	
 
 	// Constructors, getters, setters, and equals()/hashCode()
 

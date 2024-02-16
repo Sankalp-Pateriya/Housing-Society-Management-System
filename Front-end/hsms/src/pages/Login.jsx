@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer from react-toastify
+import axios from "axios"; // Import Axios
 import {
   Label,
   Card,
@@ -13,24 +14,20 @@ import {
   Row,
   Button,
 } from "reactstrap";
+import { loginUser } from "../services/user-service";
 import { doLogin } from "./auth";
 import { useNavigate } from "react-router-dom";
-
-
-import axios from "axios"; // Import Axios
+import userContext from "./context/userContext";
+import { useContext } from "react";
 
 const Login = () => {
-  
+  const userContxtData = useContext(userContext);
   const navigate = useNavigate();
 
   const [loginDetail, setLoginDetail] = useState({
     username: "",
     password: "",
   });
-
-  const handleClick = () => {
-    navigate(`/`);
-  };
 
   const handleChange = (event, field) => {
     let actualValue = event.target.value;
@@ -42,7 +39,7 @@ const Login = () => {
 
   const handleReset = () => {
     setLoginDetail({
-      email: "",
+      username: "",
       password: "",
     });
   };
@@ -50,46 +47,42 @@ const Login = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     console.log(loginDetail);
-    // validation
-    if (loginDetail.email.trim() === "" || loginDetail.password.trim() === "") {
+    //validation
+    if (
+      loginDetail.username.trim() === "" ||
+      loginDetail.password.trim() === ""
+    ) {
       toast.error("Username or Password is required !!");
       return;
     }
 
-    // submit the data to server to generate token
+    //submit the data to server to generate token
     axios
-      .post("http://localhost:8080/users/signIn", loginDetail)
+      .post("http://localhost:8080/login", loginDetail) // Adjust the URL to match your backend endpoint
       .then((response) => {
-        const data = response.data;
-        console.log(data);
+        console.log(response.data);
 
-        localStorage.setItem("userData", JSON.stringify(data.user));
-        if (data.role === "ADMIN") {
-          localStorage.setItem("auth", "admin");
-          
-        } else {
-          localStorage.setItem("auth", "1");
-        }
-        localStorage.setItem("name",data.name);
-        //localStorage.setItem("auth", "1");
-        // save the data to localstorage
-        doLogin(data, () => {
-          console.log("login detail is saved to localstorage");
-          
-          toast.success("Login Success");
-          handleClick(); // Navigate to home upon successful login
-          window.location.reload();
+        // Save the data to localStorage
+        doLogin(response.data, () => {
+          console.log("Login detail is saved to localStorage");
+          // Redirect to user dashboard page
+          userContxtData.setUser({
+            data: response.data.user,
+            login: true,
+          });
+          navigate("/user/dashboard");
         });
+
+        toast.success("Login Success");
       })
       .catch((error) => {
-        console.error(error);
-        if (error.response && (error.response.status === 500 || error.response.status === 404)) {
+        console.error("Login error:", error);
+        if (error.response && (error.response.status === 400 || error.response.status === 404)) {
           toast.error(error.response.data.message);
         } else {
-          toast.error("Something went wrong on the server !!");
+          toast.error("Something went wrong on server!!");
         }
       });
-    handleReset();
   };
 
   return (
@@ -115,31 +108,24 @@ const Login = () => {
                     <Input
                       type="text"
                       id="email"
-                      name="email"
-                      value={loginDetail.email}
-                      onChange={(e) => handleChange(e, "email")}
+                      value={loginDetail.username}
+                      onChange={(e) => handleChange(e, "username")}
                     />
                   </FormGroup>
 
-                  {/* Password field */}
+                  {/* password field */}
                   <FormGroup>
                     <Label for="password">Enter password</Label>
                     <Input
                       type="password"
                       id="password"
-                      name="password"
                       value={loginDetail.password}
                       onChange={(e) => handleChange(e, "password")}
                     />
                   </FormGroup>
 
                   <Container className="text-center">
-                    <Button
-                      onClick={handleFormSubmit}
-                      className="ms-2"
-                      outline
-                      color="secondary"
-                    >
+                    <Button color="light" outline type="submit">
                       Login
                     </Button>
                     <Button
@@ -157,6 +143,8 @@ const Login = () => {
           </Col>
         </Row>
       </Container>
+      {/* ToastContainer for displaying notifications */}
+      <ToastContainer position="bottom-left" autoClose={3000} />
     </div>
   );
 };

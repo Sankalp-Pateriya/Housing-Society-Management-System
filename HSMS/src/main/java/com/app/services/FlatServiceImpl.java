@@ -1,7 +1,8 @@
 package com.app.services;
 
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -15,6 +16,7 @@ import com.app.dao.UserRepository;
 import com.app.dto.FlatDTO;
 import com.app.pojos.Building;
 import com.app.pojos.Flat;
+import com.app.pojos.User;
 
 @Service
 @Transactional
@@ -35,6 +37,11 @@ public class FlatServiceImpl implements FlatService {
 	
 
 	public FlatDTO addFlat(FlatDTO flatdto) {
+	Optional<User> userById = userRepository.findById(flatdto.getUserId());
+	User user = userById.get();
+	if(!user.getRole().toString().equals("SECRETARY")) {
+		return null;
+	}
 	Flat flat=modelMapper.map(flatdto, Flat.class);
 	Long bid = flatdto.getBuildingId();
 	flat.setBuilding(buildingRepository.findById(flatdto.getBuildingId()).get());
@@ -47,7 +54,55 @@ public class FlatServiceImpl implements FlatService {
 	return flatdto;
 	
 	}
+
+	@Override
+	public List<FlatDTO> getAllFlats() {
+		List<Flat> allFlats = flatRepository.findAll();
+		List<FlatDTO> allFlatsDto = new ArrayList<FlatDTO>();
+		for (Flat flat : allFlats)
+		{
+			FlatDTO flatDto = modelMapper.map(flat, FlatDTO.class);
+			User u = userRepository.findById(flat.getUser().getId()).get();
+			flatDto.setUserId(u.getId());
+			Building b = buildingRepository.findById(flat.getBuilding().getId()).get();
+			flatDto.setBuildingId(b.getId());
+			allFlatsDto.add(flatDto);
+			System.out.println("allFaltsDto"+allFlatsDto);
+		}
 		
+		return allFlatsDto;
+	}
+
+	@Override
+	public FlatDTO getSingleFlats(Long id) {
+		Optional<Flat> findById = flatRepository.findById(id);
+		Flat flat = findById.get();
+		if(flat!=null) {
+			FlatDTO flatDTO = modelMapper.map(flat,FlatDTO.class);
+			Building building = flat.getBuilding();
+			flatDTO.setBuildingId(building.getId());
+			User user = flat.getUser();
+			flatDTO.setUserId(user.getId());
+			return flatDTO;
+		}
+		return null;
+	}
+
+	@Override
+	public FlatDTO bookFlat(Long id) {
+		Optional<Flat> findById = flatRepository.findById(id);
+		Flat flat = findById.get();
+		if(flat.isAvailable()) {
+			flat.setAvailable(false);
+			flatRepository.save(flat);
+			FlatDTO flatDTO = modelMapper.map(flat, FlatDTO.class);
+			flatDTO.setBuildingId(flat.getBuilding().getId());
+			flatDTO.setUserId(flat.getUser().getId());
+			return flatDTO;
+		}else {
+			return null;
+		}
+	}
 	
 
 	@Override

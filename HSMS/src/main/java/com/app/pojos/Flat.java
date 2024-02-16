@@ -127,7 +127,7 @@ public class Flat {
 	@Override
 	public String toString() {
 		return "Flat [id=" + id + ", area=" + area + ", floor=" + floor + ", type=" + type + ", isAvailable="
-				+ isAvailable + ", rent=" + rent + ", buildingId=" + building.getId() + ", user iD=" + user.getId() + "]";
+				+ isAvailable + ", rent=" + rent + ", buildingID=" + building.getId() + ", userID=" + user.getId() + "]";
 	}
 
     // Constructors, getters, setters, and equals()/hashCode()

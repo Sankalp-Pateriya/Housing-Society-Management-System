@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { toast } from "react-toastify";
-import axios from "axios";
+import React, { useState } from "react";
+import axios from "axios"; // Import axios
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import {
   Button,
   Card,
@@ -23,7 +24,7 @@ const Signup = () => {
     password: "",
     user_contact: "",
     about: "",
-    role: "" // Added role field to the state
+    role: "User", // Default role
   });
 
   const [error, setError] = useState({
@@ -33,8 +34,8 @@ const Signup = () => {
 
   // handle change
   const handleChange = (event, property) => {
-    //dynamic setting the values
-    setData({ ...data, [property]: event.target.value });
+    let actualValue = event.target.value;
+    setData({ ...data, [property]: actualValue });
   };
 
   //reseting the form
@@ -43,11 +44,7 @@ const Signup = () => {
       name: "",
       email: "",
       password: "",
-      contact: "",
-      about: "",
-      role: ""
-    });
-  };
+  })
 
   //submit the form
   const submitForm = (event) => {
@@ -68,8 +65,28 @@ const Signup = () => {
           errors: error.response.data,
           isError: true,
         });
+      })
+  }
+
+const submitForm = (event) => {
+  event.preventDefault();
+
+  // Call the backend API for user registration
+  axios.post("http://localhost:8080/users", data) // Adjust the URL to match your backend endpoint
+    .then((resp) => {
+      toast.success("User is registered successfully !! user id " + resp.data.id);
+      // Reset the form after successful registration
+      resetData();
+    })
+    .catch((error) => {
+      toast.error("Failed to register user: " + error.message);
+      setError({
+        errors: error,
+        isError: true,
       });
-  };
+    });
+};
+
 
   return (
     <div>
@@ -83,23 +100,17 @@ const Signup = () => {
 
               <CardBody>
                 <Form onSubmit={submitForm}>
-                  
-
                   {/* Name field */}
                   <FormGroup>
                     <Label for="name">Enter Name</Label>
-                     <Input
+                    <Input
                       type="text"
                       placeholder="Enter here"
                       id="name"
-                      name="name"
                       onChange={(e) => handleChange(e, "name")}
                       value={data.name}
-                      invalid={
-                        error.errors?.response?.data?.name ? true : false
-                      }
+                      invalid={error.errors?.response?.data?.name ? true : false}
                     />
-
                     <FormFeedback>
                       {error.errors?.response?.data?.name}
                     </FormFeedback>
@@ -112,14 +123,10 @@ const Signup = () => {
                       type="email"
                       placeholder="Enter here"
                       id="email"
-                      name="email"
                       onChange={(e) => handleChange(e, "email")}
                       value={data.email}
-                      invalid={
-                        error.errors?.response?.data?.email ? true : false
-                      }
+                      invalid={error.errors?.response?.data?.email ? true : false}
                     />
-
                     <FormFeedback>
                       {error.errors?.response?.data?.email}
                     </FormFeedback>
@@ -132,73 +139,66 @@ const Signup = () => {
                       type="password"
                       placeholder="Enter here"
                       id="password"
-                      name="password"
                       onChange={(e) => handleChange(e, "password")}
                       value={data.password}
-                      invalid={
-                        error.errors?.response?.data?.password ? true : false
-                      }
+                      invalid={error.errors?.response?.data?.password ? true : false}
                     />
-
                     <FormFeedback>
                       {error.errors?.response?.data?.password}
                     </FormFeedback>
                   </FormGroup>
 
                   {/* contact field */}
-                  <FormGroup>
-                    <Label for="password">Enter Contact</Label>
+                  {/* <FormGroup>
+                    <Label for="user_contact">Enter phone</Label>
                     <Input
                       type="number"
                       placeholder="Enter here"
-                      id="contact"
-                      name="contact"
-                      onChange={(e) => handleChange(e, "contact")}
-                      value={data.contact}
-                      invalid={
-                        error.errors?.response?.data?.contact ? true : false
-                      }
+                      id="user_contact"
+                      onChange={(e) => handleChange(e, "user_contact")}
+                      value={data.phone}
+                      invalid={error.errors?.response?.data?.user_contact ? true : false}
                     />
-
                     <FormFeedback>
-                      {error.errors?.response?.data?.contact}
+                      {error.errors?.response?.data?.phone}
                     </FormFeedback>
+                  </FormGroup> */}
+
+                  {/* about field */}
+                  {/* <FormGroup>
+                    <Label for="about">Write something about yourself</Label>
+                    <Input
+                      type="textarea"
+                      placeholder="Enter here"
+                      id="about"
+                      style={{ height: "250px" }}
+                      onChange={(e) => handleChange(e, "about")}
+                      value={data.about}
+                      invalid={error.errors?.response?.data?.about ? true : false}
+                    />
+                    <FormFeedback>
+                      {error.errors?.response?.data?.about}
+                    </FormFeedback>
+                  </FormGroup> */}
+
+                  {/* Role field */}
+                  <FormGroup>
+                    <Label for="role">Select Role</Label>
+                    <Input
+                      type="select"
+                      name="role"
+                      id="role"
+                      value={data.role}
+                      onChange={(e) => handleChange(e, "role")}
+                    >
+                      <option value="User">User</option>
+                      <option value="Secretary">Secretary</option>
+                    </Input>
                   </FormGroup>
-                  
-                  
-
-{/* Role field */}
-<FormGroup>
-  <Label for="role">Select Role</Label>
-  <Input
-    type="select"
-    name="role"
-    id="role"
-    value={data.role}
-    onChange={(e) => handleChange(e, "role")}
-  >
-    <option value="secretary">Secretary</option>
-    <option value="user">User</option>
-  </Input>
-</FormGroup>
-
-
 
                   <Container className="text-center">
-                    <Button onClick={submitForm}
-                      color="secondary"
-                      type="submit"
-                      className="ms-2">
-                      Register
-                    </Button>
-                    <Button
-                      onClick={resetData}
-                      color="secondary"
-                      type="reset"
-                      className="ms-2"
-                    >
-                      Reset
-                    </Button>
+                    <Button outline color="light" type="submit">Register</Button>
+                    <Button onClick={resetData} color="secondary" type="reset" className="ms-2">Reset</Button>
                   </Container>
                 </Form>
               </CardBody>
@@ -206,9 +206,9 @@ const Signup = () => {
           </Col>
         </Row>
       </Container>
+      <ToastContainer position="bottom-left" autoClose={3000} />
     </div>
   );
 };
 
 export default Signup;
-
