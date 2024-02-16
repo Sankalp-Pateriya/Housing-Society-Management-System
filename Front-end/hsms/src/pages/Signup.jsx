@@ -44,30 +44,13 @@ const Signup = () => {
       name: "",
       email: "",
       password: "",
-  })
+      user_contact: "",
+      about: "",
+      role: "User", // Reset role to default
+    });
+  };
 
   //submit the form
-  const submitForm = (event) => {
-    event.preventDefault();
-
-    axios.post("http://localhost:8080/users", data)
-      .then((resp) => {
-        console.log(resp);
-        console.log("success log");
-        toast.success("User is registered successfully !! user id " + resp.data.id);
-        resetData(); // Reset form data
-      })
-      .catch((error) => {
-        console.log(error);
-        console.log("Error log");
-        //handle errors in proper way
-        setError({
-          errors: error.response.data,
-          isError: true,
-        });
-      })
-  }
-
 const submitForm = (event) => {
   event.preventDefault();
 
@@ -89,11 +72,11 @@ const submitForm = (event) => {
 
 
   return (
-    <div>
+    <div className="signup-container" style={{ backgroundColor: "#f5f5dc" }}>
       <Container>
-        <Row className="mt-4">
-          <Col sm={{ size: 6, offset: 3 }}>
-            <Card color="dark" inverse>
+        <Row className="mt-4 justify-content-center">
+          <Col sm={{ size: 6 }}>
+            <Card className="custom-card">
               <CardHeader>
                 <h3> Fill Information to Register !!</h3>
               </CardHeader>
@@ -148,39 +131,6 @@ const submitForm = (event) => {
                     </FormFeedback>
                   </FormGroup>
 
-                  {/* contact field */}
-                  {/* <FormGroup>
-                    <Label for="user_contact">Enter phone</Label>
-                    <Input
-                      type="number"
-                      placeholder="Enter here"
-                      id="user_contact"
-                      onChange={(e) => handleChange(e, "user_contact")}
-                      value={data.phone}
-                      invalid={error.errors?.response?.data?.user_contact ? true : false}
-                    />
-                    <FormFeedback>
-                      {error.errors?.response?.data?.phone}
-                    </FormFeedback>
-                  </FormGroup> */}
-
-                  {/* about field */}
-                  {/* <FormGroup>
-                    <Label for="about">Write something about yourself</Label>
-                    <Input
-                      type="textarea"
-                      placeholder="Enter here"
-                      id="about"
-                      style={{ height: "250px" }}
-                      onChange={(e) => handleChange(e, "about")}
-                      value={data.about}
-                      invalid={error.errors?.response?.data?.about ? true : false}
-                    />
-                    <FormFeedback>
-                      {error.errors?.response?.data?.about}
-                    </FormFeedback>
-                  </FormGroup> */}
-
                   {/* Role field */}
                   <FormGroup>
                     <Label for="role">Select Role</Label>
@@ -196,10 +146,10 @@ const submitForm = (event) => {
                     </Input>
                   </FormGroup>
 
-                  <Container className="text-center">
-                    <Button outline color="light" type="submit">Register</Button>
+                  <div className="text-center">
+                    <Button backgroundColor="black" type="submit">Register</Button>
                     <Button onClick={resetData} color="secondary" type="reset" className="ms-2">Reset</Button>
-                  </Container>
+                  </div>
                 </Form>
               </CardBody>
             </Card>
