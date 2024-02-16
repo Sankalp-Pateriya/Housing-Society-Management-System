@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dao.FlatRepository;
 import com.app.dto.FlatDTO;
 import com.app.services.FlatService;
 
@@ -37,5 +39,11 @@ public class FlatController {
         //return new ResponseEntity<>(newBuilding, HttpStatus.CREATED);
         return ResponseEntity.status(HttpStatus.OK).body(flatService.getAllFlats());
     }
+	
+	@GetMapping("/{bid}")
+	public ResponseEntity<?> getBuildingFlats(@PathVariable long bid){
+		
+		return ResponseEntity.status(HttpStatus.OK).body(flatService.getBuildingFlat(bid));
+	}
 
 }

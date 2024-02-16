@@ -1,7 +1,9 @@
 package com.app.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -13,6 +15,8 @@ import com.app.dao.BuildingRepository;
 import com.app.dao.FlatRepository;
 import com.app.dao.UserRepository;
 import com.app.dto.FlatDTO;
+import com.app.exception.ResourceNotFoundException;
+import com.app.pojos.Building;
 import com.app.pojos.Flat;
 import com.app.pojos.User;
 
@@ -43,6 +47,7 @@ public class FlatServiceImpl implements FlatService {
 		flat.setUser(userRepository.findById(flatdto.getUserId()).get());
 		System.out.println("Flat Building:" + flat.getBuilding());
 		System.out.println("Flat OWner:" + flat.getUser());
+		
 		flatRepository.save(flat);
 		return flatdto;
 
@@ -52,6 +57,20 @@ public class FlatServiceImpl implements FlatService {
 	public List<FlatDTO> getAllFlats() {
 		List<Flat> flats = flatRepository.findAll();
 		List<FlatDTO> flatDTOs = flats.stream().map((e) -> modelMapper.map(e, FlatDTO.class))
+				.collect(Collectors.toList());
+		return flatDTOs;
+	}
+	
+	@Override
+	public List<FlatDTO> getBuildingFlat(long bid) {
+		List<Flat> buildingFlats=new ArrayList<>();
+		List<Flat> flats = flatRepository.findAll();
+		for(Flat f:flats) {
+			if(f.getBuilding().getId()==bid) {
+				buildingFlats.add(f);
+			}
+		}
+		List<FlatDTO> flatDTOs = buildingFlats.stream().map((e) -> modelMapper.map(e, FlatDTO.class))
 				.collect(Collectors.toList());
 		return flatDTOs;
 	}

@@ -59,11 +59,12 @@ public class BuildingServiceImpl implements BuildingService {
 	@Override
 	public List<BuildingDTO> getAllBuilding() {
 		List<Building> buildings = buildingRepository.findAll();
-		List<BuildingDTO> buildingDTO = new ArrayList<>();
+		List<BuildingDTO> buildingDTOs = new ArrayList<>();
 		for (Building b : buildings) {
-			buildingDTO.add(modelMapper.map(b, BuildingDTO.class));
+			buildingDTOs.add(modelMapper.map(b, BuildingDTO.class));
+			buildingDTOs.forEach((e)->e.setUserId(b.getUser().getId()));
 		}
-		return buildingDTO;
+		return buildingDTOs;
 	}
 
 	public List<FlatDTO> searchFlats(String element, String type, int highArea, int lowArea, int highRent,

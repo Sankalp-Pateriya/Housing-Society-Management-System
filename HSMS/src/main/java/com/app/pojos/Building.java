@@ -25,7 +25,7 @@ public class Building {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "name")
+	@Column(name = "name",unique = true)
 	@NotBlank(message = "Name is required")
 	@Size(max = 50, message = "Name must be less than 50 characters")
 	private String name;
