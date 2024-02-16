@@ -3,8 +3,6 @@ package com.app.dto;
 public class FlatComponentDTO {
 
 	Long id;
-	byte[] image1;
-	byte[] image2;
 	double rent;
 	int floorNumber;
 	String buildingName;
@@ -21,16 +19,10 @@ public class FlatComponentDTO {
 
 	// Constructors, getters, setters, etc.
 
-	public byte[] getImage1() {
-		return image1;
-	}
-
-	public FlatComponentDTO(Long id, byte[] image1, byte[] image2, double rent, int floorNumber, String buildingName,
+	public FlatComponentDTO(Long id, double rent, int floorNumber, String buildingName,
 			String flatType, String line_1, String line_2, String city, String pINCode, String state) {
 		super();
 		this.id = id;
-		this.image1 = image1;
-		this.image2 = image2;
 		this.rent = rent;
 		this.floorNumber = floorNumber;
 		this.buildingName = buildingName;
@@ -46,17 +38,21 @@ public class FlatComponentDTO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public void setImage1(byte[] image1) {
-		this.image1 = image1;
+	
+	public Long getId() {
+		return id;
 	}
 
-	public byte[] getImage2() {
-		return image2;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setImage2(byte[] image2) {
-		this.image2 = image2;
+	public String getPinCode() {
+		return pinCode;
+	}
+
+	public void setPinCode(String pinCode) {
+		this.pinCode = pinCode;
 	}
 
 	public String getLine_1() {
@@ -130,5 +126,16 @@ public class FlatComponentDTO {
 	public void setFlatType(String flatType) {
 		this.flatType = flatType;
 	}
+
+	@Override
+	public String toString() {
+		return "FlatComponentDTO [id=" + id + ", rent=" + rent + ", floorNumber=" + floorNumber + ", buildingName="
+				+ buildingName + ", flatType=" + flatType + ", Line_1=" + Line_1 + ", Line_2=" + Line_2 + ", City="
+				+ City + ", pinCode=" + pinCode + ", State=" + State + "]";
+	}
+	
+	
+	
+	
 
 }

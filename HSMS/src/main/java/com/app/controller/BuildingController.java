@@ -31,6 +31,7 @@ public class BuildingController {
 	@Autowired
 	BuildingService buildingService;
 
+	
 	@PostMapping("/addBuilding")
 	public ResponseEntity<?> addBuilding(@RequestBody BuildingDTO building) {
 
@@ -39,9 +40,6 @@ public class BuildingController {
 			if (newBuildingDto == null) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Only Admin can Add a Building!");
 			}
-			System.out.println();
-			System.out.println("     ");
-			System.out.println();
 			return ResponseEntity.status(HttpStatus.CREATED).body(building);
 		} catch (Exception e) {
 			e.printStackTrace();

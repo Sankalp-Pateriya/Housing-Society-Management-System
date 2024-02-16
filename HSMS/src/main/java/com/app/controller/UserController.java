@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.SigninRequest;
 import com.app.dto.UserDTO;
+import com.app.dto.UserIdDTO;
 import com.app.services.UserServiceImpl;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -29,8 +30,8 @@ public class UserController {
 	@PostMapping("/signup")
 	public ResponseEntity<?> createUser(@RequestBody UserDTO userDto) {
 		try {
-			userService.createUser(userDto);
-			return ResponseEntity.status(HttpStatus.CREATED).body(userDto);			
+			 UserIdDTO createUser = userService.createUser(userDto);
+			return ResponseEntity.status(HttpStatus.CREATED).body(createUser);			
 		}catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(""+e.getMessage());			
 		}
@@ -39,8 +40,8 @@ public class UserController {
 	@GetMapping
 	public ResponseEntity<?> getAllUsers() {
 		try{
-			List<UserDTO> userDTOs = userService.getAllUsers();
-			return new ResponseEntity<>(userDTOs, HttpStatus.OK);			
+			List<UserIdDTO> userIdDTOs = userService.getAllUsers();
+			return new ResponseEntity<>(userIdDTOs, HttpStatus.OK);			
 		}catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(""+e.getMessage());
 		}
