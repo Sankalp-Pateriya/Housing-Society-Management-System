@@ -25,79 +25,81 @@ import com.app.services.FlatService;
 @RestController
 @RequestMapping("/flats")
 public class FlatController {
-	
+
 	@Autowired
 	private FlatService flatService;
-	
+
 	@Autowired
 	private BuildingService buildingService;
-	
+
 	@PostMapping("/addFlat")
-	public ResponseEntity<?> addFlat(@RequestBody FlatDTO flatDto){
+	public ResponseEntity<?> addFlat(@RequestBody FlatDTO flatDto) {
 		try {
-			FlatDTO newFlatDto=flatService.addFlat(flatDto);
-			if(newFlatDto==null) {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Only a designated Secretary can Add a flat!!");
+			FlatDTO newFlatDto = flatService.addFlat(flatDto);
+			if (newFlatDto == null) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+						.body("Only a designated Secretary can Add a flat!!");
 			}
-			return ResponseEntity.status(HttpStatus.CREATED).body(newFlatDto);			
-		}catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());			
+			return ResponseEntity.status(HttpStatus.CREATED).body(newFlatDto);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 	}
-	
-	//api to get the flat info by ID
+
+	// api to get the flat info by ID
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getSingleFlats(@PathVariable Long id) {
-        //return new ResponseEntity<>(newBuilding, HttpStatus.CREATED);
+		// return new ResponseEntity<>(newBuilding, HttpStatus.CREATED);
 		System.out.println();
-		System.out.println("                   "+id);
+		System.out.println("                   " + id);
 		System.out.println();
 		try {
 			FlatIdDTO flatDTO = flatService.getSingleFlats(id);
-			if(flatDTO== null) {
+			if (flatDTO == null) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid ID");
 			}
 			System.out.println();
-			System.out.println("                   "+flatDTO);
+			System.out.println("                   " + flatDTO);
 			System.out.println();
 			return ResponseEntity.status(HttpStatus.OK).body(flatDTO);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
-		}   
-    }
-	
-	//api to update the details of the flat 
+		}
+	}
+
+	// api to update the details of the flat
 	@PutMapping("/{id}")
 	public ResponseEntity<?> bookFlat(@PathVariable Long id) {
 		try {
 			FlatDTO bookFlat = flatService.bookFlat(id);
-			if(bookFlat==null) {
+			if (bookFlat == null) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Flat is Already Booked!");
 			}
 			return ResponseEntity.status(HttpStatus.OK).body(bookFlat);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
 		}
 	}
-	
-	
-			//api to get all flats
-			@GetMapping("/allFlats")
-			public ResponseEntity<?> allFlats()
-			{
-				List<FlatIdDTO> allFlats = flatService.getAllFlats();
-				return new ResponseEntity<>(allFlats,HttpStatus.OK);
-				
-			}
-	
-			
-			//api to get all  building details for the Dropdown list in the add flat form 
-		     @GetMapping("/buildingDtls")
-		    public ResponseEntity<?> getAllBuildingDtls()
-		    {
-		    	List<BuildingIdDTO> buildingDtls = buildingService.getAllBuildingDtls();
-		    	return new ResponseEntity<>(buildingDtls,HttpStatus.OK);
-		    }
-	
+
+	// api to get all flats
+	@GetMapping("/allFlats")
+	public ResponseEntity<?> allFlats() {
+		List<FlatIdDTO> allFlats = flatService.getAllFlats();
+		return new ResponseEntity<>(allFlats, HttpStatus.OK);
+
+	}
+
+	// api to get all building details for the Dropdown list in the add flat form
+	@GetMapping("/buildingDtls")
+	public ResponseEntity<?> getAllBuildingDtls() {
+		List<BuildingIdDTO> buildingDtls = buildingService.getAllBuildingDtls();
+		return new ResponseEntity<>(buildingDtls, HttpStatus.OK);
+	}
+
+	@GetMapping("/buildingFlats/{bid}")
+	public ResponseEntity<?> getBuildingFlats(@PathVariable long bid) {
+
+		return ResponseEntity.status(HttpStatus.OK).body(flatService.getBuildingflats(bid));
+	}
 
 }

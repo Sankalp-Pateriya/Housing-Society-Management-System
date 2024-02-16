@@ -104,6 +104,18 @@ public class FlatServiceImpl implements FlatService {
 			return null;
 		}
 	}
+
+	@Override
+	public List<FlatIdDTO> getBuildingflats(long bid) {
+		List<Flat> flats=flatRepository.findAll();
+		List<FlatIdDTO> flatIdDto=new ArrayList<>();
+		for(Flat f:flats) {
+			if(f.getBuilding().getId()==bid) {
+				flatIdDto.add(modelMapper.map(f, FlatIdDTO.class));
+			}
+		}
+		return flatIdDto;
+	}
 	
 
 }

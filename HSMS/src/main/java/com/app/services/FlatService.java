@@ -10,5 +10,6 @@ public interface FlatService {
 	List<FlatIdDTO> getAllFlats();
 	FlatIdDTO getSingleFlats(Long id);
 	FlatDTO bookFlat(Long id);
+	List<FlatIdDTO> getBuildingflats(long bid);
 
 }
