@@ -1,16 +1,18 @@
+// src/App.js
+
 import React from 'react';
-import './App.css';
-import "bootstrap/dist/css/bootstrap.min.css"
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Header from './layouts/Header.jsx';
 import Footer from './layouts/Footer.jsx';
 import About from './pages/About.jsx';
 import Signup from './pages/Signup.jsx';
 import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
-import AddBuilding from './component/addbuilding.jsx'; // Corrected import path
-import AddFlat from './component/addflat.jsx'; // Corrected import path
-import AddUser from './component/adduser.jsx'; // Corrected import path
+import AddBuilding from './component/addbuilding.jsx';
+import AddFlat from './component/addflat.jsx';
+import AddUser from './component/adduser.jsx';
+import ViewBuilding from './pages/ViewBuilding.jsx';
+import PrivacyPolicy from './pages/PrivacyPolicy'; // Corrected import path
 
 function App() {
   return (
@@ -26,13 +28,10 @@ function App() {
             <Route path="/add-building" element={<AddBuilding />} />
             <Route path="/add-flat" element={<AddFlat />} />
             <Route path="/add-user" element={<AddUser />} />
+            <Route path="/view-building" element={<ViewBuilding />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           </Routes>
-          {/* To Create links or buttons to navigate to different pages */}
-          {/* <Link to="/add-building">Add Building</Link>
-          <Link to="/add-flat">Add Flat</Link>
-          <Link to="/add-user">Add User</Link> */}
         </div>
-
         <Footer />
       </div>
     </>
