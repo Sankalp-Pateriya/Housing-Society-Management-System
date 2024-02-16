@@ -1,24 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios'; // Import axios for making HTTP requests
+import axios from 'axios';
 import '../assets/Home.scss';
-import house from '../images/house.png';
-import banner from '../images/ds.jpg';
-
-// Hardcoded property data 
-const propertyData = [
-    { id: 1, area: 'Area A', city: 'City X', pincode: '123456' },
-    { id: 2, area: 'Area B', city: 'City Y', pincode: '234567' },
-    { id: 3, area: 'Area C', city: 'City Z', pincode: '345678' },
-    { id: 4, area: 'Area D', city: 'City W', pincode: '345609' },
-];
 
 function Home() {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
-    const [recentSearches, setRecentSearches] = useState([]);
-    const [showNoResults, setShowNoResults] = useState(false); // State to control showing "No results matched" message
-    const [showMore, setShowMore] = useState(false); // State to control showing more search results
+    const [showNoResults, setShowNoResults] = useState(false);
+    const [propertyType, setPropertyType] = useState('');
+    const [carpetAreaRange, setCarpetAreaRange] = useState([0, 10000]);
+    const [rentRange, setRentRange] = useState([0, 50000]);
+    const [isAvailable, setIsAvailable] = useState(false);
+    const [searchPerformed, setSearchPerformed] = useState(false); // State to track if search is performed
+
+    useEffect(() => {
+        if (searchPerformed) {
+            fetchData();
+        }
+    }, [searchPerformed]);
+
+    const fetchData = async () => {
+        try {
+            // Check if searchQuery is empty
+            if (searchQuery.trim() === "") {
+                setShowNoResults(false);
+                setSearchResults([]);
+                return;
+            }
+
+            const response = await axios.get('http://localhost:8080/home', {
+                params: {
+                    searchElement: searchQuery,
+                    propertyType,
+                    minCarpetArea: carpetAreaRange[0],
+                    maxCarpetArea: carpetAreaRange[1],
+                    minRent: rentRange[0],
+                    maxRent: rentRange[1],
+                    isAvailable
+                }
+            });
+
+            setSearchResults(response.data);
+            setShowNoResults(response.data.length === 0);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -26,103 +53,75 @@ function Home() {
 
     const handleSearchSubmit = async (e) => {
         e.preventDefault();
-        try {
-            // Make a GET request to the Spring Boot backend endpoint
-            const response = await axios.get(`http://localhost:8080/home`, {
-                params: {
-                    searchElement: searchQuery
-                }
-            });
-            // Handle response data
-            setSearchResults(response.data);
-            // Add the search query to recent searches
-            setRecentSearches(prevSearches => [searchQuery, ...prevSearches.slice(0, 2)]);
-            // Show "No results matched" message if no results found
-            setShowNoResults(response.data.length === 0);
-            // Reset showMore state
-            setShowMore(false);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-    
-    const handleClearRecentSearches = () => {
-        setRecentSearches([]);
-        // Hide "No results matched" message when clearing recent searches
-        setShowNoResults(false);
+        setSearchPerformed(true); // Set searchPerformed to true when search is submitted
     };
 
-    const handleShowMoreResults = () => {
-        setShowMore(true);
+    const formatValue = (value) => {
+        return new Intl.NumberFormat().format(value);
     };
 
     return (
         <div className='homepage'>
             <div className='container'>
-                {/* Search Box */}
-                <form className="search-box" onSubmit={handleSearchSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Search by area, city, or pincode"
-                        value={searchQuery}
-                        onChange={handleSearchChange}
-                    />
-                    <button type="submit">Search</button>
-                </form>
+                <div className="search-filter-section">
+                    <form className="search-box" onSubmit={handleSearchSubmit}>
+                        <input
+                            type="text"
+                            placeholder="Search by area, city, or pincode"
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                        />
+                        <button type="submit">Search</button>
+                    </form>
 
-                {/* Display Recent Searches */}
-                {recentSearches.length > 0 && (
-                    <div className="recent-searches">
-                        <h2>Recent Searches:</h2>
-                        {recentSearches.map((query, index) => (
-                            <p key={index}>{query}</p>
-                        ))}
-                        <button onClick={handleClearRecentSearches}>Clear Recent Searches</button>
+                    <div className="filter-section">
+                        <h2>Filter By</h2>
+                        <label htmlFor="propertyType">Type of Property:</label>
+                        <select id="propertyType" value={propertyType} onChange={(e) => setPropertyType(e.target.value)}>
+                            <option value="">Any</option>
+                            <option value="1BHK">1BHK</option>
+                            <option value="2BHK">2BHK</option>
+                            <option value="3BHK">3BHK</option>
+                            <option value="1RK">1RK</option>
+                        </select>
+                        <label>Carpet Area Range: {formatValue(carpetAreaRange[0])} - {formatValue(carpetAreaRange[1])} sqft</label>
+                        <input type="range" min="0" max="10000" value={carpetAreaRange[0]} onChange={(e) => setCarpetAreaRange([parseInt(e.target.value), carpetAreaRange[1]])} />
+                        <input type="range" min="0" max="10000" value={carpetAreaRange[1]} onChange={(e) => setCarpetAreaRange([carpetAreaRange[0], parseInt(e.target.value)])} />
+                        <label>Rent Range: Rs. {formatValue(rentRange[0])} - Rs. {formatValue(rentRange[1])}</label>
+                        <input type="range" min="0" max="50000" value={rentRange[0]} onChange={(e) => setRentRange([parseInt(e.target.value), rentRange[1]])} />
+                        <input type="range" min="0" max="50000" value={rentRange[1]} onChange={(e) => setRentRange([rentRange[0], parseInt(e.target.value)])} />
+                        <label>
+                            <input type="checkbox" checked={isAvailable} onChange={(e) => setIsAvailable(e.target.checked)} />
+                            is Available?
+                        </label>
+                    </div>
+                </div>
+
+                {/* Only show search results if search is performed */}
+                {searchPerformed && searchQuery.trim() !== "" && (
+                    <div className="search-results-section">
+                        <h2>Search Results</h2>
+                        {showNoResults && <p className="no-results">No results matched.</p>}
+                        <div className="search-results">
+                            <ul>
+                                {searchResults.map(property => (
+                                    <li key={property.id} className="search-result-item">
+                                        <Link to={`/property/${property.id}`} className="search-result-link">
+                                            <div className="search-result-content">
+                                                <h3>{property.area}</h3>
+                                                <p>{property.city}, {property.pincode}</p>
+                                            </div>
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 )}
 
-                {/* Display "No results matched" message */}
-                {showNoResults && <p>No results matched.</p>}
-
-                {/* Display Search Results as Tiles */}
-                {searchResults.length > 0 ? (
-                    <div className="search-results">
-                        {showMore
-                            ? searchResults.map(property => (
-                                <Link key={property.id} to={`/property/${property.id}`} className="search-result-tile">
-                                    <div className="search-result-content">
-                                        <h3>{property.area}</h3>
-                                        <p>{property.city}, {property.pincode}</p>
-                                    </div>
-                                </Link>
-                            ))
-                            : searchResults.slice(0, 3).map(property => (
-                                <Link key={property.id} to={`/property/${property.id}`} className="search-result-tile">
-                                    <div className="search-result-content">
-                                        <h3>{property.area}</h3>
-                                        <p>{property.city}, {property.pincode}</p>
-                                    </div>
-                                </Link>
-                            ))
-                        }
-                        {searchResults.length > 3 && !showMore && (
-                            <button onClick={handleShowMoreResults}>More</button>
-                        )}
-                    </div>
-                ) : null}
-
-                {/* Banner */}
-                <div className='banner-section'>
-                    <img src={banner} alt="Banner" />
-                </div>
-
-                {/* Link to View Property Page */}
                 <Link to='/viewproperty'>
-                    <img src={house} alt="House" width="40%" height="40%" />
+                    {/* <img src={house} alt="House" width="40%" height="40%" /> */}
                 </Link>
-
-                {/* Display Current Time */}
-                <h1 className='col-md-6 offset-md-3'>{new Date().toLocaleTimeString()}</h1>
             </div>
         </div>
     );
