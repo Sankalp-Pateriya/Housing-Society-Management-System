@@ -1,4 +1,3 @@
-// src/App.js
 
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
@@ -12,7 +11,8 @@ import AddBuilding from './component/addbuilding.jsx';
 import AddFlat from './component/addflat.jsx';
 import AddUser from './component/adduser.jsx';
 import ViewBuilding from './pages/ViewBuilding.jsx';
-import PrivacyPolicy from './pages/PrivacyPolicy'; // Corrected import path
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Contact from './pages/Contact'; // Import Contact component
 
 function App() {
   return (
@@ -30,6 +30,7 @@ function App() {
             <Route path="/add-user" element={<AddUser />} />
             <Route path="/view-building" element={<ViewBuilding />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/contact" element={<Contact />} /> {/* New route for Contact page */}
           </Routes>
         </div>
         <Footer />
