@@ -86,8 +86,8 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <Container>
+    <div style={{ backgroundColor: "beige" }}>
+      <Container style={{ backgroundColor: "beige" }}>
         <Row className="mt-4">
           <Col
             sm={{
@@ -125,14 +125,13 @@ const Login = () => {
                   </FormGroup>
 
                   <Container className="text-center">
-                    <Button color="light" outline type="submit">
+                    <Button backgroundColor="grey" outline type="submit">
                       Login
                     </Button>
                     <Button
                       onClick={handleReset}
                       className="ms-2"
-                      outline
-                      color="secondary"
+                      backgroundColor="secondary"
                     >
                       Reset
                     </Button>
