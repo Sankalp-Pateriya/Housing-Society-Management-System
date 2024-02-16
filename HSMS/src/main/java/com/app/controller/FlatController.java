@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.BuildingIdDTO;
 import com.app.dto.BuildingNameAndIdDTO;
 import com.app.dto.FlatDTO;
+import com.app.dto.FlatIdDTO;
 import com.app.services.BuildingService;
 import com.app.services.FlatService;
 
@@ -43,6 +45,7 @@ public class FlatController {
 		}
 	}
 	
+	//api to get the flat info by ID
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getSingleFlats(@PathVariable Long id) {
         //return new ResponseEntity<>(newBuilding, HttpStatus.CREATED);
@@ -50,7 +53,7 @@ public class FlatController {
 		System.out.println("                   "+id);
 		System.out.println();
 		try {
-			FlatDTO flatDTO = flatService.getSingleFlats(id);
+			FlatIdDTO flatDTO = flatService.getSingleFlats(id);
 			if(flatDTO== null) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid ID");
 			}
@@ -63,7 +66,7 @@ public class FlatController {
 		}   
     }
 	
-	
+	//api to update the details of the flat 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> bookFlat(@PathVariable Long id) {
 		try {
@@ -78,21 +81,21 @@ public class FlatController {
 	}
 	
 	
-	//api to get all flats
+			//api to get all flats
 			@GetMapping("/allFlats")
 			public ResponseEntity<?> allFlats()
 			{
-				List<FlatDTO> allFlats = flatService.getAllFlats();
+				List<FlatIdDTO> allFlats = flatService.getAllFlats();
 				return new ResponseEntity<>(allFlats,HttpStatus.OK);
 				
 			}
 	
-			//api to get all  buildingIDs and names
-		    
-		    @GetMapping
+			
+			//api to get all  building details for the Dropdown list in the add flat form 
+		     @GetMapping("/buildingDtls")
 		    public ResponseEntity<?> getAllBuildingDtls()
 		    {
-		    	List<BuildingNameAndIdDTO> buildingDtls = buildingService.getAllBuildingDtls();
+		    	List<BuildingIdDTO> buildingDtls = buildingService.getAllBuildingDtls();
 		    	return new ResponseEntity<>(buildingDtls,HttpStatus.OK);
 		    }
 	

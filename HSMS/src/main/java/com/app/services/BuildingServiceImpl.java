@@ -14,6 +14,7 @@ import com.app.dao.BuildingRepository;
 import com.app.dao.FlatRepository;
 import com.app.dao.UserRepository;
 import com.app.dto.BuildingDTO;
+import com.app.dto.BuildingIdDTO;
 import com.app.dto.BuildingNameAndIdDTO;
 import com.app.dto.FlatDTO;
 import com.app.pojos.Building;
@@ -72,11 +73,11 @@ public class BuildingServiceImpl implements BuildingService {
 	 */
 
 	@Override
-	public List<BuildingDTO> getAllBuilding() {
+	public List<BuildingIdDTO> getAllBuilding() {
 		List<Building> buildings = buildingRepository.findAll();
-		List<BuildingDTO> buildingDTOs = new ArrayList<>();
+		List<BuildingIdDTO> buildingDTOs = new ArrayList<>();
 		for (Building b : buildings) {
-			buildingDTOs.add(modelMapper.map(b, BuildingDTO.class));
+			buildingDTOs.add(modelMapper.map(b, BuildingIdDTO.class));
 			buildingDTOs.forEach((e)->e.setUserId(b.getUser().getId()));
 		}
 		return buildingDTOs;
@@ -165,17 +166,17 @@ public class BuildingServiceImpl implements BuildingService {
 	}
 
 	@Override
-	public List<BuildingNameAndIdDTO> getAllBuildingDtls()
+	public List<BuildingIdDTO> getAllBuildingDtls()
 	{
 		List<Building> buildings = buildingRepository.findAll();
-		List<BuildingNameAndIdDTO> nameAndId = new ArrayList<BuildingNameAndIdDTO>();
+		List<BuildingIdDTO> nameAndId = new ArrayList<BuildingIdDTO>();
 		
 				for (Building building : buildings)
 				{
-					nameAndId.add(modelMapper.map(building, BuildingNameAndIdDTO.class));
+					nameAndId.add(modelMapper.map(building, BuildingIdDTO.class));
 				}
 				
-				for (BuildingNameAndIdDTO buildingNameAndIdDTO : nameAndId) 
+				for (BuildingIdDTO buildingNameAndIdDTO : nameAndId) 
 				{
 					System.out.println("name and ID of building"+buildingNameAndIdDTO);
 				}

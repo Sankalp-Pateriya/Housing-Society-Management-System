@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.BuildingDTO;
+import com.app.dto.BuildingIdDTO;
 import com.app.services.BuildingService;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -51,7 +52,7 @@ public class BuildingController {
 	@GetMapping
 	public ResponseEntity<?> getAllBuilding() {
 		try {
-			List<BuildingDTO> buildingDTO = buildingService.getAllBuilding();
+			List<BuildingIdDTO> buildingDTO = buildingService.getAllBuilding();
 			return ResponseEntity.status(HttpStatus.OK).body(buildingDTO);			
 		}catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error Occurred" + e.getMessage());

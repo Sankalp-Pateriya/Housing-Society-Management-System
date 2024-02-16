@@ -14,6 +14,7 @@ import com.app.dao.BuildingRepository;
 import com.app.dao.FlatRepository;
 import com.app.dao.UserRepository;
 import com.app.dto.FlatDTO;
+import com.app.dto.FlatIdDTO;
 import com.app.pojos.Building;
 import com.app.pojos.Flat;
 import com.app.pojos.User;
@@ -51,12 +52,12 @@ public class FlatServiceImpl implements FlatService {
 	}
 
 	@Override
-	public List<FlatDTO> getAllFlats() {
+	public List<FlatIdDTO> getAllFlats() {
 		List<Flat> allFlats = flatRepository.findAll();
-		List<FlatDTO> allFlatsDto = new ArrayList<FlatDTO>();
+		List<FlatIdDTO> allFlatsDto = new ArrayList<FlatIdDTO>();
 		for (Flat flat : allFlats)
 		{
-			FlatDTO flatDto = modelMapper.map(flat, FlatDTO.class);
+			FlatIdDTO flatDto = modelMapper.map(flat, FlatIdDTO.class);
 			User u = userRepository.findById(flat.getUser().getId()).get();
 			flatDto.setUserId(u.getId());
 			Building b = buildingRepository.findById(flat.getBuilding().getId()).get();
@@ -69,11 +70,11 @@ public class FlatServiceImpl implements FlatService {
 	}
 
 	@Override
-	public FlatDTO getSingleFlats(Long id) {
+	public FlatIdDTO getSingleFlats(Long id) {
 		Optional<Flat> findById = flatRepository.findById(id);
 		Flat flat = findById.get();
 		if(flat!=null) {
-			FlatDTO flatDTO = modelMapper.map(flat,FlatDTO.class);
+			FlatIdDTO flatDTO = modelMapper.map(flat,FlatIdDTO.class);
 			Building building = flat.getBuilding();
 			flatDTO.setBuildingId(building.getId());
 			User user = flat.getUser();
