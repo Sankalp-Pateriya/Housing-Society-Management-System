@@ -1,0 +1,75 @@
+/* Add this CSS to your stylesheets or in a style tag within your component */
+
+.see-all-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px;
+}
+
+.building-tile,
+.flat-tile {
+  border: 3px solid #cccccc;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  transition: transform 0.2s ease-in-out;
+}
+
+.building-tile:hover,
+.flat-tile:hover {
+  transform: scale(1.05);
+}
+
+.building-tile h3,
+.flat-tile h3 {
+  color: #007bff;
+}
+
+.building-tile p,
+.flat-tile p {
+  color: #333;
+}
+
+/* Add this CSS to your stylesheets or in a style tag within your component */
+
+.see-all-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px;
+  background-image: url("../images/ds.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh; /* Set a minimum height to cover the entire viewport */
+}
+
+.building-tile,
+.flat-tile {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: transform 0.2s ease-in-out;
+}
+
+.building-tile:hover,
+.flat-tile:hover {
+  transform: scale(1.05);
+}
+
+.building-tile h3,
+.flat-tile h3 {
+  color: #007bff;
+}
+
+.building-tile p,
+.flat-tile p {
+  color: #333;
+}
+
+/* You can customize the colors and styles as per your preference */
+
+/* You can customize the colors and styles as per your preference */

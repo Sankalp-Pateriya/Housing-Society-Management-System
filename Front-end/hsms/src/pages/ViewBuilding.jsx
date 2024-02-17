@@ -1,73 +1,59 @@
-import React from 'react';
-import building1 from '../images/building1.jpg';
-import building2 from '../images/building2.jpg';
-import building3 from '../images/building3.jpg';
-import building4 from '../images/building4.jpg';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import "../assets/ViewBuilding.scss";
 
-const ViewBuilding = () => {
-  // Sample data for the building
-  const buildingData = {
-    buildingName: 'Elegant Towers',
-    address: '123 Main Street, Cityville',
-    ownerName: 'John Doe',
-    type: '2 BHK',
-    carpetArea: '1200 sq feet',
-    floor: '4/6',
-    rent: '12,750',
-  };
+function ViewBuilding() {
+  const { id } = useParams();
+  const [buildingInfo, setBuildingInfo] = useState({});
+  const [flatsList, setFlatsList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Convert id to a number using parseInt
+        const buildingId = parseInt(id, 10);
+
+        const response = await axios.get(
+          `http://localhost:8080/buildings/${buildingId}`
+        );
+
+        console.log("API Response:", response.data);
+        setBuildingInfo(response.data[0]);
+        setFlatsList(response.data[1]);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', border: '1px solid #3498db', borderRadius: '10px', boxShadow: '0 0 15px rgba(0, 0, 0, 0.2)', backgroundColor: '#ecf0f1', transition: 'transform 0.3s ease-in-out' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        {/* Building Images */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <img src={building1} alt="Building 1" style={{ width: '100px', height: '100px', marginRight: '10px' }} />
-          <img src={building2} alt="Building 2" style={{ width: '100px', height: '100px', marginRight: '10px' }} />
-          <img src={building3} alt="Building 3" style={{ width: '100px', height: '100px', marginRight: '10px' }} />
-          <img src={building4} alt="Building 4" style={{ width: '100px', height: '100px', marginRight: '10px' }} />
-        </div>
-
-        {/* Rent Property */}
-        <div style={{ textAlign: 'right' }}>
-          <p style={{ fontSize: '20px', fontWeight: 'bold', color: '#3498db' }}>Rent: {buildingData.rent}</p>
-        </div>
+    <div className="view-building-container">
+      <div className="building-info">
+        <h2>{buildingInfo.name}</h2>
+        <p>Number of Flats: {buildingInfo.numberOfFlats}</p>
+        <p>
+          Address:{" "}
+          {`${buildingInfo.line_1}, ${buildingInfo.line_2}, ${buildingInfo.city}, ${buildingInfo.pinCode}, ${buildingInfo.state}`}
+        </p>
       </div>
 
-      {/* First Box: Building Name and Address */}
-      <div style={{ marginBottom: '20px' }}>
-        <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold', color: '#3498db' }}>Building Name:</label>
-        <p>{buildingData.buildingName}</p>
-
-        <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold', color: '#3498db' }}>Address:</label>
-        <p>{buildingData.address}</p>
-      </div>
-
-      {/* Second Box: Owner Name, Type, Carpet Area, Floor */}
-      <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <div style={{ flex: 1, marginRight: '10px' }}>
-            <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold', color: '#3498db' }}>Owner Name:</label>
-            <p>{buildingData.ownerName}</p>
+      <div className="flats-list">
+        <h2>Flats List</h2>
+        {flatsList.map((flat) => (
+          <div key={flat.id} className="flat-tile">
+            <h3>{flat.type}</h3>
+            <p>Area: {flat.area} sqft</p>
+            <p>Floor: {flat.floor}</p>
+            <p>Available: {flat.isAvailable ? "Yes" : "No"}</p>
+            <p>Rent: Rs. {flat.rent}</p>
           </div>
-          <div style={{ flex: 1 }}>
-            <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold', color: '#3498db' }}>Type:</label>
-            <p>{buildingData.type}</p>
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div style={{ flex: 1, marginRight: '10px' }}>
-            <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold', color: '#3498db' }}>Carpet Area:</label>
-            <p>{buildingData.carpetArea}</p>
-          </div>
-          <div style={{ flex: 1 }}>
-            <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold', color: '#3498db' }}>Floor Number:</label>
-            <p>{buildingData.floor}</p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
-};
+}
 
 export default ViewBuilding;

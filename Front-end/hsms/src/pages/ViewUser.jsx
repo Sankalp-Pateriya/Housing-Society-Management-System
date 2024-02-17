@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function ViewUser({ userId }) {
   const [userData, setUserData] = useState(null);
@@ -9,7 +9,9 @@ function ViewUser({ userId }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/users/${userId}`);
+        const response = await axios.get(
+          `http://localhost:8080/users/${userId}`
+        );
         setUserData(response.data);
         setLoading(false);
       } catch (error) {
@@ -39,15 +41,25 @@ function ViewUser({ userId }) {
   }
 
   return (
-    <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px', border: '1px solid #ccc', borderRadius: '5px', backgroundColor: '#f9f9f9', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
-      <h2 style={{ fontSize: '24px', marginBottom: '20px' }}>View User</h2>
-      <div style={{ marginBottom: '12px' }}>
+    <div
+      style={{
+        maxWidth: "400px",
+        margin: "0 auto",
+        padding: "20px",
+        border: "1px solid #ccc",
+        borderRadius: "5px",
+        backgroundColor: "#f9f9f9",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+      }}
+    >
+      <h2 style={{ fontSize: "24px", marginBottom: "20px" }}>View User</h2>
+      <div style={{ marginBottom: "12px" }}>
         <strong>Name:</strong> {userData.name}
       </div>
-      <div style={{ marginBottom: '12px' }}>
+      <div style={{ marginBottom: "12px" }}>
         <strong>Email:</strong> {userData.email}
       </div>
-      <div style={{ marginBottom: '12px' }}>
+      <div style={{ marginBottom: "12px" }}>
         <strong>Role:</strong> {userData.role}
       </div>
     </div>

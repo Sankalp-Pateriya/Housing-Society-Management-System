@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,5 +59,19 @@ public class BuildingController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error Occurred" + e.getMessage());
 		}
 	}
+	
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getAllBuilding(@PathVariable Long id) {
+		System.out.println("buildings/id method is getting called!!");
+		try {
+			List<List<Object>> buildingNFlats = buildingService.getFlatsOfBuilding(id);
+			return ResponseEntity.status(HttpStatus.OK).body(buildingNFlats);			
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error Occurred" + e.getMessage());
+		}
+	}
+	
+	
 
 }
