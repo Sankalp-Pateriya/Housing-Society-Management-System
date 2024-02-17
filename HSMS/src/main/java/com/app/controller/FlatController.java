@@ -18,6 +18,7 @@ import com.app.dto.BuildingIdDTO;
 import com.app.dto.BuildingNameAndIdDTO;
 import com.app.dto.FlatDTO;
 import com.app.dto.FlatIdDTO;
+import com.app.dto.UserIdDTO;
 import com.app.services.BuildingService;
 import com.app.services.FlatService;
 
@@ -31,6 +32,16 @@ public class FlatController {
 
 	@Autowired
 	private BuildingService buildingService;
+
+	@GetMapping("/addFlat")
+	public ResponseEntity<?> getUsersOnly() {
+		try {
+			List<UserIdDTO> userIdDTOs = flatService.getUsersOnly();
+			return ResponseEntity.status(HttpStatus.CREATED).body(userIdDTOs);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
+	}
 
 	@PostMapping("/addFlat")
 	public ResponseEntity<?> addFlat(@RequestBody FlatDTO flatDto) {
@@ -98,9 +109,9 @@ public class FlatController {
 
 	@GetMapping("/buildingFlats/{bid}")
 	public ResponseEntity<?> getBuildingFlats(@PathVariable String bid) {
-		long building_id=Long.parseLong(bid);
-		List<FlatIdDTO> flatsdto=flatService.getBuildingflats(building_id);
-		System.out.println("All building Flats-----"+flatsdto);
+		long building_id = Long.parseLong(bid);
+		List<FlatIdDTO> flatsdto = flatService.getBuildingflats(building_id);
+		System.out.println("All building Flats-----" + flatsdto);
 		return ResponseEntity.status(HttpStatus.OK).body(flatsdto);
 	}
 

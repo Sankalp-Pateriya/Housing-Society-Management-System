@@ -15,6 +15,7 @@ import com.app.dao.FlatRepository;
 import com.app.dao.UserRepository;
 import com.app.dto.FlatDTO;
 import com.app.dto.FlatIdDTO;
+import com.app.dto.UserIdDTO;
 import com.app.pojos.Building;
 import com.app.pojos.Flat;
 import com.app.pojos.User;
@@ -115,6 +116,13 @@ public class FlatServiceImpl implements FlatService {
 			}
 		}
 		return flatIdDto;
+	}
+
+	@Override
+	public List<UserIdDTO> getUsersOnly() {
+		List<User> users = userRepository.findAll();
+		List<UserIdDTO> userIdDTOs = users.stream().filter((e)->e.getRole().toString().equals("USER")).map((e)->modelMapper.map(e,UserIdDTO.class)).collect(Collectors.toList());
+		return userIdDTOs;
 	}
 	
 
