@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import logo from '../images/logo.png'
 import React, { useState } from "react";
 function Header() {
-  const [auth, setAuth] = useState(localStorage.getItem("auth") || "0");
+  const [auth, setAuth] = useState(sessionStorage.getItem("auth") || "0");
   const handleLogout = () => {
-    localStorage.removeItem("auth");
-    localStorage.removeItem("name");
+    sessionStorage.removeItem("auth");
+    sessionStorage.removeItem("name");
     setAuth("0");
-    // Add any additional logout logic here, such as clearing user data from localStorage
+    // Add any additional logout logic here, such as clearing user data from sessionStorage
   };
   return (
     <div className="header">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function AddFlat() {
@@ -7,17 +7,65 @@ function AddFlat() {
     floor: 0,
     type: '',
     rent: 0,
-    buildingId: 0
+    buildingId: 0,
+    userId: 0 // New field for user selection
   });
-
+  const [buildings, setBuildings] = useState([]); 
   const [errors, setErrors] = useState({});
 
+  useEffect(() => {
+    // Fetch list of buildings when component mounts
+    fetchBuildings();
+    fetchUsers();
+  }, []); // Empty dependency array to fetch data only once when component mounts
+
+  const fetchBuildings = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/buildings'); // Adjust the endpoint accordingly
+      setBuildings(response.data); // Set the list of buildings in state
+    } catch (error) {
+      console.error('Error fetching buildings:', error);
+    }
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/flats/addFlat'); // Adjust the endpoint accordingly
+      setUsers(response.data); // Set the list of users in state
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+
+
+  const [users, setUsers] = useState([]);
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    if (name === 'building') {
+      // If the selected field is secretary, set userId with the value from sessionStorage
+      setFormData({
+        ...formData,
+        buildingId: value,
+        [name]: value
+      });
+    } else if (name === 'user') {
+      // If the selected field is secretary, set userId with the value from sessionStorage
+      setFormData({
+        ...formData,
+        userId: value,
+        [name]: value
+      });
+    } 
+    
+    
+    else {
+      // For other fields, set formData as usual
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    }
   };
 
   const validateFormData = () => {
@@ -47,6 +95,8 @@ function AddFlat() {
   };
 
   const handleSubmit = async (e) => {
+    console.log("BuildingId:"+formData.buildingId);
+    console.log("UserId:"+formData.userId);
     e.preventDefault();
 
     const newErrors = validateFormData();
@@ -54,7 +104,7 @@ function AddFlat() {
     if (Object.keys(newErrors).length === 0) {
       try {
         // Make a POST request to your Spring Boot backend endpoint
-        const response = await axios.post('http://localhost:8080/api/flats', formData);
+        const response = await axios.post('http://localhost:8080/flats/addFlat', formData);
         console.log('Response:', response.data);
         // Handle any further actions based on the response, if needed
       } catch (error) {
@@ -97,10 +147,27 @@ function AddFlat() {
         <input type="number" id="rent" name="rent" value={formData.rent} onChange={handleChange} style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', marginBottom: '12px' }} required />
         {errors.rent && <p style={{ color: 'red', fontSize: '14px', marginTop: '5px' }}>{errors.rent}</p>}
 
-        {/* BuildingId field */}
-        <label htmlFor="buildingId" style={{ fontWeight: 'bold', marginBottom: '8px' }}>Building ID:</label>
-        <input type="number" id="buildingId" name="buildingId" value={formData.buildingId} onChange={handleChange} style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', marginBottom: '12px' }} required />
+      
+        {/* BuildingId dropdown */}
+        <label htmlFor="buildingId" style={{ fontWeight: 'bold', marginBottom: '8px' }}>Select Building:</label>
+        <select id="buildingId" name="buildingId" value={formData.buildingId} onChange={handleChange} style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', marginBottom: '12px' }} required>
+          <option value="">Select Building</option>
+          {buildings.map(building => (
+            <option key={building.id} value={building.id}>{building.name}-{building.id}</option>
+          ))}
+        </select>
         {errors.buildingId && <p style={{ color: 'red', fontSize: '14px', marginTop: '5px' }}>{errors.buildingId}</p>}
+
+
+{/* User dropdown */}
+<label htmlFor="userId" style={{ fontWeight: 'bold', marginBottom: '8px' }}>Select User:</label>
+<select id="userId" name="userId" value={formData.userId} onChange={handleChange} style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', marginBottom: '12px' }} required>
+  <option value="">Select User</option>
+  {users.map(user => (
+    <option key={user.id} value={user.id}>{user.name}-{user.id}</option>
+  ))}
+</select>
+{errors.userId && <p style={{ color: 'red', fontSize: '14px', marginTop: '5px' }}>{errors.userId}</p>}
 
         <input type="submit" value="Submit" style={{ backgroundColor: '#007bff', color: '#fff', padding: '12px 24px', border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '16px' }} />
       </form>

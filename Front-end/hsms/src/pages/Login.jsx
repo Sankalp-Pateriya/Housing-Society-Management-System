@@ -63,18 +63,18 @@ const Login = () => {
         const data = response.data;
         console.log(data);
 
-        localStorage.setItem("userData", JSON.stringify(data.user));
+        sessionStorage.setItem("userData", JSON.stringify(data.user));
         if (data.role === "ADMIN") {
-          localStorage.setItem("auth", "admin");
+          sessionStorage.setItem("auth", "admin");
           
         } else {
-          localStorage.setItem("auth", "1");
+          sessionStorage.setItem("auth", "1");
         }
-        localStorage.setItem("name",data.name);
-        //localStorage.setItem("auth", "1");
-        // save the data to localstorage
+        sessionStorage.setItem("name",data.name);
+        //sessionStorage.setItem("auth", "1");
+        // save the data to sessionStorage
         doLogin(data, () => {
-          console.log("login detail is saved to localstorage");
+          console.log("login detail is saved to sessionStorage");
           
           toast.success("Login Success");
           handleClick(); // Navigate to home upon successful login
@@ -108,7 +108,7 @@ const Login = () => {
               </CardHeader>
 
               <CardBody>
-                <Form onSubmit={handleFormSubmit}>
+                <Form >
                   {/* Email field */}
                   <FormGroup>
                     <Label for="email">Enter Email</Label>
@@ -132,7 +132,7 @@ const Login = () => {
                   </FormGroup>
 
                   <Container className="text-center">
-                    <Button backgroundColor="grey" outline type="submit">
+                    <Button onClick={handleFormSubmit} backgroundColor="secondary" className="ms-2" outline type="submit">
                       Login
                     </Button>
                     <Button
