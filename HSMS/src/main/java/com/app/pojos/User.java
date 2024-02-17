@@ -137,6 +137,14 @@ public class User {
 		this.flats = flats;
 	}
 
+
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", role=" + role + ", contact=" + contact
+				+ "]";
+	}
+
 	
 
     // Constructors, getters, setters, and equals()/hashCode()
