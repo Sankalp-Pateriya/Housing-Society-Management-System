@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -59,11 +60,11 @@ public class Building {
 	@Size(max = 50, message = "must be less than 50 characters")
 	String state;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
-	@OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "building", cascade = CascadeType.DETACH)
 	private Set<Flat> flats = new HashSet<>();
 
 
