@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios"; // Import axios
+import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {
@@ -22,9 +22,9 @@ const Signup = () => {
     name: "",
     email: "",
     password: "",
-    user_contact: "",
+    contact: "",
     about: "",
-    role: "User", // Default role
+    role: "User",
   });
 
   const [error, setError] = useState({
@@ -32,44 +32,38 @@ const Signup = () => {
     isError: false,
   });
 
-  // handle change
   const handleChange = (event, property) => {
     let actualValue = event.target.value;
     setData({ ...data, [property]: actualValue });
   };
 
-  //reseting the form
   const resetData = () => {
     setData({
       name: "",
       email: "",
       password: "",
-      user_contact: "",
+      contact: "", // Reset contact field
       about: "",
-      role: "User", // Reset role to default
+      role: "User",
     });
   };
 
-  //submit the form
-const submitForm = (event) => {
-  event.preventDefault();
+  const submitForm = (event) => {
+    event.preventDefault();
 
-  // Call the backend API for user registration
-  axios.post("http://localhost:8080/users", data) // Adjust the URL to match your backend endpoint
-    .then((resp) => {
-      toast.success("User is registered successfully !! user id " + resp.data.id);
-      // Reset the form after successful registration
-      resetData();
-    })
-    .catch((error) => {
-      toast.error("Failed to register user: " + error.message);
-      setError({
-        errors: error,
-        isError: true,
+    axios.post("http://localhost:8080/users/signup", data)
+      .then((resp) => {
+        toast.success("User is registered successfully !! user id " + resp.data.id);
+        resetData();
+      })
+      .catch((error) => {
+        toast.error("Failed to register user: " + error.message);
+        setError({
+          errors: error,
+          isError: true,
+        });
       });
-    });
-};
-
+  };
 
   return (
     <div className="signup-container" style={{ backgroundColor: "#f5f5dc" }}>
@@ -83,7 +77,6 @@ const submitForm = (event) => {
 
               <CardBody>
                 <Form onSubmit={submitForm}>
-                  {/* Name field */}
                   <FormGroup>
                     <Label for="name">Enter Name</Label>
                     <Input
@@ -99,7 +92,6 @@ const submitForm = (event) => {
                     </FormFeedback>
                   </FormGroup>
 
-                  {/* email field */}
                   <FormGroup>
                     <Label for="email">Enter Email</Label>
                     <Input
@@ -115,7 +107,6 @@ const submitForm = (event) => {
                     </FormFeedback>
                   </FormGroup>
 
-                  {/* password field */}
                   <FormGroup>
                     <Label for="password">Enter password</Label>
                     <Input
@@ -131,7 +122,22 @@ const submitForm = (event) => {
                     </FormFeedback>
                   </FormGroup>
 
-                  {/* Role field */}
+                  {/* Contact field */}
+                  <FormGroup>
+                    <Label for="contact">Enter Contact</Label>
+                    <Input
+                      type="text"
+                      placeholder="Enter here"
+                      id="contact"
+                      onChange={(e) => handleChange(e, "contact")}
+                      value={data.user_contact}
+                      invalid={error.errors?.response?.data?.user_contact ? true : false}
+                    />
+                    <FormFeedback>
+                      {error.errors?.response?.data?.user_contact}
+                    </FormFeedback>
+                  </FormGroup>
+
                   <FormGroup>
                     <Label for="role">Select Role</Label>
                     <Input
