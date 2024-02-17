@@ -61,7 +61,8 @@ function Home() {
     };
 
     return (
-        <div className='homepage'>
+        <div>
+              <div className='homepage'>
             <div className='container'>
                 <div className="search-filter-section">
                     <form className="search-box" onSubmit={handleSearchSubmit}>
@@ -123,7 +124,16 @@ function Home() {
                     {/* <img src={house} alt="House" width="40%" height="40%" /> */}
                 </Link>
             </div>
+
+            
         </div>
+            <div className='blog'>
+                                    <div className='col-md-4'>avs</div>
+                                    <div className='col-md-4'>avs</div>
+                                    <div className='col-md-4'>avs</div>
+            </div>
+        </div>
+      
     );
 }
 

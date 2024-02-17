@@ -1,6 +1,6 @@
 import React from "react";
 
-function About() {
+function About()   {
   return (
     <div className="about-container" style={{ backgroundColor: "#f5f5dc", color: "#333" }}>
       <div className="container">

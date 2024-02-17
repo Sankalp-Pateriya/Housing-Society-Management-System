@@ -97,9 +97,11 @@ public class FlatController {
 	}
 
 	@GetMapping("/buildingFlats/{bid}")
-	public ResponseEntity<?> getBuildingFlats(@PathVariable long bid) {
-
-		return ResponseEntity.status(HttpStatus.OK).body(flatService.getBuildingflats(bid));
+	public ResponseEntity<?> getBuildingFlats(@PathVariable String bid) {
+		long building_id=Long.parseLong(bid);
+		List<FlatIdDTO> flatsdto=flatService.getBuildingflats(building_id);
+		System.out.println("All building Flats-----"+flatsdto);
+		return ResponseEntity.status(HttpStatus.OK).body(flatsdto);
 	}
 
 }

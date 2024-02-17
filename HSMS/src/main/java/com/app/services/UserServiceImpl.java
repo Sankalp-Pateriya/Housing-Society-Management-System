@@ -175,12 +175,12 @@ public class UserServiceImpl implements UserService {
     
     
     @Override
-	public UserDTO signInUser(SigninRequest signinRequest) {
+	public UserIdDTO signInUser(SigninRequest signinRequest) {
 		User user = userRepository.findByEmail(signinRequest.getEmail())
 				.orElseThrow(() -> new ResourceNotFoundException("No User with email found!!"));
 
 		if (encoder.matches(signinRequest.getPassword(), user.getPassword())) {
-			return modelMapper.map(user, UserDTO.class);
+			return modelMapper.map(user, UserIdDTO.class);
 		}
 		return null;
 	}

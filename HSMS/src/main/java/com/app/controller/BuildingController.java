@@ -34,7 +34,7 @@ public class BuildingController {
 	
 	@PostMapping("/addBuilding")
 	public ResponseEntity<?> addBuilding(@RequestBody BuildingDTO building) {
-
+		System.out.println("Add Building: "+building);
 		try {
 			BuildingDTO newBuildingDto = buildingService.addBuilding(building);
 			if (newBuildingDto == null) {

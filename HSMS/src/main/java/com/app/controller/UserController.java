@@ -69,11 +69,11 @@ public class UserController {
 	@PostMapping("/signIn")
 	public ResponseEntity<?> signinUser(@RequestBody SigninRequest signinRequest) {
 		System.out.println(signinRequest);
-		UserDTO userdto = userService.signInUser(signinRequest);
-		if (userdto != null)
-			return ResponseEntity.status(HttpStatus.CREATED).body(userdto);
+		UserIdDTO userIddto = userService.signInUser(signinRequest);
+		if (userIddto != null)
+			return ResponseEntity.status(HttpStatus.CREATED).body(userIddto);
 		else
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userdto);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userIddto);
 	}
 
 }
