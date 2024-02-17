@@ -125,8 +125,8 @@ public class User {
 		return buildings;
 	}
 
-	public void setBuildings(Set<Building> buildings) {
-		this.buildings = buildings;
+	public void setBuildings(Building building) {
+		this.buildings.add(building);
 	}
 
 	public Set<Flat> getFlats() {

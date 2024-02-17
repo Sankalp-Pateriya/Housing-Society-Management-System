@@ -15,5 +15,6 @@ public interface BuildingService {
 	
 	List<BuildingIdDTO> getAllBuildingDtls();
 	List<List<Object>> getAllBuildingsNFlats();
+	List<List<Object>> getFlatsOfBuilding(Long bId);
 }
 

@@ -40,6 +40,9 @@ public class HomeController {
 	@GetMapping("/seeAll")
 	public ResponseEntity<?> getAllBuildingsNFlats(){
 		List<List<Object>> allBuildingsNFlats = buildingService.getAllBuildingsNFlats();
+		System.out.println();
+		System.out.println(allBuildingsNFlats);
+		System.out.println();
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(allBuildingsNFlats);
 		} catch (Exception e) {

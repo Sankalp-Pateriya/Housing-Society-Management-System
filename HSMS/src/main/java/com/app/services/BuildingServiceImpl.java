@@ -50,7 +50,7 @@ public class BuildingServiceImpl implements BuildingService {
 //    	System.out.println("0");
 		User user = userById.get();
 		if (user != null) {
-			if (!user.getRole().toString().equals("ADMIN")) {
+			if (!user.getRole().toString().equals("SECRETARY")) {
 				return null;
 			}
 		}
@@ -208,6 +208,26 @@ public class BuildingServiceImpl implements BuildingService {
 		}
 		wholeList.add(flatsObjectList);
 		
+		return wholeList;
+	}
+
+	@Override
+	public List<List<Object>> getFlatsOfBuilding(Long bId) {
+		List<List<Object>> wholeList = new ArrayList<>();
+		Building building = buildingRepository.findById(bId).get();
+		BuildingIdDTO map = modelMapper.map(building, BuildingIdDTO.class);
+		ArrayList<Object> list = new ArrayList<>();
+		list.add(map);
+		wholeList.add(list);
+		List<Building> allBuildings = buildingRepository.findAll();
+		List<BuildingIdDTO> allBuildingsIdDtos = allBuildings.stream().filter((e)->e.getId()==bId).map((e)->modelMapper.map(e, BuildingIdDTO.class)).collect(Collectors.toList()); 
+		List<Object> flatsObjectList = new ArrayList<>();
+		for(BuildingIdDTO b : allBuildingsIdDtos) {
+			List<Flat> flatList = flatRepository.findByBuildingId(b.getId());
+			List<Object> flatObjects = flatList.stream().map((e)->modelMapper.map(e, FlatIdDTO.class)).collect(Collectors.toList());
+			flatsObjectList.add(flatObjects);
+		}
+		wholeList.add(flatsObjectList); 
 		return wholeList;
 	}
 
