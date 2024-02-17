@@ -1,6 +1,7 @@
 package com.app.services;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,6 +18,7 @@ import com.app.dto.BuildingDTO;
 import com.app.dto.BuildingIdDTO;
 import com.app.dto.BuildingNameAndIdDTO;
 import com.app.dto.FlatDTO;
+import com.app.dto.FlatIdDTO;
 import com.app.pojos.Building;
 import com.app.pojos.Flat;
 import com.app.pojos.User;
@@ -75,12 +77,12 @@ public class BuildingServiceImpl implements BuildingService {
 	@Override
 	public List<BuildingIdDTO> getAllBuilding() {
 		List<Building> buildings = buildingRepository.findAll();
-		List<BuildingIdDTO> buildingDTOs = new ArrayList<>();
+		List<BuildingIdDTO> buildingIdDTOs = new ArrayList<>();
 		for (Building b : buildings) {
-			buildingDTOs.add(modelMapper.map(b, BuildingIdDTO.class));
-			buildingDTOs.forEach((e)->e.setUserId(b.getUser().getId()));
+			buildingIdDTOs.add(modelMapper.map(b, BuildingIdDTO.class));
+			buildingIdDTOs.forEach((e)->e.setUserId(b.getUser().getId()));
 		}
-		return buildingDTOs;
+		return buildingIdDTOs;
 	}
 
 	public List<FlatDTO> searchFlats(String element, String type, int highArea, int lowArea, int highRent,
@@ -181,6 +183,32 @@ public class BuildingServiceImpl implements BuildingService {
 					System.out.println("name and ID of building"+buildingNameAndIdDTO);
 				}
 		return nameAndId;
+	}
+
+	@Override
+	public List<List<Object>> getAllBuildingsNFlats() {
+		List<List<Object>> wholeList = new ArrayList<>();
+		List<Building> allBuildings = buildingRepository.findAll();
+		List<BuildingIdDTO> allBuildingsIdDtos = allBuildings.stream().map((e)->modelMapper.map(e, BuildingIdDTO.class)).collect(Collectors.toList()); 
+		List<Object> bldgsObjectList = new ArrayList<>();
+		for(BuildingIdDTO b : allBuildingsIdDtos) {
+			bldgsObjectList.add(b);
+		}
+		wholeList.add(bldgsObjectList);
+		
+		
+		
+		
+		
+		List<Flat> allFlats = flatRepository.findAll();
+		List<FlatIdDTO> allFlatsIdDtos = allFlats.stream().map((e)->modelMapper.map(e, FlatIdDTO.class)).collect(Collectors.toList()); 
+		List<Object> flatsObjectList = new ArrayList<>();
+		for(FlatIdDTO b : allFlatsIdDtos) {
+			flatsObjectList.add(b);
+		}
+		wholeList.add(flatsObjectList);
+		
+		return wholeList;
 	}
 
 

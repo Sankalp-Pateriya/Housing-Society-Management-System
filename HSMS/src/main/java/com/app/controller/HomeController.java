@@ -36,6 +36,18 @@ public class HomeController {
 	}
 */
 	
+	
+	@GetMapping("/seeAll")
+	public ResponseEntity<?> getAllBuildingsNFlats(){
+		List<List<Object>> allBuildingsNFlats = buildingService.getAllBuildingsNFlats();
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(allBuildingsNFlats);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
+		}
+		
+	}
+	
 	@GetMapping
 	public ResponseEntity<?> searchFlats(@RequestParam(required = false, defaultValue = "") String searchElement,
 			@RequestParam(required = false, defaultValue = "100000000") int highArea,
