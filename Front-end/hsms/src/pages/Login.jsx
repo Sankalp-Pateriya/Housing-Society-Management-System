@@ -14,7 +14,6 @@ import {
   Row,
   Button,
 } from "reactstrap";
-import { loginUser } from "../services/user-service";
 import { doLogin } from "./auth";
 import { useNavigate } from "react-router-dom";
 import userContext from "./context/userContext";
@@ -25,9 +24,13 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [loginDetail, setLoginDetail] = useState({
-    username: "",
+    email: "",
     password: "",
   });
+
+  const handleClick = () => {
+    navigate(`/`);
+  };
 
   const handleChange = (event, field) => {
     let actualValue = event.target.value;
@@ -39,7 +42,7 @@ const Login = () => {
 
   const handleReset = () => {
     setLoginDetail({
-      username: "",
+      email: "",
       password: "",
     });
   };
@@ -47,42 +50,46 @@ const Login = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     console.log(loginDetail);
-    //validation
-    if (
-      loginDetail.username.trim() === "" ||
-      loginDetail.password.trim() === ""
-    ) {
+    // validation
+    if (loginDetail.email.trim() === "" || loginDetail.password.trim() === "") {
       toast.error("Username or Password is required !!");
       return;
     }
 
-    //submit the data to server to generate token
+    // submit the data to server to generate token
     axios
-      .post("http://localhost:8080/login", loginDetail) // Adjust the URL to match your backend endpoint
+      .post("http://localhost:8080/users/signIn", loginDetail)
       .then((response) => {
-        console.log(response.data);
+        const data = response.data;
+        console.log(data);
 
-        // Save the data to localStorage
-        doLogin(response.data, () => {
-          console.log("Login detail is saved to localStorage");
-          // Redirect to user dashboard page
-          userContxtData.setUser({
-            data: response.data.user,
-            login: true,
-          });
-          navigate("/user/dashboard");
+        localStorage.setItem("userData", JSON.stringify(data.user));
+        if (data.role === "ADMIN") {
+          localStorage.setItem("auth", "admin");
+          
+        } else {
+          localStorage.setItem("auth", "1");
+        }
+        localStorage.setItem("name",data.name);
+        //localStorage.setItem("auth", "1");
+        // save the data to localstorage
+        doLogin(data, () => {
+          console.log("login detail is saved to localstorage");
+          
+          toast.success("Login Success");
+          handleClick(); // Navigate to home upon successful login
+          window.location.reload();
         });
-
-        toast.success("Login Success");
       })
       .catch((error) => {
-        console.error("Login error:", error);
-        if (error.response && (error.response.status === 400 || error.response.status === 404)) {
+        console.error(error);
+        if (error.response && (error.response.status === 500 || error.response.status === 404)) {
           toast.error(error.response.data.message);
         } else {
-          toast.error("Something went wrong on server!!");
+          toast.error("Something went wrong on the server !!");
         }
       });
+    handleReset();
   };
 
   return (
@@ -108,8 +115,8 @@ const Login = () => {
                     <Input
                       type="text"
                       id="email"
-                      value={loginDetail.username}
-                      onChange={(e) => handleChange(e, "username")}
+                      value={loginDetail.email}
+                      onChange={(e) => handleChange(e, "email")}
                     />
                   </FormGroup>
 

@@ -1,8 +1,15 @@
 import '../assets/layout.scss';
 import { Link } from "react-router-dom";
 import logo from '../images/logo.png'
-
+import React, { useState } from "react";
 function Header() {
+  const [auth, setAuth] = useState(localStorage.getItem("auth") || "0");
+  const handleLogout = () => {
+    localStorage.removeItem("auth");
+    localStorage.removeItem("name");
+    setAuth("0");
+    // Add any additional logout logic here, such as clearing user data from localStorage
+  };
   return (
     <div className="header">
       <div className='container'>
@@ -35,12 +42,21 @@ function Header() {
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      to="./login"
-                      className="navlink btn btn-outline-primary"
-                    >
-                      Login
-                    </Link>
+                  {auth !== "0" ? (
+                      <button
+                        onClick={handleLogout}
+                        className="navlink btn btn-outline-primary"
+                      >
+                        Logout
+                      </button>
+                    ) : (
+                      <Link
+                        to="./login"
+                        className="navlink btn btn-outline-primary"
+                      >
+                        Login
+                      </Link>
+                    )}
                   </li>
                   <li>
                     <Link
