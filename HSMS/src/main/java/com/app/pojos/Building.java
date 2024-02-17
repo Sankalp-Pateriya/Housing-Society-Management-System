@@ -26,7 +26,7 @@ public class Building {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "name",unique = true)
+	@Column(name = "name")
 	@NotBlank(message = "Name is required")
 	@Size(max = 50, message = "Name must be less than 50 characters")
 	private String name;
@@ -60,8 +60,8 @@ public class Building {
 	@Size(max = 50, message = "must be less than 50 characters")
 	String state;
 
-	@OneToOne
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	@ManyToOne
+	@JoinColumn(name = "user_secretary_id", referencedColumnName = "id")
 	private User user;
 
 	@OneToMany(mappedBy = "building", cascade = CascadeType.DETACH)

@@ -50,7 +50,7 @@ public class BuildingServiceImpl implements BuildingService {
 //    	System.out.println("0");
 		User user = userById.get();
 		if (user != null) {
-			if (!user.getRole().toString().equals("ADMIN")) {
+			if (!user.getRole().toString().equals("SECRETARY")) {
 				return null;
 			}
 		}
