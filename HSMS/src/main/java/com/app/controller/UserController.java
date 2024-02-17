@@ -76,4 +76,12 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userIddto);
 	}
 
+	@GetMapping("/getAllSecretary")
+	public ResponseEntity<?> getAllSecretary() {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(userService.getSecretary());			
+		}catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not found!!");	
+		}
+	}
 }

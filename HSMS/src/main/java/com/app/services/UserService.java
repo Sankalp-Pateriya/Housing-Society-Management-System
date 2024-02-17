@@ -16,4 +16,5 @@ public interface UserService {
 	UserIdDTO updateUser(long id,UserDTO userDTO);
 	List<FlatDTO> searchFlats(String element, String type, int highArea, int lowArea,int highRent,int lowRent);
 	UserIdDTO signInUser(SigninRequest signinRequest);
+	List<UserIdDTO> getSecretary();
 }

@@ -185,4 +185,16 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
     // Other methods for updating, deleting, and retrieving users
+
+	public List<UserIdDTO> getSecretary() {
+		List<User> users=userRepository.findAll();
+		List<UserIdDTO> userIdDtoList=new ArrayList<>();
+		for(User u:users) {
+			if(u.getRole().toString().equals("SECRETARY")) {
+			userIdDtoList.add(modelMapper.map(u, UserIdDTO.class))	;
+			}
+		}
+		System.out.println("@@@@@@@@@@@@@@@@@@@"+userIdDtoList);
+		return userIdDtoList;
+	}
 }
