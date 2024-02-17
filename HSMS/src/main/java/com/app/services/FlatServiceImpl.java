@@ -39,7 +39,7 @@ public class FlatServiceImpl implements FlatService {
 	public FlatDTO addFlat(FlatDTO flatdto) {
 	Optional<User> userById = userRepository.findById(flatdto.getUserId());
 	User user = userById.get();
-	if(!user.getRole().toString().equals("SECRETARY")) {
+	if(!user.getRole().toString().equals("USER")) {
 		return null;
 	}
 	Flat flat=modelMapper.map(flatdto, Flat.class);
