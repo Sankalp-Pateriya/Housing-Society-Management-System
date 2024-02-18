@@ -244,10 +244,17 @@ public class BuildingServiceImpl implements BuildingService {
 		buildingRepository.deleteById(id);
 		return 0;
 	}
-	public BuildingIdDTO updateBuilding(Long id,BuildingIdDTO buidlingIdDTO) {
-		Building building = modelMapper.map(buidlingIdDTO,Building.class);
-		building.setId(id);
-		buildingRepository.save(building);
+	public BuildingIdDTO updateBuilding(Long id,BuildingIdDTO buidlingIdDTO) 
+	{
+		System.out.println("BuildingIdDTO :"+buidlingIdDTO);
+		User user = userRespository.findById(buidlingIdDTO.getUserId()).get();
+		
+		Building newBuilding = modelMapper.map(buidlingIdDTO, Building.class);
+		System.out.println("newBuilding:"+newBuilding);
+		newBuilding.setId(id);
+		newBuilding.setUser(user);
+		System.out.println("newBuilding details"+newBuilding);
+		buildingRepository.save(newBuilding);
 		return buidlingIdDTO;
 	}
 
