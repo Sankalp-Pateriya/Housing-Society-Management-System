@@ -157,6 +157,7 @@ public class FlatServiceImpl implements FlatService {
 //		System.out.println(flats);
 //		System.out.println();
 		return null;
+	}
 	public List<List<Object>> getflatNBuilding(Long id) {
 		System.out.println();
 		System.out.println("8");
