@@ -44,7 +44,10 @@ function SeeAll() {
   const handleBookFlat = async (flatId) => {
     // Implement the booking logic using axios
     try {
-      await axios.put(`http://localhost:8080/flats/${flatId}`);
+      
+      const userId=sessionStorage.getItem("id");
+      console.log("userId"+userId);
+      await axios.put(`http://localhost:8080/flats/${flatId}/${userId}`);
       // You may want to handle success or show a confirmation message
       console.log("Flat booked successfully!");
     } catch (error) {
@@ -131,6 +134,7 @@ function SeeAll() {
           onYes={handleBookFlat}
           onCancel={handleCancelBooking}
           flatId={selectedFlat}
+          
         />
       )}
       {isPopupOpen && auth !== "user" && (

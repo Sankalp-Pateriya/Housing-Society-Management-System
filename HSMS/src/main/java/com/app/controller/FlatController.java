@@ -95,10 +95,11 @@ public class FlatController {
 	}
 
 	// api to update the details of the flat
-	@PutMapping("/{id}")
-	public ResponseEntity<?> bookFlat(@PathVariable Long id) {
+	@PutMapping("/{id}/{uid}")
+	public ResponseEntity<?> bookFlat(@PathVariable Long id,@PathVariable Long uid) {
 		try {
-			FlatIdDTO bookFlat = flatService.bookFlat(id);
+			
+			FlatIdDTO bookFlat = flatService.bookFlat(id,uid);
 			if (bookFlat == null) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Flat is Already Booked!");
 			}

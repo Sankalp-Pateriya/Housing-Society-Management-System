@@ -20,6 +20,8 @@ import AdminHome from "./admin/AdminHome.js";
 import FlatCard from "./component/FlatCard.jsx";
 import { useParams } from "react-router-dom";
 import ViewFlatPage from "./pages/ViewFlatPage.jsx";
+import ViewMyFlats from "./pages/ViewMyFlats.jsx";
+import AllUsers from "./pages/AllUsers.jsx";
 function App() {
   let { id } = useParams();
   return (
@@ -40,8 +42,10 @@ function App() {
               element={<ViewFlatPage />}
             />
             <Route path="/add-building" element={<AddBuilding />} />
+            <Route path="/users/viewFlats/:id" element={<ViewMyFlats />} />
             <Route path="/add-flat" element={<AddFlat />} />
             <Route path="/add-user" element={<AddUser />} />
+            <Route path="/users" element={<AllUsers />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<Terms />} />{" "}
             <Route path="/admin" element={<AdminHome />} />{" "}
