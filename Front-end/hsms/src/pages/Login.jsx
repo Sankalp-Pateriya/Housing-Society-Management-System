@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer from react-toastify
 import axios from "axios"; // Import Axios
 import {
@@ -68,7 +68,7 @@ const Login = () => {
         sessionStorage.setItem("userData", JSON.stringify(data));
         if (data.role === "ADMIN") {
           sessionStorage.setItem("auth", "admin");
-          
+          redirect('./admin/AdminHome')
         }else if (data.role === "SECRETARY") {
           sessionStorage.setItem("auth", "secretary");
           
