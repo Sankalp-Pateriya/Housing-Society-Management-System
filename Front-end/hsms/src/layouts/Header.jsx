@@ -35,14 +35,14 @@ function Header() {
                 </ul>
               </div>
               <div className="logincde">
-                <ul className="d-flex"> 
-                <li className="nav-item">
+                <ul className="d-flex">
+                  <li className="nav-item">
                     <Link to="/about" className="navlink btn btn-outline-info">
                       About
                     </Link>
                   </li>
                   <li>
-                  {auth !== "0" ? (
+                    {auth !== "0" ? (
                       <button
                         onClick={handleLogout}
                         className="navlink btn btn-outline-primary"
@@ -58,20 +58,34 @@ function Header() {
                       </Link>
                     )}
                   </li>
-                  <li>
-                    <Link
-                      to="/signup"
-                      className="navlink btn btn-outline-primary"
-                    >
-                      Sign Up
-                    </Link>
-                  </li>
+                 
                 </ul>
               </div>
             </div>
           </nav>
         </header>
       </div>
+      {auth !== "0" && (
+  <div className="side-panel">
+    <ul>
+      {auth === "admin" && (
+        <li>
+          <Link to="/add-building">Add Building</Link>
+        </li>
+      )}
+      {auth === "secretary" && (
+        <li>
+          <Link to="/add-flat">Add Flat</Link>
+        </li>
+      )}
+      <li>
+        <Link to="/profile">Profile</Link>
+      </li>
+    </ul>
+  </div>
+)}
+
+
     </div>
   );
 }

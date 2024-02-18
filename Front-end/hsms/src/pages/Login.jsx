@@ -69,8 +69,13 @@ const Login = () => {
         if (data.role === "ADMIN") {
           sessionStorage.setItem("auth", "admin");
           
-        } else {
-          sessionStorage.setItem("auth", "1");
+        }else if (data.role === "SECRETARY") {
+          sessionStorage.setItem("auth", "secretary");
+          
+        }
+        
+        else {
+          sessionStorage.setItem("auth", "user");
         }
         sessionStorage.setItem("name",data.name);
         //sessionStorage.setItem("auth", "1");
