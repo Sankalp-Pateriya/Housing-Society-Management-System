@@ -213,7 +213,10 @@ public class BuildingServiceImpl implements BuildingService {
 	public List<List<Object>> getFlatsOfBuilding(Long bId) {
 		List<List<Object>> wholeList = new ArrayList<>();
 		Building building = buildingRepository.findById(bId).get();
+		User user = userRespository.findById(building.getUser().getId()).get();
+		building.setUser(user);
 		BuildingIdDTO map = modelMapper.map(building, BuildingIdDTO.class);
+		map.setUserId(building.getUser().getId());
 		ArrayList<Object> list = new ArrayList<>();
 		list.add(map);
 		wholeList.add(list);
@@ -240,6 +243,12 @@ public class BuildingServiceImpl implements BuildingService {
 		flatRepository.deleteAll(flats);
 		buildingRepository.deleteById(id);
 		return 0;
+	}
+	public BuildingIdDTO updateBuilding(Long id,BuildingIdDTO buidlingIdDTO) {
+		Building building = modelMapper.map(buidlingIdDTO,Building.class);
+		building.setId(id);
+		buildingRepository.save(building);
+		return buidlingIdDTO;
 	}
 
 }

@@ -99,11 +99,7 @@ function SeeAll() {
       <div className="flat-tiles-container">
         <h2>Flat List</h2>
         {availableFlats.map((flat) => (
-          <div
-            key={flat.id}
-            className="flat-tile"
-            onClick={() => handleFlatClick(flat.id)}
-          >
+          <div key={flat.id} className="flat-tile">
             <h3>{flat.type}</h3>
             <p>Area: {flat.area} sqft</p>
             <p>Floor: {flat.floor}</p>
@@ -114,6 +110,7 @@ function SeeAll() {
               Available: {flat.isAvailable ? "No" : "Yes"}
             </p>
             <h5>Rent: Rs. {flat.rent}</h5>
+            <button onClick={() => handleFlatClick(flat.id)}>Book Flat</button>
           </div>
         ))}
       </div>
@@ -137,20 +134,17 @@ function SeeAll() {
         />
       )}
       {isPopupOpen && auth !== "user" && (
-  <div className="popup-container">
-    <div className="popup">
-      <p>Sign in as User.</p>
-      <div className="button-container">
-        
-        <button onClick={handleCancel} className="cancel-button">
-          Cancel
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
-
+        <div className="popup-container">
+          <div className="popup">
+            <p>Sign in as User.</p>
+            <div className="button-container">
+              <button onClick={handleCancel} className="cancel-button">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

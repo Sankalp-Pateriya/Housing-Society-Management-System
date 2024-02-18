@@ -15,5 +15,6 @@ public interface FlatService {
 	List<UserIdDTO> getUsersOnly();
 	List<FlatIdDTO> getCityFlat(String city);
 	List<FlatIdDTO> getUserFlat(long user_id);
+	List<List<Object>> getflatNBuilding(Long id);
 
 }

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.app.dao.BuildingRepository;
 import com.app.dao.FlatRepository;
 import com.app.dao.UserRepository;
+import com.app.dto.BuildingIdDTO;
 import com.app.dto.FlatDTO;
 import com.app.dto.FlatIdDTO;
 import com.app.dto.UserIdDTO;
@@ -156,6 +157,44 @@ public class FlatServiceImpl implements FlatService {
 //		System.out.println(flats);
 //		System.out.println();
 		return null;
+	public List<List<Object>> getflatNBuilding(Long id) {
+		System.out.println();
+		System.out.println("8");
+		System.out.println();
+		List<List<Object>> wholeList = new ArrayList<>();
+//		List<Object> 
+		Flat flat = flatRepository.findById(id).get();
+		FlatIdDTO flatIdDTO = modelMapper.map(flat, FlatIdDTO.class);
+		List<Object> flatList = new ArrayList<>();
+		flatIdDTO.setUserId(flat.getUser().getId());
+		flatIdDTO.setBuildingId(id);
+		flatList.add(flatIdDTO);
+		System.out.println();
+		System.out.println("5");
+		System.out.println();
+		Building building = buildingRepository.findById(flat.getBuilding().getId()).get();
+		System.out.println();
+		System.out.println("7");
+		System.out.println();
+		BuildingIdDTO buildingIdDTO = modelMapper.map(building, BuildingIdDTO.class);
+		System.out.println();
+		System.out.println("123456"+buildingIdDTO);
+		System.out.println();
+		List<Object> buildingList = new ArrayList<>();
+		System.out.println();
+//		System.out.println("2"+building.getUser().getId());
+		System.out.println();
+//		buildingIdDTO.setUserId(building.getUser().getId());
+		buildingList.add(buildingIdDTO);
+		wholeList.add(buildingList);
+		System.out.println();
+		System.out.println("999");
+		System.out.println();
+		wholeList.add(flatList);
+		System.out.println();
+		System.out.println("10");
+		System.out.println();
+		return wholeList;
 	}
 	
 

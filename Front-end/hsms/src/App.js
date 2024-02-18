@@ -18,7 +18,8 @@ import SeeAll from "./pages/newHome.jsx";
 import ViewBuilding from "./pages/ViewBuilding.jsx";
 import AdminHome from "./admin/AdminHome.js";
 import FlatCard from "./component/FlatCard.jsx";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import ViewFlatPage from "./pages/ViewFlatPage.jsx";
 function App() {
   let { id } = useParams();
   return (
@@ -34,13 +35,17 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/buildings/:bid" element={<ViewBuilding />} />
+            <Route
+              path="/flats/flatNbuilding/:Flatid"
+              element={<ViewFlatPage />}
+            />
             <Route path="/add-building" element={<AddBuilding />} />
             <Route path="/add-flat" element={<AddFlat />} />
             <Route path="/add-user" element={<AddUser />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<Terms />} />{" "}
             <Route path="/admin" element={<AdminHome />} />{" "}
-            <Route path="/flats/:id" element={<FlatCard id={id}/>} />
+            <Route path="/flats/:id" element={<FlatCard id={id} />} />
             {<Route path="/profile" element={<ProfilePage />} />}
             {/* New route for Terms page */}
             <Route path="/contact" element={<Contact />} />{" "}

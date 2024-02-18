@@ -32,6 +32,23 @@ public class FlatController {
 	@Autowired
 	private BuildingService buildingService;
 
+	@GetMapping("/flatNbuilding/{id}")
+	public ResponseEntity<?> getflatNBuilding(@PathVariable Long id) {
+		try {
+			System.out.println();
+			System.out.println("get Flat N Building method is getting called!!	");
+			System.out.println();
+			List<List<Object>> buildingNflat = flatService.getflatNBuilding(id);
+			System.out.println();
+			System.out.println("list of flat and building "+buildingNflat);
+			System.out.println();
+			return ResponseEntity.status(HttpStatus.CREATED).body(buildingNflat);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
+	}
+	
+	
 	@GetMapping("/addFlat")
 	public ResponseEntity<?> getUsersOnly() {
 		try {
@@ -95,6 +112,9 @@ public class FlatController {
 	@GetMapping("/allFlats")
 	public ResponseEntity<?> allFlats() {
 		List<FlatIdDTO> allFlats = flatService.getAllFlats();
+		System.out.println();
+		System.out.println(" all Flat list : "+allFlats);
+		System.out.println();
 		return new ResponseEntity<>(allFlats, HttpStatus.OK);
 
 	}
@@ -128,5 +148,6 @@ public class FlatController {
 		return new ResponseEntity<>(allFlats, HttpStatus.OK);
 
 	}
+	
 
 }
