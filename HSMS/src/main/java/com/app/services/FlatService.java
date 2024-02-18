@@ -10,7 +10,7 @@ public interface FlatService {
 	FlatDTO addFlat(FlatDTO flatdto);
 	List<FlatIdDTO> getAllFlats();
 	FlatIdDTO getSingleFlats(Long id);
-	FlatDTO bookFlat(Long id);
+	FlatIdDTO bookFlat(Long id);
 	List<FlatIdDTO> getBuildingflats(long bid);
 	List<UserIdDTO> getUsersOnly();
 	List<FlatIdDTO> getCityFlat(String city);

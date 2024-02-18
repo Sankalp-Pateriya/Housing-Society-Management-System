@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.FlatDTO;
+import com.app.dto.FlatIdDTO;
 import com.app.services.BuildingService;
 import com.app.services.FlatService;
 
@@ -62,7 +63,7 @@ public class HomeController {
 		System.out.println();
 		System.out.println("searchElement "+searchElement+" high Area "+highArea+" lowArea "+lowArea+" Type: "+type+" highRent "+highRent+" lowRent : "+lowRent);
 		System.out.println();
-		List<FlatDTO> flatList = buildingService.searchFlats(searchElement, type, highArea, lowArea, highRent, lowRent);
+		List<FlatIdDTO> flatList = buildingService.searchFlats(searchElement, type, highArea, lowArea, highRent, lowRent);
 		System.out.println(flatList);
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(flatList);

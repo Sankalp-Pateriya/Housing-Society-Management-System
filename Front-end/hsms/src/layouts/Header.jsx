@@ -1,6 +1,6 @@
-import '../assets/layout.scss';
+import "../assets/layout.scss";
 import { Link } from "react-router-dom";
-import logo from '../images/logo.png'
+import logo from "../images/logo.png";
 import React, { useState } from "react";
 function Header() {
   const [auth, setAuth] = useState(sessionStorage.getItem("auth") || "0");
@@ -13,7 +13,7 @@ function Header() {
   };
   return (
     <div className="header">
-      <div className='container'>
+      <div className="container">
         <header>
           <nav className="navbar navbar-expand-lg headerbg">
             <div className="container-fluid">
@@ -27,13 +27,11 @@ function Header() {
                     class="d-inline-block align-text-top"
                   />
                 }{" "}
-              Housing-Society-Management-System
+                Housing-Society-Management-System
               </Link>
 
               <div className="collapse navbar-collapse" id="navbarNav">
-                <ul className="navbar-nav">
-                 
-                </ul>
+                <ul className="navbar-nav"></ul>
               </div>
               <div className="logincde">
                 <ul className="d-flex">
@@ -59,7 +57,6 @@ function Header() {
                       </Link>
                     )}
                   </li>
-                 
                 </ul>
               </div>
             </div>
@@ -67,26 +64,24 @@ function Header() {
         </header>
       </div>
       {auth !== "0" && (
-  <div className="side-panel">
-    <ul>
-      {auth === "admin" && (
-        <li>
-          <Link to="/add-building">Add Building</Link>
-        </li>
+        <div className="side-panel">
+          <ul>
+            {auth === "admin" && (
+              <li>
+                <Link to="/add-building">Add Building</Link>
+              </li>
+            )}
+            {auth === "secretary" && (
+              <li>
+                <Link to="/add-flat">Add Flat</Link>
+              </li>
+            )}
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
+          </ul>
+        </div>
       )}
-      {auth === "secretary" && (
-        <li>
-          <Link to="/add-flat">Add Flat</Link>
-        </li>
-      )}
-      <li>
-        <Link to="/profile">Profile</Link>
-      </li>
-    </ul>
-  </div>
-)}
-
-
     </div>
   );
 }

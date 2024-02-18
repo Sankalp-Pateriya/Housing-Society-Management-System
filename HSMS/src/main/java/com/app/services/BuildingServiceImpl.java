@@ -80,22 +80,22 @@ public class BuildingServiceImpl implements BuildingService {
 		List<BuildingIdDTO> buildingIdDTOs = new ArrayList<>();
 		for (Building b : buildings) {
 			buildingIdDTOs.add(modelMapper.map(b, BuildingIdDTO.class));
-			buildingIdDTOs.forEach((e)->e.setUserId(b.getUser().getId()));
+			buildingIdDTOs.forEach((e) -> e.setUserId(b.getUser().getId()));
 		}
 		return buildingIdDTOs;
 	}
 
-	public List<FlatDTO> searchFlats(String element, String type, int highArea, int lowArea, int highRent,
+	public List<FlatIdDTO> searchFlats(String element, String type, int highArea, int lowArea, int highRent,
 			int lowRent) {
-		System.out.println();
-		System.out.println(element);
-		System.out.println();
-		List<FlatDTO> flatDTOs = new ArrayList<FlatDTO>();
+//		System.out.println();
+//		System.out.println(element);
+//		System.out.println();
+		List<FlatIdDTO> flatDTOs = new ArrayList<FlatIdDTO>();
 		List<Building> buildings = buildingRepository.findAll();
 
-		System.out.println();
-		System.out.println(buildings);
-		System.out.println();
+//		System.out.println();
+//		System.out.println(buildings);
+//		System.out.println();
 		List<Building> areaBuildings = new ArrayList<Building>();
 
 		for (Building b : buildings) {
@@ -119,69 +119,69 @@ public class BuildingServiceImpl implements BuildingService {
 			}
 		}
 
-		System.out.println();
-		System.out.println(areaBuildings);
-		System.out.println();
+//		System.out.println();
+//		System.out.println(areaBuildings);
+//		System.out.println();
 		for (Building b : areaBuildings) {
 			List<Flat> tempList = flatRepository.findByBuildingId(b.getId());
-			System.out.println();
-			System.out.println(" safsdfsad" + tempList);
-			System.out.println();
-			List<FlatDTO> convertedTempList = tempList.stream().map((e) -> modelMapper.map(e, FlatDTO.class))
+//			System.out.println();
+//			System.out.println("" + tempList);
+//			System.out.println();
+			List<FlatIdDTO> convertedTempList = tempList.stream().map((e) -> modelMapper.map(e, FlatIdDTO.class))
 					.filter((e) -> e.isAvailable()).collect(Collectors.toList());
 			flatDTOs.addAll(convertedTempList);
-			System.out.println();
-			System.out.println(" 1 " + flatDTOs);
-			System.out.println();
+//			System.out.println();
+//			System.out.println(" 1 " + flatDTOs);
+//			System.out.println();
 		}
 		if (!type.equalsIgnoreCase("any")) {
 			if (!type.toLowerCase().equals("any")) {
 				flatDTOs = flatDTOs.stream().filter((e) -> {
-					return e.getType().toUpperCase().equals(type.toUpperCase());
+					return (e.getType().toUpperCase().equals(type.toUpperCase()) && e.isAvailable());
 				}).collect(Collectors.toList());
 			}
-			System.out.println();
-			System.out.println(" 2 " + flatDTOs);
-			System.out.println();
+//			System.out.println();
+//			System.out.println(" 2 " + flatDTOs);
+//			System.out.println();
 		}
 
 		// if (highArea >= lowArea && highArea != 0 && lowArea != 0) {
 		flatDTOs = flatDTOs.stream().filter((e) -> {
 			return e.getArea() >= lowArea && e.getArea() <= highArea;
 		}).collect(Collectors.toList());
-		System.out.println();
-		System.out.println(" 3 " + flatDTOs);
-		System.out.println();
+//		System.out.println();
+//		System.out.println(" 3 " + flatDTOs);
+//		System.out.println();
 //		}
 //		if (highRent >= lowRent && highRent != 0 && lowRent != 0) {
 		flatDTOs = flatDTOs.stream().filter((e) -> {
 			return e.getRent() >= lowRent && e.getRent() <= highRent;
 		}).collect(Collectors.toList());
-		System.out.println();
-		System.out.println(" 4 " + flatDTOs);
-		System.out.println();
-//		}
-		System.out.println();
-		System.out.println(flatDTOs);
-		System.out.println();
-		return flatDTOs;
+//		System.out.println();
+//		System.out.println(" 4 " + flatDTOs);
+//		System.out.println();
+////		}
+//		System.out.println();
+//		System.out.println(flatDTOs);
+//		System.out.println();
+
+		List<FlatIdDTO> flatIdDTOs = flatDTOs.stream().filter((e) -> e.isAvailable())
+				.map((e) -> modelMapper.map(e, FlatIdDTO.class)).collect(Collectors.toList());
+		return flatIdDTOs;
 	}
 
 	@Override
-	public List<BuildingIdDTO> getAllBuildingDtls()
-	{
+	public List<BuildingIdDTO> getAllBuildingDtls() {
 		List<Building> buildings = buildingRepository.findAll();
 		List<BuildingIdDTO> nameAndId = new ArrayList<BuildingIdDTO>();
-		
-				for (Building building : buildings)
-				{
-					nameAndId.add(modelMapper.map(building, BuildingIdDTO.class));
-				}
-				
-				for (BuildingIdDTO buildingNameAndIdDTO : nameAndId) 
-				{
-					System.out.println("name and ID of building"+buildingNameAndIdDTO);
-				}
+
+		for (Building building : buildings) {
+			nameAndId.add(modelMapper.map(building, BuildingIdDTO.class));
+		}
+
+		for (BuildingIdDTO buildingNameAndIdDTO : nameAndId) {
+			System.out.println("name and ID of building" + buildingNameAndIdDTO);
+		}
 		return nameAndId;
 	}
 
@@ -189,25 +189,23 @@ public class BuildingServiceImpl implements BuildingService {
 	public List<List<Object>> getAllBuildingsNFlats() {
 		List<List<Object>> wholeList = new ArrayList<>();
 		List<Building> allBuildings = buildingRepository.findAll();
-		List<BuildingIdDTO> allBuildingsIdDtos = allBuildings.stream().map((e)->modelMapper.map(e, BuildingIdDTO.class)).collect(Collectors.toList()); 
+		List<BuildingIdDTO> allBuildingsIdDtos = allBuildings.stream()
+				.map((e) -> modelMapper.map(e, BuildingIdDTO.class)).collect(Collectors.toList());
 		List<Object> bldgsObjectList = new ArrayList<>();
-		for(BuildingIdDTO b : allBuildingsIdDtos) {
+		for (BuildingIdDTO b : allBuildingsIdDtos) {
 			bldgsObjectList.add(b);
 		}
 		wholeList.add(bldgsObjectList);
-		
-		
-		
-		
-		
+
 		List<Flat> allFlats = flatRepository.findAll();
-		List<FlatIdDTO> allFlatsIdDtos = allFlats.stream().map((e)->modelMapper.map(e, FlatIdDTO.class)).collect(Collectors.toList()); 
+		List<FlatIdDTO> allFlatsIdDtos = allFlats.stream().filter((e)->e.isAvailable()).map((e) -> modelMapper.map(e, FlatIdDTO.class))
+				.collect(Collectors.toList());
 		List<Object> flatsObjectList = new ArrayList<>();
-		for(FlatIdDTO b : allFlatsIdDtos) {
+		for (FlatIdDTO b : allFlatsIdDtos) {
 			flatsObjectList.add(b);
 		}
 		wholeList.add(flatsObjectList);
-		
+
 		return wholeList;
 	}
 
@@ -220,17 +218,17 @@ public class BuildingServiceImpl implements BuildingService {
 		list.add(map);
 		wholeList.add(list);
 		List<Building> allBuildings = buildingRepository.findAll();
-		List<BuildingIdDTO> allBuildingsIdDtos = allBuildings.stream().filter((e)->e.getId()==bId).map((e)->modelMapper.map(e, BuildingIdDTO.class)).collect(Collectors.toList()); 
+		List<BuildingIdDTO> allBuildingsIdDtos = allBuildings.stream().filter((e) -> e.getId() == bId)
+				.map((e) -> modelMapper.map(e, BuildingIdDTO.class)).collect(Collectors.toList());
 		List<Object> flatsObjectList = new ArrayList<>();
-		for(BuildingIdDTO b : allBuildingsIdDtos) {
+		for (BuildingIdDTO b : allBuildingsIdDtos) {
 			List<Flat> flatList = flatRepository.findByBuildingId(b.getId());
-			List<Object> flatObjects = flatList.stream().map((e)->modelMapper.map(e, FlatIdDTO.class)).collect(Collectors.toList());
+			List<Object> flatObjects = flatList.stream().map((e) -> modelMapper.map(e, FlatIdDTO.class))
+					.collect(Collectors.toList());
 			flatsObjectList.add(flatObjects);
 		}
-		wholeList.add(flatsObjectList); 
+		wholeList.add(flatsObjectList);
 		return wholeList;
 	}
-
-
 
 }

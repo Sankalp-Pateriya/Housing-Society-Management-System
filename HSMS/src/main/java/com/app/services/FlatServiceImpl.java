@@ -91,13 +91,13 @@ public class FlatServiceImpl implements FlatService {
 	}
 
 	@Override
-	public FlatDTO bookFlat(Long id) {
+	public FlatIdDTO bookFlat(Long id) {
 		Optional<Flat> findById = flatRepository.findById(id);
 		Flat flat = findById.get();
 		if(flat.isAvailable()) {
 			flat.setAvailable(false);
 			flatRepository.save(flat);
-			FlatDTO flatDTO = modelMapper.map(flat, FlatDTO.class);
+			FlatIdDTO flatDTO = modelMapper.map(flat, FlatIdDTO.class);
 			flatDTO.setBuildingId(flat.getBuilding().getId());
 			flatDTO.setUserId(flat.getUser().getId());
 			return flatDTO;

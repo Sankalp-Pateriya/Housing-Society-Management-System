@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.BuildingIdDTO;
-import com.app.dto.BuildingNameAndIdDTO;
 import com.app.dto.FlatDTO;
 import com.app.dto.FlatIdDTO;
 import com.app.dto.UserIdDTO;
@@ -82,7 +81,7 @@ public class FlatController {
 	@PutMapping("/{id}")
 	public ResponseEntity<?> bookFlat(@PathVariable Long id) {
 		try {
-			FlatDTO bookFlat = flatService.bookFlat(id);
+			FlatIdDTO bookFlat = flatService.bookFlat(id);
 			if (bookFlat == null) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Flat is Already Booked!");
 			}
