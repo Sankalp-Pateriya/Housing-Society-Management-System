@@ -2,54 +2,78 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardActionArea, CardContent, Typography } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-const FlatCard = ({ flat }) => {
-    return (
-        <Card sx={{ minWidth: 300, maxWidth: 300, height: 200 }}>
-            <CardActionArea>
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        Flat Number: {flat.flatNumber}
-                    </Typography>
-                    <Typography variant="body1" color="text.secondary">
-                        Description: {flat.description}
-                    </Typography>
-                    {/* Add more details as needed */}
-                </CardContent>
-            </CardActionArea>
-        </Card>
-    );
-};
 
-const FlatList = () => {
+const FlatCard = () => {
+    const { id } = useParams();
     const [flats, setFlats] = useState([]);
+    const [selectedFlat, setSelectedFlat] = useState(null);
     const navigate = useNavigate();
-
+    
     useEffect(() => {
         fetchFlats();
     }, []);
-
+    
     const fetchFlats = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/flats/flat.buildingid");
+            const numericId = Number(id);
+            console.log("IDDDD:" + numericId);
+            // Make a GET request using Axios to retrieve flats from the API
+            const response = await axios.get(`http://localhost:8080/flats/buildingFlats/${numericId}`);
+
+            // Set the fetched flats to the state
             setFlats(response.data);
+            console.log(flats);
         } catch (error) {
             console.error('Error fetching flats:', error);
         }
     };
 
-    const handleClick = () => {
-        // Handle navigation to individual flat details page if needed
+    const handleCardClick = (flat) => {
+        setSelectedFlat(flat);
     };
+
+    
 
     return (
         <div>
             <h1>List of Flats</h1>
-            {flats.map(flat => (
-                <FlatCard key={flat.id} flat={flat} onClick={handleClick} />
-            ))}
+            <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+                {flats.map(flat => (
+                    <div key={flat.id}>
+                        <Card
+                            sx={{ minWidth: 300, maxWidth: 300, height: 250 }}
+                            onClick={() => handleCardClick(flat)}
+                        >
+                            <CardActionArea>
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                       ID: {flat.id}
+                                    </Typography>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                       Area: {flat.area}
+                                    </Typography>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                       Floor: {flat.floor}
+                                    </Typography>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                       Type: {flat.type}
+                                    </Typography>
+                                    <Typography gutterBottom variant="h5" component="div">
+                    Rent: {flat.rent}
+                </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                    </div>
+                ))}
+            </div>
+            {/* {selectedFlat && (
+                <FlatDetailsBox flat={selectedFlat} open={Boolean(selectedFlat)} onClose={handleCloseDetails} />
+            )} */}
         </div>
     );
 };
 
-export default FlatList;
+export default FlatCard;

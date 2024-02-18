@@ -27,7 +27,7 @@ function SeeAll() {
 
   const handleBuildingClick = (buildingId) => {
     // Navigate to the 'viewBuilding' component with the buildingId in the route
-    navigate(`/buildings/${buildingId}`);
+    navigate(`/flats/${buildingId}`);
   };
 
   const handleFlatClick = (flatId) => {
