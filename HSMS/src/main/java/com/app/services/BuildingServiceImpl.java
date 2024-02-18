@@ -231,4 +231,15 @@ public class BuildingServiceImpl implements BuildingService {
 		return wholeList;
 	}
 
+	@Override
+	public int deleteBuildingAndFlats(Long id) 
+	{
+		// TODO Auto-generated method stub
+		List<Flat> flats = flatRepository.findByBuildingId(id);
+		flats.forEach(flat->System.out.println(flat));
+		flatRepository.deleteAll(flats);
+		buildingRepository.deleteById(id);
+		return 0;
+	}
+
 }
