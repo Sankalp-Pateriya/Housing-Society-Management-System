@@ -91,6 +91,7 @@ public class BuildingController {
 			// TODO: handle exception
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());		
 		}
+	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateBuilding(@PathVariable Long id,@RequestBody BuildingIdDTO buidlingIdDTO) {
