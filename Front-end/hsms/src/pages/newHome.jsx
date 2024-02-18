@@ -6,6 +6,7 @@ import BookFlatPopup from "../component/BookFlatPopup"; // Import the Popup comp
 
 function SeeAll() {
   const navigate = useNavigate();
+  const auth = sessionStorage.getItem("auth");
   const [buildingList, setBuildingList] = useState([]);
   const [flatList, setFlatList] = useState([]);
   const [selectedFlat, setSelectedFlat] = useState(null); // Track the selected flat for booking

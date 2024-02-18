@@ -79,11 +79,12 @@ const Login = () => {
             navigate('/admin', { replace: true });
           }else if (data.role === "SECRETARY") {
             sessionStorage.setItem("auth", "secretary");
-            
+            navigate(`/`);
           }
           
           else {
             sessionStorage.setItem("auth", "user");
+            navigate(`/`);
           }
           toast.success("Login Success");
           // handleClick(); // Navigate to home upon successful login
