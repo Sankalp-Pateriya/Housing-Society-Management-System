@@ -35,6 +35,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/home/seeAll" element={<SeeAll />} />
             <Route path="/about" element={<About />} />
+            <Route path="/users" element={<AllUsers />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/buildings/:bid" element={<ViewBuilding />} />
