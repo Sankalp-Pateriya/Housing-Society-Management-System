@@ -151,19 +151,14 @@ public class FlatServiceImpl implements FlatService {
 
 	@Override
 	public List<FlatIdDTO> getUserFlat(long user_id) {
-		
-//		List<Flat> flats = flatRepository.findByUserId(user_id);
-		List<Flat> flats = flatRepository.findByUserId(user_id);
-		for(Flat f : flats) {
-			System.out.println();
-			System.out.println(f);
-			System.out.println();
-			
+		List<Flat> flats=flatRepository.findAll();
+		List<FlatIdDTO> flatsdto=new ArrayList<>();
+		for(Flat f:flats) {
+			if(f.getUser_id()==user_id) {
+				flatsdto.add(modelMapper.map(f, FlatIdDTO.class ));
+			}
 		}
-//		System.out.println();
-//		System.out.println(flats);
-//		System.out.println();
-		return null;
+		return flatsdto;
 	}
 	public List<List<Object>> getflatNBuilding(Long id) {
 		System.out.println();
