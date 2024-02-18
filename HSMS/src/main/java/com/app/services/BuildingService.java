@@ -18,5 +18,6 @@ public interface BuildingService {
 	List<List<Object>> getAllBuildingsNFlats();
 	List<List<Object>> getFlatsOfBuilding(Long bId);
 	int deleteBuildingAndFlats(Long id);
+	BuildingIdDTO updateBuilding(Long id, BuildingIdDTO buidlingIdDTO);
 }
 
