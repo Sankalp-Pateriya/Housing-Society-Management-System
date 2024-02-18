@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./newHome.css";
-import Popup from "../component/BookFlatPopup"; // Import the Popup component
+import BookFlatPopup from "../component/BookFlatPopup"; // Import the BookFlatPopup component
 
 function SeeAll() {
   const navigate = useNavigate();
@@ -113,7 +113,7 @@ function SeeAll() {
       {renderBuildingTiles()}
       {renderFlatTiles()}
       {isPopupOpen && (
-        <Popup
+        <BookFlatPopup
           title="Book Flat"
           message="Do you want to book this flat?"
           onYes={handleBookFlat}
