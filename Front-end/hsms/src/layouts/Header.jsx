@@ -63,7 +63,25 @@ function Header() {
           </nav>
         </header>
       </div>
-      
+      {auth !== "0" && (
+        <div className="side-panel">
+          <ul>
+            {auth === "admin" && (
+              <li>
+                <Link to="/add-building">Add Building</Link>
+              </li>
+            )}
+            {auth === "secretary" && (
+              <li>
+                <Link to="/add-flat">Add Flat</Link>
+              </li>
+            )}
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
