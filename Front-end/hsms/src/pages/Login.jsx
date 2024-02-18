@@ -66,7 +66,7 @@ const Login = () => {
         console.log(data);
 
         sessionStorage.setItem("userData", JSON.stringify(data));
-       
+        sessionStorage.setItem("id",data.id);
         sessionStorage.setItem("name",data.name);
         //sessionStorage.setItem("auth", "1");
         // save the data to sessionStorage
