@@ -94,13 +94,20 @@ public class FlatServiceImpl implements FlatService {
 	}
 
 	@Override
-	public FlatIdDTO bookFlat(Long id) {
+	public FlatIdDTO bookFlat(Long id,Long uid) {
 		Optional<Flat> findById = flatRepository.findById(id);
 		Flat flat = findById.get();
 		User user=userRepository.findById(flat.getUser().getId()).orElseThrow(()->new ResourceNotFoundException("No user found"));
-		if(flat.isAvailable()) {
+		System.out.println("UserId"+uid);
+		System.out.println("flatOwner"+flat.getUser().getId());
+		if(flat.getUser().getId()==uid)
+		{
+			return null;
+		}
+		else if(flat.isAvailable()) {
 			flat.setAvailable(false);
-			flat.setUser_id(user.getId());
+			
+			flat.setUser_id(uid);
 			flatRepository.save(flat);
 			FlatIdDTO flatDTO = modelMapper.map(flat, FlatIdDTO.class);
 			flatDTO.setBuildingId(flat.getBuilding().getId());
