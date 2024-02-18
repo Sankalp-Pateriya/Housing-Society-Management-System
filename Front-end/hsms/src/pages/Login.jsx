@@ -65,7 +65,7 @@ const Login = () => {
         const data = response.data;
         console.log(data);
 
-        sessionStorage.setItem("userData", JSON.stringify(data.user));
+        sessionStorage.setItem("userData", JSON.stringify(data));
         if (data.role === "ADMIN") {
           sessionStorage.setItem("auth", "admin");
           
