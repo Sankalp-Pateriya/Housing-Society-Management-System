@@ -22,6 +22,7 @@ function App() {
         <Header />
         <div className="section">
           <Routes>
+            <Route path="/home" element={<Home />} />
             <Route path="/" element={<Home />} />
             <Route path="/home/seeAll" element={<SeeAll />} />
             <Route path="/about" element={<About />} />
