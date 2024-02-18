@@ -156,6 +156,10 @@ const Signup = () => {
                     <Button backgroundColor="black" type="submit">Register</Button>
                     <Button onClick={resetData} color="secondary" type="reset" className="ms-2">Reset</Button>
                   </div>
+
+                  <div style={{ textAlign: "right", marginTop: "10px" }}> {/* Add margin-top for spacing */}
+    <a href="/login">Already a User?Sign In</a>
+  </div>
                 </Form>
               </CardBody>
             </Card>

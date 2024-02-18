@@ -13,5 +13,6 @@ public interface FlatService {
 	FlatDTO bookFlat(Long id);
 	List<FlatIdDTO> getBuildingflats(long bid);
 	List<UserIdDTO> getUsersOnly();
+	List<FlatIdDTO> getCityFlat(String city);
 
 }

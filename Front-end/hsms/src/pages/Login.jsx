@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer from react-toastify
 import axios from "axios"; // Import Axios
 import {
@@ -18,6 +19,7 @@ import { doLogin } from "./auth";
 import { useNavigate } from "react-router-dom";
 import userContext from "./context/userContext";
 import { useContext } from "react";
+import { faAlignRight } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
   const userContxtData = useContext(userContext);
@@ -132,7 +134,7 @@ const Login = () => {
                   </FormGroup>
 
                   <Container className="text-center">
-                    <Button onClick={handleFormSubmit} backgroundColor="secondary" className="ms-2" outline type="submit">
+                    <Button onClick={handleFormSubmit} className="btn btn-secondary ms-2"  type="submit">
                       Login
                     </Button>
                     <Button
@@ -143,6 +145,9 @@ const Login = () => {
                       Reset
                     </Button>
                   </Container>
+                  <div style={{ textAlign: "right", marginTop: "10px" }}> {/* Add margin-top for spacing */}
+    <a href="/signup">Register User</a>
+  </div>
                 </Form>
               </CardBody>
             </Card>

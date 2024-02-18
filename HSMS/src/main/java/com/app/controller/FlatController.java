@@ -114,5 +114,12 @@ public class FlatController {
 		System.out.println("All building Flats-----" + flatsdto);
 		return ResponseEntity.status(HttpStatus.OK).body(flatsdto);
 	}
+	
+	@GetMapping("/city/{city}")
+	public ResponseEntity<?> getFlatCity(@PathVariable String city) {
+		List<FlatIdDTO> allFlats = flatService.getCityFlat(city);
+		return new ResponseEntity<>(allFlats, HttpStatus.OK);
+
+	}
 
 }

@@ -124,6 +124,18 @@ public class FlatServiceImpl implements FlatService {
 		List<UserIdDTO> userIdDTOs = users.stream().filter((e)->e.getRole().toString().equals("USER")).map((e)->modelMapper.map(e,UserIdDTO.class)).collect(Collectors.toList());
 		return userIdDTOs;
 	}
+
+	@Override
+	public List<FlatIdDTO> getCityFlat(String city) {
+		List<Flat> flats=flatRepository.findAll();
+		List<FlatIdDTO> flatsDto=new ArrayList<>();
+		for(Flat f:flats) {
+			if(f.getBuilding().getCity().equalsIgnoreCase(city)) {
+				flatsDto.add(modelMapper.map(f, FlatIdDTO.class));
+			}
+		}
+		return flatsDto;
+	}
 	
 
 }
