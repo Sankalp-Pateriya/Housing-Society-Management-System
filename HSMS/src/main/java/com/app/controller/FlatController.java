@@ -143,9 +143,8 @@ public class FlatController {
 	}
 	
 	@GetMapping("/userFlats/{uid}")
-	public ResponseEntity<?> getUserFlats(@PathVariable String uid) {
-		long user_id = Long.parseLong(uid);
-		List<FlatIdDTO> allFlats = flatService.getUserFlat(user_id);
+	public ResponseEntity<?> getUserFlats(@PathVariable Long uid) {
+		List<FlatIdDTO> allFlats = flatService.getUserFlat(uid);
 		return new ResponseEntity<>(allFlats, HttpStatus.OK);
 
 	}

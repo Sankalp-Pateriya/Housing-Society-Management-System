@@ -9,7 +9,7 @@ function ViewMyFlats() {
     const fetchMyFlats = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/users/viewFlats/:id"
+          "http://localhost:8080/flats/userFlats/:id"
         );
         setMyFlats(response.data);
       } catch (error) {
