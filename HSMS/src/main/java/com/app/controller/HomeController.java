@@ -58,6 +58,10 @@ public class HomeController {
 			@RequestParam(required = false, defaultValue = "any") String type,
 			@RequestParam(required = false, defaultValue = "100000000") int highRent,
 			@RequestParam(required = false, defaultValue = "0") int lowRent) {
+		
+		System.out.println();
+		System.out.println("searchElement "+searchElement+" high Area "+highArea+" lowArea "+lowArea+" Type: "+type+" highRent "+highRent+" lowRent : "+lowRent);
+		System.out.println();
 		List<FlatDTO> flatList = buildingService.searchFlats(searchElement, type, highArea, lowArea, highRent, lowRent);
 		System.out.println(flatList);
 		try {

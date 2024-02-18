@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import "../assets/layout.scss";
-
+import AddBuilding from "../component/addbuilding";
+const linkStyle = {
+  color: "#007bff",
+  textDecoration: "none",
+  fontSize: "18px", // Increased font size
+};
 function Footer() {
   return (
     <div className="margin-t">
@@ -27,6 +32,47 @@ function Footer() {
             <li>book properties directly through the website</li>
             <li>
               Contact Real Estate Agents for more information about the property
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4>
+            First time on the site ??{" "}
+            <a href="/signup" style={linkStyle}>
+              Get Registered
+            </a>
+          </h4>
+
+          <ul>
+            <li>
+              Have some properties to showcase?
+              <a href="/signup" style={linkStyle}>
+                Register as a Secretary!
+              </a>
+            </li>
+            <li>
+              Want to buy/view property?{" "}
+              <a href="/signup" style={linkStyle}>
+                Click here to register as a User!
+              </a>
+            </li>
+            <li>
+              Want to filter as per your budget, area and other criteria?
+              <a href="/home" style={linkStyle}>
+                Apply Filters
+              </a>
+            </li>
+            <li>
+              Want to view All available property?
+              <a href="/home/seeAll" style={linkStyle}>
+                Go here!
+              </a>
+            </li>
+            <li>
+              Already a User ?{" "}
+              <a href="/login" style={linkStyle}>
+                Welcome Back!
+              </a>
             </li>
           </ul>
         </div>
