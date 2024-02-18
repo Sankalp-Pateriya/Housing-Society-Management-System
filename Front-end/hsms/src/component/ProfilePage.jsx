@@ -18,6 +18,13 @@ function ProfilePage() {
     }
   };
 
+  const handleViewMyBuildings = () => {
+    if (userData && userData.id) {
+      // Navigate to the specified route along with the user ID
+      navigate(`/admin`);
+    }
+  };
+
   return (
     <div className="profile-container">
       <h1>User Profile</h1>
@@ -56,7 +63,16 @@ function ProfilePage() {
         </div>
       )}
 
-      {userData && (
+      {userData && userData.role === "ADMIN" ? (
+        <div className="profile-field">
+          <button
+            className="view-my-flats-button"
+            onClick={handleViewMyBuildings}
+          >
+            View My buildings
+          </button>
+        </div>
+      ) : (
         <div className="profile-field">
           <button className="view-my-flats-button" onClick={handleViewMyFlats}>
             View My Flats
