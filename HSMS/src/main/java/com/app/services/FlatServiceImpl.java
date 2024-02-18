@@ -48,6 +48,7 @@ public class FlatServiceImpl implements FlatService {
 	flat.setUser(u);
 	Building building = buildingRepository.findById(flatdto.getBuildingId()).get();
 	flat.setBuilding(building);
+	flat.setAvailable(true);
 
 //	flat.setBuilding(buildingRepository.findById(flatdto.getBuildingId()).get());
 //	flat.setUser(userRepository.findById(flatdto.getUserId()).get());

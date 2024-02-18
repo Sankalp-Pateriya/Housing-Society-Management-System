@@ -119,6 +119,9 @@ function SeeAll() {
 
   return (
     <div className="see-all-container">
+      {auth === "admin" && (
+        <Link to="/admin">Go to Admin Panel</Link>
+      )}
       {renderBuildingTiles()}
       {renderFlatTiles()}
       {isPopupOpen && auth === "user" && (
