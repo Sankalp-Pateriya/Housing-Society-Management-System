@@ -1,7 +1,7 @@
 import React from "react";
 import "./BookFlatPopup.css"; // Import your CSS file for styling
 
-const Popup = ({ title, message, onYes, onCancel }) => {
+const BookFlatPopup = ({ title, message, onYes, onCancel }) => {
   return (
     <div className="popup-container">
       <div className="popup">
