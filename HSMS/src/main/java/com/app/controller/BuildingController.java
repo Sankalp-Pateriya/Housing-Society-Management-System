@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,6 +73,25 @@ public class BuildingController {
 		}
 	}
 	
+	//api to delete building and flats 
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteBuildingAndFlat(@PathVariable Long id)
+	{
+		System.out.println("the given building id :"+id);
+		try
+		{
+			int number = buildingService.deleteBuildingAndFlats(id);
+			System.out.println("Number :"+number);
+			return ResponseEntity.status(HttpStatus.OK).body("Building and Flat Deleted");
+			
+		}
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());		
+		}
 	
-
+	
+	}
 }
+

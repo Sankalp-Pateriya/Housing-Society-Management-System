@@ -1,10 +1,8 @@
 <div>
-    <div className="leftsidesection">
-    
-</div>
-<div className="rightsidesection">
+  <div className="leftsidesection"></div>
+  <div className="rightsidesection">
     <table>
-        <thead></thead>
+      <thead></thead>
     </table>
-</div>
-</div>
+  </div>
+</div>;
