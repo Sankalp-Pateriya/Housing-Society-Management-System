@@ -9,7 +9,7 @@ import Login from "./pages/Login.jsx";
 import AddBuilding from "./component/addbuilding.jsx";
 import AddFlat from "./component/addflat.jsx";
 import AddUser from "./component/adduser.jsx";
-//import ProfilePage from "./component/ProfilePage.jsx";
+import ProfilePage from "./component/ProfilePage.jsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Contact from "./pages/Contact"; // Import Contact component
 import Terms from "./pages/Terms"; // Import Terms component
@@ -35,7 +35,7 @@ function App() {
             <Route path="/add-user" element={<AddUser />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<Terms />} />{" "}
-           {/* <Route path="/profile" element={<ProfilePage />} /> */}
+            {<Route path="/profile" element={<ProfilePage />} />}
             {/* New route for Terms page */}
             <Route path="/contact" element={<Contact />} />{" "}
             {/* New route for Contact page */}
