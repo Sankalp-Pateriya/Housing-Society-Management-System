@@ -53,7 +53,7 @@ function Header() {
                         to="./login"
                         className="navlink btn btn-outline-primary"
                       >
-                        Login
+                        Login/SignUp
                       </Link>
                     )}
                   </li>

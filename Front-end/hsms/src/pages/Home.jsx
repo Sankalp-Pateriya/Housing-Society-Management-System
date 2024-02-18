@@ -154,7 +154,7 @@ function Home() {
             <input
               type="range"
               min="0"
-              max="1000000"
+              max="10000"
               value={filters.carpetAreaRange[0]}
               onChange={(e) =>
                 setFilters({
@@ -169,7 +169,7 @@ function Home() {
             <input
               type="range"
               min="0"
-              max="1000000"
+              max="10000"
               value={filters.carpetAreaRange[1]}
               onChange={(e) =>
                 setFilters({
@@ -188,7 +188,7 @@ function Home() {
             <input
               type="range"
               min="0"
-              max="5000000"
+              max="100000"
               value={filters.rentRange[0]}
               onChange={(e) =>
                 setFilters({
@@ -200,7 +200,7 @@ function Home() {
             <input
               type="range"
               min="0"
-              max="5000000"
+              max="100000"
               value={filters.rentRange[1]}
               onChange={(e) =>
                 setFilters({
@@ -259,7 +259,7 @@ function Home() {
                   </p>
                   <p>
                     <strong>Availability:</strong>{" "}
-                    {property.is_available ? "Available" : "Not Available"}
+                    {property.is_available ? "Not Available" : "Available"}
                   </p>
                   <Link to={`/property/${property.id}`}>View Details</Link>
                 </div>
