@@ -131,12 +131,16 @@ public class Building {
 		return flats;
 	}
 
-	public void setFlats(Flat flat) {
-		flats.add(flat);
-	}
+//	public void setFlats(Flat flat) {
+//		flats.add(flat);
+//	}
 
 	public String getLine_1() {
 		return line_1;
+	}
+
+	public void setFlats(Set<Flat> flats) {
+		this.flats = flats;
 	}
 
 	public void setLine_1(String line_1) {
