@@ -114,7 +114,7 @@ function AddFlat() {
     } else {
       // Update errors state with new validation errors
       setErrors(newErrors);
-    }
+    }window.location.reload();
   };
 
   return (

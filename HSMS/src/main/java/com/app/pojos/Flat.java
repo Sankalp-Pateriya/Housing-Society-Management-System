@@ -35,13 +35,16 @@ public class Flat {
 
     @Column(name = "rent")
     private double rent;
+    
+    @Column(name = "Tenant")
+    private long user_id;
 
     @ManyToOne
     @JoinColumn(name = "building_id", referencedColumnName = "id")
     private Building building;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_owner_id", referencedColumnName = "id")
     private User user;
 
 	public Flat() {
@@ -122,6 +125,16 @@ public class Flat {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	
+
+	public long getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(long user_id) {
+		this.user_id = user_id;
 	}
 
 	@Override

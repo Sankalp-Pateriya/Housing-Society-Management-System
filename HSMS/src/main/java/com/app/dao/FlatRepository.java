@@ -10,4 +10,6 @@ public interface FlatRepository extends JpaRepository<Flat, Long> {
 
 	List<Flat> findByBuildingId(Long id);
 
+	List<Flat> findByUserId(long user_id);
+
 }

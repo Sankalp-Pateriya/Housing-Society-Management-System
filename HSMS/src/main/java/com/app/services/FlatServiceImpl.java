@@ -16,6 +16,7 @@ import com.app.dao.UserRepository;
 import com.app.dto.FlatDTO;
 import com.app.dto.FlatIdDTO;
 import com.app.dto.UserIdDTO;
+import com.app.exception.ResourceNotFoundException;
 import com.app.pojos.Building;
 import com.app.pojos.Flat;
 import com.app.pojos.User;
@@ -95,8 +96,10 @@ public class FlatServiceImpl implements FlatService {
 	public FlatIdDTO bookFlat(Long id) {
 		Optional<Flat> findById = flatRepository.findById(id);
 		Flat flat = findById.get();
+		User user=userRepository.findById(flat.getUser().getId()).orElseThrow(()->new ResourceNotFoundException("No user found"));
 		if(flat.isAvailable()) {
 			flat.setAvailable(false);
+			flat.setUser_id(user.getId());
 			flatRepository.save(flat);
 			FlatIdDTO flatDTO = modelMapper.map(flat, FlatIdDTO.class);
 			flatDTO.setBuildingId(flat.getBuilding().getId());
@@ -136,6 +139,23 @@ public class FlatServiceImpl implements FlatService {
 			}
 		}
 		return flatsDto;
+	}
+
+	@Override
+	public List<FlatIdDTO> getUserFlat(long user_id) {
+		
+//		List<Flat> flats = flatRepository.findByUserId(user_id);
+		List<Flat> flats = flatRepository.findByUserId(user_id);
+		for(Flat f : flats) {
+			System.out.println();
+			System.out.println(f);
+			System.out.println();
+			
+		}
+//		System.out.println();
+//		System.out.println(flats);
+//		System.out.println();
+		return null;
 	}
 	
 

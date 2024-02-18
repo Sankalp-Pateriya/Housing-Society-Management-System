@@ -120,5 +120,13 @@ public class FlatController {
 		return new ResponseEntity<>(allFlats, HttpStatus.OK);
 
 	}
+	
+	@GetMapping("/userFlats/{uid}")
+	public ResponseEntity<?> getUserFlats(@PathVariable String uid) {
+		long user_id = Long.parseLong(uid);
+		List<FlatIdDTO> allFlats = flatService.getUserFlat(user_id);
+		return new ResponseEntity<>(allFlats, HttpStatus.OK);
+
+	}
 
 }

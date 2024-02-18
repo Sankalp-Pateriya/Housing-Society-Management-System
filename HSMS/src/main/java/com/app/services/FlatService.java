@@ -14,5 +14,6 @@ public interface FlatService {
 	List<FlatIdDTO> getBuildingflats(long bid);
 	List<UserIdDTO> getUsersOnly();
 	List<FlatIdDTO> getCityFlat(String city);
+	List<FlatIdDTO> getUserFlat(long user_id);
 
 }
