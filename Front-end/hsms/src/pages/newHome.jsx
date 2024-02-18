@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./newHome.css";
-import BookFlatPopup from "../component/BookFlatPopup"; // Import the BookFlatPopup component
+import BookFlatPopup from "../component/BookFlatPopup"; // Import the Popup component
 
 function SeeAll() {
   const navigate = useNavigate();
@@ -36,10 +36,10 @@ function SeeAll() {
     setIsPopupOpen(true);
   };
 
-  const handleBookFlat = async () => {
+  const handleBookFlat = async (flatId) => {
     // Implement the booking logic using axios
     try {
-      await axios.put(`http://localhost:8080/flats/${selectedFlat}`);
+      await axios.put(`http://localhost:8080/flats/${flatId}`);
       // You may want to handle success or show a confirmation message
       console.log("Flat booked successfully!");
     } catch (error) {
@@ -49,6 +49,9 @@ function SeeAll() {
     // Close the popup and clear the selected flat
     setIsPopupOpen(false);
     setSelectedFlat(null);
+
+    // Reload the page
+    window.location.reload();
   };
 
   const handleCancelBooking = () => {
@@ -80,7 +83,6 @@ function SeeAll() {
   };
 
   const renderFlatTiles = () => {
-    // const availableFlats = flatList;
     const availableFlats = flatList.filter((flat) => !flat.isAvailable);
 
     return (
@@ -118,6 +120,7 @@ function SeeAll() {
           message="Do you want to book this flat?"
           onYes={handleBookFlat}
           onCancel={handleCancelBooking}
+          flatId={selectedFlat}
         />
       )}
     </div>
