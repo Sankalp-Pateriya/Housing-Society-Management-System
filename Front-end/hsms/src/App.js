@@ -22,6 +22,7 @@ import { useParams } from "react-router-dom";
 import ViewFlatPage from "./pages/ViewFlatPage.jsx";
 import ViewMyFlats from "./pages/ViewMyFlats.jsx";
 import AllUsers from "./pages/AllUsers.jsx";
+import UpdateBuilding from "./pages/UpdateBuildilng.jsx";
 function App() {
   let { id } = useParams();
   return (
@@ -44,6 +45,7 @@ function App() {
             <Route path="/add-building" element={<AddBuilding />} />
             <Route path="/users/viewFlats/:id" element={<ViewMyFlats />} />
             <Route path="/add-flat" element={<AddFlat />} />
+            <Route path="/buildings/:id" element={<UpdateBuilding />} />
             <Route path="/add-user" element={<AddUser />} />
             <Route path="/users" element={<AllUsers />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

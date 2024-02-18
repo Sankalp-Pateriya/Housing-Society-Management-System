@@ -8,8 +8,10 @@ function ViewMyFlats() {
   useEffect(() => {
     const fetchMyFlats = async () => {
       try {
-        const id=sessionStorage.getItem("id");
-        const response = await axios.get(`http://localhost:8080/flats/userFlats/${id}`);
+        const id = sessionStorage.getItem("id");
+        const response = await axios.get(
+          `http://localhost:8080/flats/userFlats/${id}`
+        );
         setMyFlats(response.data);
       } catch (error) {
         console.error("Error fetching my flats:", error);

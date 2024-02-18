@@ -23,6 +23,10 @@ const BuildingTiles = () => {
     navigate(`/flats/${id}`);
   };
 
+  const handleUpdate = (id) => {
+    navigate(`/buildings/${id}`, { state: { buildingId: id } });
+  };
+
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8080/buildings/${id}`);
@@ -45,6 +49,9 @@ const BuildingTiles = () => {
           <p>Number of flats: {building.numberOfFlats}</p>
           <button type="button" onClick={() => handleDelete(building.id)}>
             Delete
+          </button>
+          <button type="button" onClick={() => handleUpdate(building.id)}>
+            Update
           </button>
         </div>
       ))}
