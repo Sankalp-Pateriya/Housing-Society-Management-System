@@ -7,6 +7,7 @@ function Header() {
   const handleLogout = () => {
     sessionStorage.removeItem("auth");
     sessionStorage.removeItem("name");
+    sessionStorage.removeItem("userData");
     setAuth("0");
     // Add any additional logout logic here, such as clearing user data from sessionStorage
   };
