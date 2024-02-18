@@ -30,9 +30,9 @@ const Login = () => {
     password: "",
   });
 
-  const handleClick = () => {
-    navigate(`/`);
-  };
+  // const handleClick = () => {
+  //   navigate(`/`);
+  // };
 
   const handleChange = (event, field) => {
     let actualValue = event.target.value;
@@ -79,16 +79,16 @@ const Login = () => {
             navigate('/admin', { replace: true });
           }else if (data.role === "SECRETARY") {
             sessionStorage.setItem("auth", "secretary");
-            navigate(`/`);
+            navigate(`/home/seeAll`);
           }
           
           else {
             sessionStorage.setItem("auth", "user");
-            navigate(`/`);
+            navigate(`/home/seeAll`);
           }
           toast.success("Login Success");
           // handleClick(); // Navigate to home upon successful login
-          // window.location.reload();
+           window.location.reload();
         });
       })
       .catch((error) => {

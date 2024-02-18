@@ -26,6 +26,10 @@ function SeeAll() {
     fetchData();
   }, []);
 
+  const handleCancel = () => {
+    setIsPopupOpen(false);
+  };
+
   const handleBuildingClick = (buildingId) => {
     // Navigate to the 'viewBuilding' component with the buildingId in the route
     navigate(`/flats/${buildingId}`);
@@ -59,6 +63,11 @@ function SeeAll() {
     // Close the popup and clear the selected flat
     setIsPopupOpen(false);
     setSelectedFlat(null);
+  };
+
+  const handleSignIn = () => {
+    // Navigate to the login page
+    navigate("/login");
   };
 
   const renderBuildingTiles = () => {
@@ -115,7 +124,7 @@ function SeeAll() {
     <div className="see-all-container">
       {renderBuildingTiles()}
       {renderFlatTiles()}
-      {isPopupOpen && (
+      {isPopupOpen && auth === "user" && (
         <BookFlatPopup
           title="Book Flat"
           message="Do you want to book this flat?"
@@ -124,6 +133,21 @@ function SeeAll() {
           flatId={selectedFlat}
         />
       )}
+      {isPopupOpen && auth !== "user" && (
+  <div className="popup-container">
+    <div className="popup">
+      <p>Sign in as User.</p>
+      <div className="button-container">
+        
+        <button onClick={handleCancel} className="cancel-button">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 }
