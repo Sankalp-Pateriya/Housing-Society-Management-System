@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../component/ProfilePage.css";
 function ProfilePage() {
   const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Retrieve data from session storage
     const storedUserData = JSON.parse(sessionStorage.getItem("userData"));
     setUserData(storedUserData);
   }, []);
+
+  const handleViewMyFlats = () => {
+    if (userData && userData.id) {
+      // Navigate to the specified route along with the user ID
+      navigate(`/users/viewFlats/${userData.id}`);
+    }
+  };
 
   return (
     <div className="profile-container">
@@ -44,6 +53,14 @@ function ProfilePage() {
               <span>{userData.role}</span>
             </div>
           </div>
+        </div>
+      )}
+
+      {userData && (
+        <div className="profile-field">
+          <button className="view-my-flats-button" onClick={handleViewMyFlats}>
+            View My Flats
+          </button>
         </div>
       )}
     </div>
