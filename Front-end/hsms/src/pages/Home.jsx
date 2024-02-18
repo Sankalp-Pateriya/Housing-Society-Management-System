@@ -247,10 +247,10 @@ function Home() {
                   className="property-tile"
                   style={{ backgroundColor: "yellow" }}
                 >
-                  <h3>{property.area}</h3>
-                  <p>
+                  <p><strong>Property Area:</strong>{property.area}</p>
+                  {/* <p>
                     <strong>City:</strong> {property.city}
-                  </p>
+                  </p> */}
                   <p>
                     <strong>Type:</strong> {property.type}
                   </p>
