@@ -66,26 +66,29 @@ const Login = () => {
         console.log(data);
 
         sessionStorage.setItem("userData", JSON.stringify(data));
-        if (data.role === "ADMIN") {
-          sessionStorage.setItem("auth", "admin");
-          redirect('./admin/AdminHome')
-        }else if (data.role === "SECRETARY") {
-          sessionStorage.setItem("auth", "secretary");
-          
-        }
-        
-        else {
-          sessionStorage.setItem("auth", "user");
-        }
+       
         sessionStorage.setItem("name",data.name);
         //sessionStorage.setItem("auth", "1");
         // save the data to sessionStorage
+       
         doLogin(data, () => {
           console.log("login detail is saved to sessionStorage");
+          if (data.role === "ADMIN") {
+            debugger
+            sessionStorage.setItem("auth", "admin");
+            navigate('/admin', { replace: true });
+          }else if (data.role === "SECRETARY") {
+            sessionStorage.setItem("auth", "secretary");
+            navigate(`/`);
+          }
           
+          else {
+            sessionStorage.setItem("auth", "user");
+            navigate(`/`);
+          }
           toast.success("Login Success");
-          handleClick(); // Navigate to home upon successful login
-          window.location.reload();
+          // handleClick(); // Navigate to home upon successful login
+          // window.location.reload();
         });
       })
       .catch((error) => {

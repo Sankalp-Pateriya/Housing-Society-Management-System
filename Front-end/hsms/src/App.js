@@ -16,7 +16,11 @@ import Terms from "./pages/Terms"; // Import Terms component
 import Sitemap from "./pages/Sitemap.jsx";
 import SeeAll from "./pages/newHome.jsx";
 import ViewBuilding from "./pages/ViewBuilding.jsx";
+import AdminHome from "./admin/AdminHome.js";
+import FlatCard from "./component/FlatCard.jsx";
+import { useParams } from 'react-router-dom';
 function App() {
+  let { id } = useParams();
   return (
     <>
       <div className="App container-fluid p-0 m-0">
@@ -35,6 +39,8 @@ function App() {
             <Route path="/add-user" element={<AddUser />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<Terms />} />{" "}
+            <Route path="/admin" element={<AdminHome />} />{" "}
+            <Route path="/flats/:id" element={<FlatCard id={id}/>} />
             {<Route path="/profile" element={<ProfilePage />} />}
             {/* New route for Terms page */}
             <Route path="/contact" element={<Contact />} />{" "}

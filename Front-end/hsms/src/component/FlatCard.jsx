@@ -1,55 +1,52 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardActionArea, CardContent, Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-const FlatCard = ({ flat }) => {
-    return (
-        <Card sx={{ minWidth: 300, maxWidth: 300, height: 200 }}>
-            <CardActionArea>
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        Flat Number: {flat.flatNumber}
-                    </Typography>
-                    <Typography variant="body1" color="text.secondary">
-                        Description: {flat.description}
-                    </Typography>
-                    {/* Add more details as needed */}
-                </CardContent>
-            </CardActionArea>
-        </Card>
-    );
-};
-
-const FlatList = () => {
+const FlatCard = () => {
+    const { id } = useParams();
     const [flats, setFlats] = useState([]);
-    const navigate = useNavigate();
 
     useEffect(() => {
+        const fetchFlats = async () => {
+            try {
+                const numericId = Number(id);
+                const response = await axios.get(`http://localhost:8080/flats/buildingFlats/${numericId}`);
+                setFlats(response.data);
+            } catch (error) {
+                console.error('Error fetching flats:', error);
+            }
+        };
+
         fetchFlats();
-    }, []);
+    }, [id]); // Include id in the dependency array to fetch flats whenever the id changes
 
-    const fetchFlats = async () => {
+    const handleBookFlat = async (flatId) => {
         try {
-            const response = await axios.get("http://localhost:8080/flats/flat.buildingid");
-            setFlats(response.data);
+            await axios.put(`http://localhost:8080/flats/${flatId}`);
+            console.log("Flat booked successfully!");
+            // Optionally, you can show a confirmation message or update the UI
         } catch (error) {
-            console.error('Error fetching flats:', error);
+            console.error("Error booking flat:", error);
         }
-    };
-
-    const handleClick = () => {
-        // Handle navigation to individual flat details page if needed
     };
 
     return (
         <div>
             <h1>List of Flats</h1>
-            {flats.map(flat => (
-                <FlatCard key={flat.id} flat={flat} onClick={handleClick} />
-            ))}
+            <div className="flat-tiles-container">
+                {flats.map(flat => (
+                    <div key={flat.id} className="flat-tile" onClick={() => handleBookFlat(flat.id)}>
+                        <div>ID: {flat.id}</div>
+                        <div>Type: {flat.type}</div>
+                        <div>Area: {flat.area} sqft</div>
+                        <div>Floor: {flat.floor}</div>
+                        <div>Rent: Rs. {flat.rent}</div>
+                        <div>Availability: {flat.isAvailable ? 'Yes' : 'No'}</div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
 
-export default FlatList;
+export default FlatCard;
