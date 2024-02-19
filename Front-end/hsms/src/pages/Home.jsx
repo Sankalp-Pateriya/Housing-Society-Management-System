@@ -8,105 +8,89 @@ const linkStyle = {
   fontSize: "18px", // Increased font size
 };
 function Home() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [showNoResults, setShowNoResults] = useState(false);
-  const [filters, setFilters] = useState({
-    searchString: "",
-    propertyType: "",
-    carpetAreaRange: [0, 10000],
-    rentRange: [0, 50000],
-    isAvailable: false,
-  });
-  const [searchPerformed, setSearchPerformed] = useState(false);
-  const [allProperties, setAllProperties] = useState([]);
-
-  useEffect(() => {
-    fetchData();
-  }, [searchPerformed, filters]);
-
-  const fetchData = async () => {
-    try {
-      let url = "http://localhost:8080/home";
-      let queryString = "";
-      if (filters.searchString) {
-        queryString += `?searchString=${encodeURIComponent(
-          filters.searchString
-        )}`;
-      }
-      if (filters.propertyType) {
-        queryString += `${
-          queryString ? "&" : "?"
-        }propertyType=${encodeURIComponent(filters.propertyType)}`;
-      }
-      url += queryString;
-      const response = await axios.get(url);
-      let filteredResults = response.data;
-      if (searchPerformed) {
-        filteredResults = filterResults(filteredResults);
-        setSearchResults(filteredResults);
-        setShowNoResults(filteredResults.length === 0);
-      } else {
-        setAllProperties(response.data);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
-  const filterResults = (data) => {
-    let filteredResults = data;
-    if (searchQuery.trim() !== "") {
-      filteredResults = filteredResults.filter((property) =>
-        property.city.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-    if (filters.propertyType !== "") {
-      filteredResults = filteredResults.filter(
-        (property) => property.type === filters.propertyType
-      );
-    }
-    filteredResults = filteredResults.filter(
-      (property) =>
-        property.rent >= filters.rentRange[0] &&
-        property.rent <= filters.rentRange[1]
-    );
-    filteredResults = filteredResults.filter(
-      (property) =>
-        property.area >= filters.carpetAreaRange[0] &&
-        property.area <= filters.carpetAreaRange[1]
-    );
-    if (!filters.isAvailable) {
-      filteredResults = filteredResults.filter(
-        (property) => property.is_available === false
-      );
-    }
-    return filteredResults;
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleSearchSubmit = async (e) => {
-    e.preventDefault();
-    setFilters({ ...filters, searchString: searchQuery });
-    setSearchPerformed(true);
-  };
-
-  const handleResetFilters = () => {
-    setFilters({
-      searchString: "",
-      propertyType: "",
-      carpetAreaRange: [0, 1000000],
-      rentRange: [0, 5000000],
-      isAvailable: false,
+  const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [showNoResults, setShowNoResults] = useState(false);
+    const [filters, setFilters] = useState({
+        searchString: '',
+        propertyType: '',
+        carpetAreaRange: [0, 10000],
+        rentRange: [0, 50000],
+        isAvailable: false
     });
-  };
+    const [searchPerformed, setSearchPerformed] = useState(false);
+    const [allProperties, setAllProperties] = useState([]);
 
-  const formatValue = (value) => {
-    return new Intl.NumberFormat().format(value);
-  };
+    useEffect(() => {
+        fetchData();
+    }, [searchPerformed, filters]);
+
+    const fetchData = async () => {
+        try {
+            let url = 'http://localhost:8080/home';
+            let queryString = '';
+            if (filters.searchString) {
+                queryString += `?searchString=${encodeURIComponent(filters.searchString)}`;
+            }
+            if (filters.propertyType) {
+                queryString += `${queryString ? '&' : '?'}propertyType=${encodeURIComponent(filters.propertyType)}`;
+            }
+            url += queryString;
+            const response = await axios.get(url);
+            let filteredResults = response.data;
+            if (searchPerformed) {
+                filteredResults = filterResults(filteredResults);
+                setSearchResults(filteredResults);
+                setShowNoResults(filteredResults.length === 0);
+            } else {
+                setAllProperties(response.data);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const filterResults = (data) => {
+        let filteredResults = data;
+        if (searchQuery.trim() !== "") {
+            filteredResults = filteredResults.filter(property =>
+                property.city.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+        }
+        if (filters.propertyType !== "") {
+            filteredResults = filteredResults.filter(property => property.type === filters.propertyType);
+        }
+        filteredResults = filteredResults.filter(property => property.rent >= filters.rentRange[0] && property.rent <= filters.rentRange[1]);
+        filteredResults = filteredResults.filter(property => property.area >= filters.carpetAreaRange[0] && property.area <= filters.carpetAreaRange[1]);
+        if (filters.isAvailable) {
+            filteredResults = filteredResults.filter(property => property.is_available === true);
+        }
+        return filteredResults;
+    };
+
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+    };
+
+    const handleSearchSubmit = async (e) => {
+        e.preventDefault();
+        setFilters({ ...filters, searchString: searchQuery });
+        setSearchPerformed(true);
+    };
+
+    const handleResetFilters = () => {
+        setFilters({
+            searchString: '',
+            propertyType: '',
+            carpetAreaRange: [0, 10000],
+            rentRange: [0, 50000],
+            isAvailable: false
+        });
+    };
+
+    const formatValue = (value) => {
+        return new Intl.NumberFormat().format(value);
+    };
 
   return (
     <div>
